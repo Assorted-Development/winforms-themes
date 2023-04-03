@@ -12,6 +12,18 @@ namespace MFBot_1701_E.Themes
     /// <summary>
     /// normal dark theme. For now, based on the Material Design  Palette
     /// https://m2.material.io/design/color/dark-theme.html#ui-application
+    /// Primary             : #BB86FC
+    /// Forecolor Primary   : #000000
+    /// Primary Variant     : #3700B3
+    /// Forecolor Prim Var  : #000000
+    /// Secondary           : #03DAC6
+    /// Forecolor Secondary : #000000
+    /// Background          : #FFFFFF
+    /// Forecolor Background: #000000
+    /// Surface             : #121212
+    /// Forecolor Surface   : #FFFFFF
+    /// Error               : #CF6679
+    /// Forecolor Error     : #000000
     /// </summary>
     public class DefaultDarkTheme : AbstractDarkTheme
     {
