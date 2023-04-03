@@ -16,5 +16,11 @@ namespace MFBot_1701_E.Themes
 
         protected override Color ControlBackColor => Color.DarkGray;
         protected override Color ControlForeColor => Color.LightGray;
+        protected override Color ControlSuccessBackColor => ControlBackColor;
+        protected override Color ControlSuccessForeColor => ControlBackColor;
+        protected override Color ControlWarningBackColor => ControlBackColor;
+        protected override Color ControlWarningForeColor => ControlBackColor;
+        protected override Color ControlErrorBackColor => ControlBackColor;
+        protected override Color ControlErrorForeColor => ControlBackColor;
     }
 }

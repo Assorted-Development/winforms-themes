@@ -30,5 +30,10 @@ namespace MFBot_1701_E.Themes
         /// </summary>
         /// <param name="control"></param>
         void Apply(Control control);
+        /// <summary>
+        /// apply this theme to the given control
+        /// </summary>
+        /// <param name="control"></param>
+        void Apply(Control control, ThemeOptions options);
     }
 }

@@ -24,7 +24,13 @@ namespace MFBot_1701_E.Themes
         public abstract ThemeCapabilities Capabilities { get; }
 
         protected abstract Color ControlBackColor { get; }
+        protected abstract Color ControlSuccessBackColor { get; }
+        protected abstract Color ControlWarningBackColor { get; }
+        protected abstract Color ControlErrorBackColor { get; }
         protected abstract Color ControlForeColor { get; }
+        protected abstract Color ControlSuccessForeColor { get; }
+        protected abstract Color ControlWarningForeColor { get; }
+        protected abstract Color ControlErrorForeColor { get; }
         protected virtual Color TableBackColor => ControlBackColor;
         protected virtual Color TableHeaderBackColor => TableBackColor;
         protected virtual Color TableHeaderForeColor => ControlForeColor;
@@ -45,8 +51,30 @@ namespace MFBot_1701_E.Themes
 
         public void Apply(Control control)
         {
-            control.BackColor = ControlBackColor;
-            control.ForeColor = ControlForeColor;
+            Apply(control, ThemeOptions.None);
+        }
+
+        public void Apply(Control control, ThemeOptions options)
+        {
+            switch (options)
+            {
+                case ThemeOptions.Success:
+                    control.BackColor = ControlSuccessBackColor;
+                    control.ForeColor = ControlSuccessForeColor;
+                    break;
+                case ThemeOptions.Warning:
+                    control.BackColor = ControlWarningBackColor;
+                    control.ForeColor = ControlWarningForeColor;
+                    break;
+                case ThemeOptions.Error:
+                    control.BackColor = ControlErrorBackColor;
+                    control.ForeColor = ControlErrorForeColor;
+                    break;
+                default:
+                    control.BackColor = ControlBackColor;
+                    control.ForeColor = ControlForeColor;
+                    break;
+            }
             if (control is DataGridView dgv)
             {
                 Apply(dgv);

@@ -16,6 +16,7 @@ namespace MFBot_1701_E.Themes
         /// </summary>
         private static readonly Dictionary<string, ITheme> THEMES = new Dictionary<string, ITheme>()
         {
+            { DefaultLightTheme.THEME_NAME, new DefaultLightTheme() },
             { DefaultDarkTheme.THEME_NAME, new DefaultDarkTheme() },
             { HighContrastDarkTheme.THEME_NAME, new HighContrastDarkTheme() }
         };
