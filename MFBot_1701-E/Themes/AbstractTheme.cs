@@ -70,6 +70,13 @@ namespace MFBot_1701_E.Themes
                 sb.DisabledBackColor = GetBackgroundColorForStyle(options);
                 sb.DisabledForeColor = GetForgroundColorForStyle(options, true);
             }
+            if (control is StyleableDateTimePicker dtp)
+            {
+                dtp.EnabledBackColor = GetBackgroundColorForStyle(options);
+                dtp.EnabledForeColor = GetForgroundColorForStyle(options, false);
+                dtp.DisabledBackColor = GetBackgroundColorForStyle(options);
+                dtp.DisabledForeColor = GetForgroundColorForStyle(options, true);
+            }
             if (control is DataGridView dgv)
             {
                 ApplyDataGridView(dgv);
