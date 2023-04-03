@@ -39,6 +39,7 @@ namespace MFBot_1701_E.Themes
         protected virtual Color TableCellForeColor => ControlForeColor;
         public void Apply(Form form)
         {
+            form.SuspendLayout();
             DarkTitleBar.UseImmersiveDarkMode(form.Handle, true);
             Apply((Control)form);
             if(form.MdiChildren.Length > 0)
@@ -48,6 +49,7 @@ namespace MFBot_1701_E.Themes
                     Apply(children);
                 }
             }
+            form.ResumeLayout();
         }
 
         public void Apply(Control control)
