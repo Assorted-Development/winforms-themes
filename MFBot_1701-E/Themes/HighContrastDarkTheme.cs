@@ -22,6 +22,5 @@ namespace MFBot_1701_E.Themes
         protected override Color ControlWarningForeColor => ControlForeColor;
         protected override Color ControlErrorBackColor => ControlBackColor;
         protected override Color ControlErrorForeColor => ControlForeColor;
-        protected override Color ControlHintForeColor => ControlForeColor;
     }
 }

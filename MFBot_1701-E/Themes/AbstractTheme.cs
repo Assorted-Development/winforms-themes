@@ -1,4 +1,5 @@
 ﻿using de.mfbot.MFBot_NG.Basisbibliothek;
+using MFBot_1701_E.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.Design.AxImporter;
 
 namespace MFBot_1701_E.Themes
 {
@@ -32,7 +32,6 @@ namespace MFBot_1701_E.Themes
         protected abstract Color ControlSuccessForeColor { get; }
         protected abstract Color ControlWarningForeColor { get; }
         protected abstract Color ControlErrorForeColor { get; }
-        protected abstract Color ControlHintForeColor { get; }
         protected virtual Color TableBackColor => ControlBackColor;
         protected virtual Color TableHeaderBackColor => TableBackColor;
         protected virtual Color TableHeaderForeColor => ControlForeColor;
@@ -59,10 +58,17 @@ namespace MFBot_1701_E.Themes
         public void Apply(Control control, ThemeOptions options)
         {
             control.BackColor = GetBackgroundColorForStyle(options);
-            control.ForeColor = GetForgroundColorForStyle(options);
+            control.ForeColor = GetForgroundColorForStyle(options, !control.Enabled);
             if (control is TreeView tv)
             {
                 ApplyTreeView(tv);
+            }
+            if (control is StylableButton sb)
+            {
+                sb.EnabledBackColor = GetBackgroundColorForStyle(options);
+                sb.EnabledForeColor = GetForgroundColorForStyle(options, false);
+                sb.DisabledBackColor = GetBackgroundColorForStyle(options);
+                sb.DisabledForeColor = GetForgroundColorForStyle(options, true);
             }
             if (control is DataGridView dgv)
             {
@@ -87,21 +93,30 @@ namespace MFBot_1701_E.Themes
                     return ControlBackColor;
             }
         }
-        private Color GetForgroundColorForStyle(ThemeOptions options)
+        private Color GetForgroundColorForStyle(ThemeOptions options, bool disabled)
         {
+            double opacity = disabled ? 0.38: 1.0;
+            Color baseColor;
             switch (options)
             {
                 case ThemeOptions.Success:
-                    return ControlSuccessForeColor;
+                    baseColor = ControlSuccessForeColor;
+                    break;
                 case ThemeOptions.Warning:
-                    return ControlWarningForeColor;
+                    baseColor = ControlWarningForeColor;
+                    break;
                 case ThemeOptions.Error:
-                    return ControlErrorForeColor;
+                    baseColor = ControlErrorForeColor;
+                    break;
                 case ThemeOptions.Hint:
-                    return ControlHintForeColor;
+                    opacity = 0.6;
+                    baseColor = ControlForeColor;
+                    break;
                 default:
-                    return ControlForeColor;
+                    baseColor = ControlForeColor;
+                    break;
             }
+            return Color.FromArgb((int)(255 * 0.6), baseColor);
         }
         private void ApplyDataGridView(DataGridView dgv)
         {
@@ -125,7 +140,7 @@ namespace MFBot_1701_E.Themes
         private void ApplyTreeNode(TreeNode tn)
         {
             tn.BackColor = GetBackgroundColorForStyle(ThemeOptions.None);
-            tn.ForeColor = GetForgroundColorForStyle(ThemeOptions.None);
+            tn.ForeColor = GetForgroundColorForStyle(ThemeOptions.None, false);
             foreach (TreeNode child in tn.Nodes)
             {
                 ApplyTreeNode(child);
