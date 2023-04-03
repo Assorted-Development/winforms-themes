@@ -18,8 +18,12 @@ namespace MFBot_1701_E.Themes
         /// </summary>
         DarkMode = 1,
         /// <summary>
+        /// this theme is a dark theme
+        /// </summary>
+        LightMode = 2,
+        /// <summary>
         /// this theme has a high contrast
         /// </summary>
-        HighContrast = 2
+        HighContrast = 3
     }
 }

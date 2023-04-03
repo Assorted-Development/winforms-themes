@@ -16,7 +16,7 @@ namespace MFBot_1701_E.Themes
         public const string THEME_NAME = "LIGHT_DEFAULT";
 
         public string Name => THEME_NAME;
-        public ThemeCapabilities Capabilities => ThemeCapabilities.None;
+        public ThemeCapabilities Capabilities => ThemeCapabilities.LightMode;
 
         public void Apply(Form form) { }
 
