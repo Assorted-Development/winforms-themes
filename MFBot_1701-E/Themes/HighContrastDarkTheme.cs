@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MFBot_1701_E.Themes
 {
-    public class HighContrastDarkTheme : AbstractDarkTheme
+    public class HighContrastDarkTheme : AbstractTheme
     {
         public const string THEME_NAME = "DARK_HIGH_CONTRAST";
 
@@ -17,10 +17,11 @@ namespace MFBot_1701_E.Themes
         protected override Color ControlBackColor => Color.DarkGray;
         protected override Color ControlForeColor => Color.LightGray;
         protected override Color ControlSuccessBackColor => ControlBackColor;
-        protected override Color ControlSuccessForeColor => ControlBackColor;
+        protected override Color ControlSuccessForeColor => ControlForeColor;
         protected override Color ControlWarningBackColor => ControlBackColor;
-        protected override Color ControlWarningForeColor => ControlBackColor;
+        protected override Color ControlWarningForeColor => ControlForeColor;
         protected override Color ControlErrorBackColor => ControlBackColor;
-        protected override Color ControlErrorForeColor => ControlBackColor;
+        protected override Color ControlErrorForeColor => ControlForeColor;
+        protected override Color ControlHintForeColor => ControlForeColor;
     }
 }

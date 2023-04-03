@@ -1,4 +1,6 @@
-﻿using System;
+﻿using de.mfbot.MFBot_NG.Basisbibliothek;
+using MFBot_1701_E.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,97 @@ namespace MFBot_1701_E.Themes
     /// </summary>
     public static class ThemeRegistry
     {
+        /// <summary>
+        /// Event triggers on Theme Change
+        /// </summary>
+        public static event EventHandler OnThemeChanged;
+        /// <summary>
+        /// the current theme
+        /// </summary>
+        private static ITheme _current = null;
+        /// <summary>
+        /// the current theme
+        /// </summary>
+        public static ITheme Current
+        {
+            get
+            {
+                if(_current == null)
+                {
+                    InitializeTheme();
+                }
+                return _current;
+            }
+        }
+        /// <summary>
+        /// return the theme capabilities
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        private static ThemeCapabilities GetThemeCaps(bool dark, bool highContrast)
+        {
+            ThemeCapabilities caps = ThemeCapabilities.None;
+            if (dark)
+            {
+                caps = caps | ThemeCapabilities.DarkMode;
+            }
+            else
+            {
+                caps = caps | ThemeCapabilities.LightMode;
+            }
+            if (highContrast)
+            {
+                caps = caps | ThemeCapabilities.HighContrast;
+            }
+            return caps;
+        }
+        /// <summary>
+        /// return the theme capabilities as configured by the user
+        /// </summary>
+        /// <returns></returns>
+        private static ThemeCapabilities GetThemeCaps()
+        {
+            if (GlobalSettings.Settings.GLOBALDSKIN_AUTO)
+            {
+                return GetThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
+            }
+            return GetThemeCaps(GlobalSettings.Settings.GLOBALDSKIN, GlobalSettings.Settings.GLOBALDSKINContrast);
+        }
+        /// <summary>
+        /// return the theme capabilities as configured by the user
+        /// </summary>
+        /// <returns></returns>
+        public static ITheme GetTheme()
+        {
+            return Get(GetThemeCaps());
+        }
+        /// <summary>
+        /// Initialize the current theme and register for changes
+        /// </summary>
+        private static void InitializeTheme()
+        {
+            _current = GetTheme();
+            GlobalSettings.Settings.OnChanged += Settings_OnChanged;
+        }
+        /// <summary>
+        /// update current theme
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void Settings_OnChanged(object sender, SettingsChangedEventArgs e)
+        {
+            if(e.Key == "GLOBDSKIN" || e.Key == "GLOBDSKINCONT" || e.Key == "GLOBDSKIN.AUTO")
+            {
+                var newTheme = GetTheme();
+                bool changed = newTheme != _current;
+                _current = newTheme;
+                if(changed && OnThemeChanged != null)
+                {
+                    OnThemeChanged.Invoke(sender, EventArgs.Empty);
+                }
+            }
+        }
+
         /// <summary>
         /// List of all Themes
         /// </summary>

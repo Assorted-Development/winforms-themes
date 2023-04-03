@@ -13,7 +13,7 @@ namespace MFBot_1701_E.Themes
     /// <summary>
     /// abstract class for Dark Themes
     /// </summary>
-    public abstract class AbstractDarkTheme : ITheme
+    public abstract class AbstractTheme : ITheme
     {
         /// <summary>
         /// the name of the theme
@@ -32,6 +32,7 @@ namespace MFBot_1701_E.Themes
         protected abstract Color ControlSuccessForeColor { get; }
         protected abstract Color ControlWarningForeColor { get; }
         protected abstract Color ControlErrorForeColor { get; }
+        protected abstract Color ControlHintForeColor { get; }
         protected virtual Color TableBackColor => ControlBackColor;
         protected virtual Color TableHeaderBackColor => TableBackColor;
         protected virtual Color TableHeaderForeColor => ControlForeColor;
@@ -96,6 +97,8 @@ namespace MFBot_1701_E.Themes
                     return ControlWarningForeColor;
                 case ThemeOptions.Error:
                     return ControlErrorForeColor;
+                case ThemeOptions.Hint:
+                    return ControlHintForeColor;
                 default:
                     return ControlForeColor;
             }

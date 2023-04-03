@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MFBot_1701_E.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,31 +14,37 @@ namespace MFBot_1701_E.Themes
     /// </summary>
     //TODO: Currently, this does not switch back from dark mode as we depend on the colors of the forms
     //and just use this theme to colorize warnings and so on
-    public class DefaultLightTheme : ITheme
+    public class DefaultLightTheme : AbstractTheme
     {
         public const string THEME_NAME = "LIGHT_DEFAULT";
 
-        public string Name => THEME_NAME;
-        public ThemeCapabilities Capabilities => ThemeCapabilities.LightMode;
+        public static readonly Color COLOR_BACK_PRIMARY = "#6200EE".ToColor();
+        public static readonly Color COLOR_FORE_PRIMARY = "#FFFFFF".ToColor();
+        public static readonly Color COLOR_BACK_PRIMARY_VARIANT = "#3700B3".ToColor();
+        public static readonly Color COLOR_FORE_PRIMARY_VARIANT = "#FFFFFF".ToColor();
+        public static readonly Color COLOR_BACK_SECONDARY = "#03DAC6".ToColor();
+        public static readonly Color COLOR_FORE_SECONDARY = "#000000".ToColor();
+        public static readonly Color COLOR_BACK_SECONDARY_VARIANT = "#018786".ToColor();
+        public static readonly Color COLOR_FORE_SECONDARY_VARIANT = "#000000".ToColor();
+        public static readonly Color COLOR_BACK_BACKGROUND = "#FFFFFF".ToColor();
+        public static readonly Color COLOR_FORE_BACKGROUND = "#000000".ToColor();
+        public static readonly Color COLOR_BACK_SURFACE = "#FFFFFF".ToColor();
+        public static readonly Color COLOR_FORE_SURFACE = "#000000".ToColor();
+        public static readonly Color COLOR_BACK_ERROR = "#B00020".ToColor();
+        public static readonly Color COLOR_FORE_ERROR = "#FFFFFF".ToColor();
 
-        public void Apply(Form form) { }
+        public override string Name => THEME_NAME;
+        public override ThemeCapabilities Capabilities => ThemeCapabilities.LightMode;
 
-        public void Apply(Control control) { }
+        protected override Color ControlBackColor => COLOR_BACK_BACKGROUND;
+        protected override Color ControlForeColor => COLOR_FORE_BACKGROUND;
+        protected override Color ControlSuccessBackColor => COLOR_BACK_SECONDARY;
+        protected override Color ControlSuccessForeColor => COLOR_FORE_SECONDARY;
+        protected override Color ControlWarningBackColor => COLOR_BACK_PRIMARY_VARIANT;
+        protected override Color ControlWarningForeColor => COLOR_FORE_PRIMARY_VARIANT;
+        protected override Color ControlErrorBackColor => COLOR_BACK_ERROR;
+        protected override Color ControlErrorForeColor => COLOR_FORE_ERROR;
+        protected override Color ControlHintForeColor => Color.FromArgb((int)(255*0.6), ControlForeColor);
 
-        public void Apply(Control control, ThemeOptions options)
-        {
-            switch(options)
-            {
-                case ThemeOptions.Success:
-                    control.BackColor = Color.Green;
-                    break;
-                case ThemeOptions.Warning:
-                    control.BackColor = Color.Yellow;
-                    break;
-                case ThemeOptions.Error:
-                    control.BackColor = Color.Red;
-                    break;
-            }
-        }
     }
 }

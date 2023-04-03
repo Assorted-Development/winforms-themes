@@ -26,6 +26,10 @@ namespace MFBot_1701_E.Themes
         /// <summary>
         /// Style control as an error
         /// </summary>
-        Error = 3
+        Error = 3,
+        /// <summary>
+        /// Style control text as a hint
+        /// </summary>
+        Hint = 4
     }
 }
