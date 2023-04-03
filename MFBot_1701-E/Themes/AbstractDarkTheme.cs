@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace MFBot_1701_E.Themes
 {
@@ -56,36 +57,50 @@ namespace MFBot_1701_E.Themes
 
         public void Apply(Control control, ThemeOptions options)
         {
-            switch (options)
+            control.BackColor = GetBackgroundColorForStyle(options);
+            control.ForeColor = GetForgroundColorForStyle(options);
+            if (control is TreeView tv)
             {
-                case ThemeOptions.Success:
-                    control.BackColor = ControlSuccessBackColor;
-                    control.ForeColor = ControlSuccessForeColor;
-                    break;
-                case ThemeOptions.Warning:
-                    control.BackColor = ControlWarningBackColor;
-                    control.ForeColor = ControlWarningForeColor;
-                    break;
-                case ThemeOptions.Error:
-                    control.BackColor = ControlErrorBackColor;
-                    control.ForeColor = ControlErrorForeColor;
-                    break;
-                default:
-                    control.BackColor = ControlBackColor;
-                    control.ForeColor = ControlForeColor;
-                    break;
+                ApplyTreeView(tv);
             }
             if (control is DataGridView dgv)
             {
-                Apply(dgv);
+                ApplyDataGridView(dgv);
             }
             foreach (Control child in control.Controls)
             {
                 Apply(child);
             }
         }
-
-        private void Apply(DataGridView dgv)
+        private Color GetBackgroundColorForStyle(ThemeOptions options)
+        {
+            switch (options)
+            {
+                case ThemeOptions.Success:
+                    return ControlSuccessBackColor;
+                case ThemeOptions.Warning:
+                    return ControlWarningBackColor;
+                case ThemeOptions.Error:
+                    return ControlErrorBackColor;
+                default:
+                    return ControlBackColor;
+            }
+        }
+        private Color GetForgroundColorForStyle(ThemeOptions options)
+        {
+            switch (options)
+            {
+                case ThemeOptions.Success:
+                    return ControlSuccessForeColor;
+                case ThemeOptions.Warning:
+                    return ControlWarningForeColor;
+                case ThemeOptions.Error:
+                    return ControlErrorForeColor;
+                default:
+                    return ControlForeColor;
+            }
+        }
+        private void ApplyDataGridView(DataGridView dgv)
         {
             dgv.EnableHeadersVisualStyles = false;
             dgv.ColumnHeadersDefaultCellStyle.BackColor = TableHeaderBackColor;
@@ -95,6 +110,22 @@ namespace MFBot_1701_E.Themes
             {
                 col.DefaultCellStyle.BackColor = TableCellBackColor;
                 col.DefaultCellStyle.ForeColor = TableCellForeColor;
+            }
+        }
+        private void ApplyTreeView(TreeView tv)
+        {
+            foreach (TreeNode child in tv.Nodes)
+            {
+                ApplyTreeNode(child);
+            }
+        }
+        private void ApplyTreeNode(TreeNode tn)
+        {
+            tn.BackColor = GetBackgroundColorForStyle(ThemeOptions.None);
+            tn.ForeColor = GetForgroundColorForStyle(ThemeOptions.None);
+            foreach (TreeNode child in tn.Nodes)
+            {
+                ApplyTreeNode(child);
             }
         }
     }
