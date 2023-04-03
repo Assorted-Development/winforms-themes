@@ -34,6 +34,13 @@ namespace MFBot_1701_E.Themes
         {
             DarkTitleBar.UseImmersiveDarkMode(form.Handle, true);
             Apply((Control)form);
+            if(form.MdiChildren.Length > 0)
+            {
+                foreach(var children in form.MdiChildren)
+                {
+                    Apply(children);
+                }
+            }
         }
 
         public void Apply(Control control)
