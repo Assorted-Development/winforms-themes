@@ -38,6 +38,7 @@ namespace MFBot_1701_E.Theming.Themes
 
         protected override Color ControlBackColor => COLOR_BACK_BACKGROUND;
         protected override Color ControlForeColor => COLOR_FORE_BACKGROUND;
+        protected override Color ControlHighlightColor => COLOR_BACK_SECONDARY;
         protected override Color ControlSuccessBackColor => COLOR_BACK_SECONDARY;
         protected override Color ControlSuccessForeColor => COLOR_FORE_SECONDARY;
         protected override Color ControlWarningBackColor => COLOR_BACK_PRIMARY_VARIANT;

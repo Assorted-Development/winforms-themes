@@ -29,12 +29,14 @@ namespace MFBot_1701_E.Theming.Themes
         protected abstract Color ControlWarningBackColor { get; }
         protected abstract Color ControlErrorBackColor { get; }
         protected abstract Color ControlForeColor { get; }
+        protected abstract Color ControlHighlightColor { get; }
         protected abstract Color ControlSuccessForeColor { get; }
         protected abstract Color ControlWarningForeColor { get; }
         protected abstract Color ControlErrorForeColor { get; }
         protected virtual Color TableBackColor => ControlBackColor;
         protected virtual Color TableHeaderBackColor => TableBackColor;
         protected virtual Color TableHeaderForeColor => ControlForeColor;
+        protected virtual Color TableSelectionBackColor => ControlHighlightColor;
         protected virtual Color TableCellBackColor => TableBackColor;
         protected virtual Color TableCellForeColor => ControlForeColor;
         public void Apply(Form form)
@@ -145,6 +147,7 @@ namespace MFBot_1701_E.Theming.Themes
             {
                 col.DefaultCellStyle.BackColor = TableCellBackColor;
                 col.DefaultCellStyle.ForeColor = TableCellForeColor;
+                col.DefaultCellStyle.SelectionBackColor = TableSelectionBackColor;
             }
         }
         private void ApplyTreeView(TreeView tv)
