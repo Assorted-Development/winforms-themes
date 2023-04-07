@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MFBot_1701_E.Themes
+namespace MFBot_1701_E.Theming
 {
     /// <summary>
     /// features of a given theme
@@ -18,7 +14,7 @@ namespace MFBot_1701_E.Themes
         /// </summary>
         DarkMode = 1,
         /// <summary>
-        /// this theme is a dark theme
+        /// this theme is a light theme
         /// </summary>
         LightMode = 2,
         /// <summary>

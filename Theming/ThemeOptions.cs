@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MFBot_1701_E.Themes
+﻿namespace MFBot_1701_E.Theming
 {
     /// <summary>
     /// Special options for styling specific controls

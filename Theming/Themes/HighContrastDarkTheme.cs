@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MFBot_1701_E.Themes
+namespace MFBot_1701_E.Theming.Themes
 {
     public class HighContrastDarkTheme : AbstractTheme
     {

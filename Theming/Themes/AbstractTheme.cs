@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MFBot_1701_E.Themes
+namespace MFBot_1701_E.Theming.Themes
 {
     /// <summary>
     /// abstract class for Dark Themes
@@ -42,9 +42,9 @@ namespace MFBot_1701_E.Themes
             form.SuspendLayout();
             DarkTitleBar.UseImmersiveDarkMode(form.Handle, true);
             Apply((Control)form);
-            if(form.MdiChildren.Length > 0)
+            if (form.MdiChildren.Length > 0)
             {
-                foreach(var children in form.MdiChildren)
+                foreach (var children in form.MdiChildren)
                 {
                     Apply(children);
                 }
@@ -104,7 +104,7 @@ namespace MFBot_1701_E.Themes
         }
         private Color GetForgroundColorForStyle(ThemeOptions options, bool disabled)
         {
-            double opacity = disabled ? 0.38: 1.0;
+            double opacity = disabled ? 0.38 : 1.0;
             Color baseColor;
             switch (options)
             {

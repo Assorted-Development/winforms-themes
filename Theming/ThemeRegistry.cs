@@ -1,12 +1,10 @@
-﻿using de.mfbot.MFBot_NG.Basisbibliothek;
-using MFBot_1701_E.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using de.mfbot.MFBot_NG.Basisbibliothek;
+using MFBot_1701_E.Theming.Themes;
 
-namespace MFBot_1701_E.Themes
+namespace MFBot_1701_E.Theming
 {
     /// <summary>
     /// registry for all Themes

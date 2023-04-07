@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MFBot_1701_E.Themes
+namespace MFBot_1701_E.Theming.Themes
 {
     /// <summary>
     /// Implementation of a light theme. Depends on the default colors of forms
