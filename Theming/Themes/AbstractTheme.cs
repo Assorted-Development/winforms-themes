@@ -1,11 +1,5 @@
-﻿using de.mfbot.MFBot_NG.Basisbibliothek;
-using MFBot_1701_E.CustomControls;
-using System;
-using System.Collections.Generic;
+﻿using MFBot_1701_E.CustomControls;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MFBot_1701_E.Theming.Themes
@@ -87,6 +81,12 @@ namespace MFBot_1701_E.Theming.Themes
             {
                 ApplyDataGridView(dgv);
             }
+
+            if (control is FlatScrollBar flatScrollBar)
+            {
+                flatScrollBar.ApplyStyle(Capabilities.HasFlag(ThemeCapabilities.DarkMode));
+            }
+
             foreach (Control child in control.Controls)
             {
                 Apply(child);
