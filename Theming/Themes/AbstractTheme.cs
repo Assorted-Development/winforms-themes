@@ -40,7 +40,9 @@ namespace MFBot_1701_E.Theming.Themes
         public void Apply(Form form)
         {
             form.SuspendLayout();
-            DarkTitleBar.UseImmersiveDarkMode(form.Handle, true);
+
+            DarkTitleBar.UseImmersiveDarkMode(form.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
+
             Apply((Control)form);
             if (form.MdiChildren.Length > 0)
             {
@@ -132,6 +134,12 @@ namespace MFBot_1701_E.Theming.Themes
             dgv.EnableHeadersVisualStyles = false;
             dgv.ColumnHeadersDefaultCellStyle.BackColor = TableHeaderBackColor;
             dgv.ColumnHeadersDefaultCellStyle.ForeColor = TableHeaderForeColor;
+            dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = dgv.ColumnHeadersDefaultCellStyle.BackColor;
+            dgv.ColumnHeadersDefaultCellStyle.SelectionForeColor = dgv.ColumnHeadersDefaultCellStyle.ForeColor;
+
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = TableCellBackColor;
+            dgv.AlternatingRowsDefaultCellStyle.ForeColor = TableCellForeColor;
+
             dgv.BackgroundColor = TableBackColor;
             foreach (DataGridViewColumn col in dgv.Columns)
             {
