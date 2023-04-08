@@ -21,7 +21,7 @@ namespace MFBot_1701_E.Theming
         /// <summary>
         /// all objects to detect existing themes
         /// </summary>
-        private static readonly List<IThemeLookup> themeLookups = new()
+        private static readonly List<IThemeLookup> _themeLookups = new()
         {
             new ConstantThemeLookup(),
             new FileThemeLookup(),
@@ -117,7 +117,7 @@ namespace MFBot_1701_E.Theming
         static ThemeRegistry()
         {
             //find all themes and add them to our theme list
-            List<IThemeLookup> lookups = themeLookups.OrderByDescending(l => l.Order).ToList();
+            List<IThemeLookup> lookups = _themeLookups.OrderByDescending(l => l.Order).ToList();
             foreach(IThemeLookup l in lookups)
             {
                 l.Lookup().ForEach(t => {

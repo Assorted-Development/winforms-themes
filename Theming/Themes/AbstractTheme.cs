@@ -18,12 +18,20 @@ namespace MFBot_1701_E.Theming.Themes
         /// </summary>
         public abstract ThemeCapabilities Capabilities { get; }
 
+        protected abstract Color BackgroundColor { get; }
+        protected abstract Color ForegroundColor { get; }
+
+        protected abstract Color ButtonForeColor { get; }
+        protected abstract Color ButtonBackColor { get; }
+        protected abstract Color ButtonHoverColor { get; }
+
+        protected abstract Color ControlForeColor { get; }
         protected abstract Color ControlBackColor { get; }
         protected abstract Color ControlSuccessBackColor { get; }
         protected abstract Color ControlWarningBackColor { get; }
         protected abstract Color ControlErrorBackColor { get; }
-        protected abstract Color ControlForeColor { get; }
         protected abstract Color ControlHighlightColor { get; }
+
         protected abstract Color ControlSuccessForeColor { get; }
         protected abstract Color ControlWarningForeColor { get; }
         protected abstract Color ControlErrorForeColor { get; }
@@ -33,9 +41,10 @@ namespace MFBot_1701_E.Theming.Themes
         protected virtual Color TableSelectionBackColor => ControlHighlightColor;
         protected virtual Color TableCellBackColor => TableBackColor;
         protected virtual Color TableCellForeColor => ControlForeColor;
-        protected virtual Color ControlBorderColor => TableSelectionBackColor;
+
+        protected virtual Color ControlBorderColor => ControlHighlightColor;
         protected virtual Color ControlBorderLightColor =>
-            Color.FromArgb(125, TableSelectionBackColor);
+            Color.FromArgb(125, ControlBorderColor);
 
         public void Apply(Form form)
         {
@@ -68,6 +77,12 @@ namespace MFBot_1701_E.Theming.Themes
             control.BackColor = GetBackgroundColorForStyle(options);
             control.ForeColor = GetForegroundColorForStyle(options, !control.Enabled);
 
+            if (control is Form form)
+            {
+                form.BackColor = BackgroundColor;
+                form.ForeColor = ForegroundColor;
+            }
+
             if (control is TreeView tv)
             {
                 ApplyTreeView(tv);
@@ -75,11 +90,15 @@ namespace MFBot_1701_E.Theming.Themes
 
             if (control is StylableButton sb)
             {
-                sb.EnabledBackColor = GetBackgroundColorForStyle(options);
-                sb.EnabledForeColor = GetForegroundColorForStyle(options, false);
-                sb.DisabledBackColor = GetBackgroundColorForStyle(options);
+                sb.EnabledBackColor = ButtonBackColor;
+                sb.EnabledForeColor = ButtonForeColor;
+                sb.EnabledHoverColor = ButtonHoverColor;
+                sb.BorderColor = ControlBorderColor;
+
+                sb.DisabledBackColor = ButtonHoverColor;
                 sb.DisabledForeColor = GetForegroundColorForStyle(options, true);
             }
+
             if (control is StyleableDateTimePicker dtp)
             {
                 dtp.EnabledBackColor = GetBackgroundColorForStyle(options);
