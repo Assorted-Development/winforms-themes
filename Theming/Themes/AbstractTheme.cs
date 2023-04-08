@@ -37,7 +37,8 @@ namespace MFBot_1701_E.Theming.Themes
         {
             form.SuspendLayout();
 
-            DarkTitleBar.UseImmersiveDarkMode(form.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
+            DarkWindowsTheme.UseImmersiveDarkMode(form.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
+            DarkWindowsTheme.UseDarkThemeVisualStyle(form.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
 
             Apply((Control)form);
             if (form.MdiChildren.Length > 0)
@@ -57,6 +58,8 @@ namespace MFBot_1701_E.Theming.Themes
 
         public void Apply(Control control, ThemeOptions options)
         {
+            DarkWindowsTheme.UseDarkThemeVisualStyle(control.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
+
             control.BackColor = GetBackgroundColorForStyle(options);
             control.ForeColor = GetForgroundColorForStyle(options, !control.Enabled);
             if (control is TreeView tv)
@@ -81,12 +84,7 @@ namespace MFBot_1701_E.Theming.Themes
             {
                 ApplyDataGridView(dgv);
             }
-
-            if (control is FlatScrollBar flatScrollBar)
-            {
-                flatScrollBar.ApplyStyle(Capabilities.HasFlag(ThemeCapabilities.DarkMode));
-            }
-
+            
             foreach (Control child in control.Controls)
             {
                 Apply(child);
@@ -143,6 +141,17 @@ namespace MFBot_1701_E.Theming.Themes
             dgv.AlternatingRowsDefaultCellStyle.ForeColor = TableCellForeColor;
 
             dgv.BackgroundColor = TableBackColor;
+            dgv.GridColor = TableSelectionBackColor;
+
+            dgv.AdvancedColumnHeadersBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.Single;
+            dgv.AdvancedColumnHeadersBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+            dgv.AdvancedColumnHeadersBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.Single;
+
+            dgv.AdvancedColumnHeadersBorderStyle.Bottom = 
+                Capabilities.HasFlag(ThemeCapabilities.DarkMode) 
+                    ? DataGridViewAdvancedCellBorderStyle.InsetDouble 
+                    : DataGridViewAdvancedCellBorderStyle.OutsetPartial;
+
             foreach (DataGridViewColumn col in dgv.Columns)
             {
                 col.DefaultCellStyle.BackColor = TableCellBackColor;

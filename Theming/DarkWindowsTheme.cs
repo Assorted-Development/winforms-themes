@@ -5,7 +5,7 @@ namespace MFBot_1701_E.Theming
     /// <summary>
     /// Utility class to also style the title bar (requires Windows 10+)
     /// </summary>
-    public static class DarkTitleBar
+    public static class DarkWindowsTheme
     {
         /// <summary>
         /// enable/disable dark mode for the title bar
@@ -29,6 +29,20 @@ namespace MFBot_1701_E.Theming
 
             return false;
         }
+
+        public static bool UseDarkThemeVisualStyle(IntPtr handle, bool enabled)
+        {
+            if (IsWindows10OrGreater(17763))
+            {
+                bool result = NativeMethods.SetWindowTheme(handle, enabled ? "DarkMode_Explorer" : null, null) == 0;
+
+                // for some versions, an extra scrollbar hack is needed
+                return result && NativeMethods.OpenThemeData(IntPtr.Zero, "Explorer::ScrollBar") != IntPtr.Zero;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// returns true if we are running on Windows 10 or later
         /// </summary>
@@ -36,7 +50,8 @@ namespace MFBot_1701_E.Theming
         /// <returns></returns>
         private static bool IsWindows10OrGreater(int build = -1)
         {
-            return Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= build;
+            return Environment.OSVersion.Version.Major >= 10 &&
+                   (Environment.OSVersion.Version.Major > 10 || Environment.OSVersion.Version.Build >= build);
         }
     }
 }
