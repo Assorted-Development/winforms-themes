@@ -1,13 +1,14 @@
 ﻿using MFBot_1701_E.CustomControls;
 using System.Drawing;
 using System.Windows.Forms;
+using MFBot_1701_E.Theming.Themes.ToolStrip;
 
 namespace MFBot_1701_E.Theming.Themes
 {
     /// <summary>
     /// abstract class for Dark Themes
     /// </summary>
-    public abstract class AbstractTheme : ITheme
+    public abstract partial class AbstractTheme : ITheme
     {
         /// <summary>
         /// the name of the theme
@@ -111,11 +112,13 @@ namespace MFBot_1701_E.Theming.Themes
                 ApplyDataGridView(dgv);
             }
 
-            if (control is ToolStrip ts)
+            if (control is System.Windows.Forms.ToolStrip ts)
             {
-                ts.Renderer = new ToolStripProfessionalRenderer(
-                    new ThemedColorTable(Color.Transparent, ControlBorderLightColor)
-                    )
+                ts.Renderer = new ThemedToolStripRenderer(
+                    new ThemedColorTable(
+                        Color.Transparent, ControlBorderLightColor, ButtonHoverColor, ControlHighlightColor, ControlBackColor),
+                    ButtonForeColor,
+                    GetForegroundColorForStyle(options, true))
                 {
                     RoundedEdges = false
                 };
@@ -177,11 +180,11 @@ namespace MFBot_1701_E.Theming.Themes
 
             dgv.BackgroundColor = TableBackColor;
             dgv.GridColor = ControlBorderColor;
-            
+
             dgv.AdvancedColumnHeadersBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.Single;
             dgv.AdvancedColumnHeadersBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
             dgv.AdvancedColumnHeadersBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.Single;
-            
+
             dgv.AdvancedColumnHeadersBorderStyle.Bottom =
                 Capabilities.HasFlag(ThemeCapabilities.DarkMode)
                     ? DataGridViewAdvancedCellBorderStyle.InsetDouble
@@ -209,21 +212,6 @@ namespace MFBot_1701_E.Theming.Themes
             {
                 ApplyTreeNode(child);
             }
-        }
-
-        private class ThemedColorTable : ProfessionalColorTable
-        {
-            public ThemedColorTable(Color toolStripBorderColor, Color separatorColor)
-            {
-                ToolStripBorder = toolStripBorderColor;
-                SeparatorDark = SeparatorLight = GripDark = GripLight = separatorColor;
-            }
-
-            public override Color ToolStripBorder { get; }
-            public override Color SeparatorDark { get; }
-            public override Color SeparatorLight { get; }
-            public override Color GripDark { get; }
-            public override Color GripLight { get; }
         }
     }
 }
