@@ -45,7 +45,7 @@ namespace MFBot_1701_E.Theming.Themes
             Apply((Control)form);
             if (form.MdiChildren.Length > 0)
             {
-                foreach (var children in form.MdiChildren)
+                foreach (Form children in form.MdiChildren)
                 {
                     Apply(children);
                 }
@@ -71,6 +71,7 @@ namespace MFBot_1701_E.Theming.Themes
             {
                 ApplyTreeView(tv);
             }
+
             if (control is StylableButton sb)
             {
                 sb.EnabledBackColor = GetBackgroundColorForStyle(options);

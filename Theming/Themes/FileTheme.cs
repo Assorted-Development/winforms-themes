@@ -1,12 +1,7 @@
 ﻿using MFBot_1701_E.Utilities;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MFBot_1701_E.Theming.Themes
 {
@@ -26,6 +21,7 @@ namespace MFBot_1701_E.Theming.Themes
         protected override Color ControlSuccessForeColor { get; }
         protected override Color ControlWarningForeColor { get; }
         protected override Color ControlErrorForeColor { get; }
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -33,15 +29,16 @@ namespace MFBot_1701_E.Theming.Themes
         private FileTheme(JObject doc)
         {
             Name = (string)doc["name"];
-            JArray caps = ((JArray)doc["capabilities"]);
-            foreach(string s in caps)
+            JArray caps = (JArray)doc["capabilities"];
+            foreach (string s in caps)
             {
                 Capabilities |= Enum.Parse<ThemeCapabilities>(s);
             }
+
             //use the theme version to update the configured colors if necessary
             //e.g. when a new version adds a new color you may calculate the missing value from the existing ones
             int themeVersion = (int)doc["version"];
-            if(themeVersion >= 1)
+            if (themeVersion >= 1)
             {
                 ControlBackColor = ((string)doc["colors"]["backColor"]).ToColor();
                 ControlSuccessBackColor = ((string)doc["colors"]["successBackColor"]).ToColor();
@@ -54,6 +51,7 @@ namespace MFBot_1701_E.Theming.Themes
                 ControlErrorForeColor = ((string)doc["colors"]["errorForeColor"]).ToColor();
             }
         }
+
         /// <summary>
         /// Parse a theme JSON config
         /// </summary>
@@ -64,7 +62,8 @@ namespace MFBot_1701_E.Theming.Themes
             try
             {
                 return new FileTheme(JObject.Parse(jsonContent));
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 return null;
             }

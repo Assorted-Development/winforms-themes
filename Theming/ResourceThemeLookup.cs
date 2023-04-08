@@ -1,12 +1,8 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using MFBot_1701_E.Theming.Themes;
+﻿using MFBot_1701_E.Theming.Themes;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MFBot_1701_E.Theming
 {
@@ -23,15 +19,15 @@ namespace MFBot_1701_E.Theming
 
         public List<ITheme> Lookup()
         {
-            var results = new List<ITheme>();
-            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+            List<ITheme> results = new List<ITheme>();
+            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
                 AssemblyCompanyAttribute comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
                 if(comp != null && comp.Company == "Microsoft Corporation")
                 {
                     continue;
                 }
-                foreach (var res in a.GetManifestResourceNames())
+                foreach (string res in a.GetManifestResourceNames())
                 {
                     if (!res.Contains(RES_THEME_PREFIX)) continue;
                     ITheme theme = null;

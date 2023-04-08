@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using de.mfbot.MFBot_NG.Basisbibliothek;
-using MFBot_1701_E.Theming.Themes;
 
 namespace MFBot_1701_E.Theming
 {
@@ -22,7 +21,7 @@ namespace MFBot_1701_E.Theming
         /// <summary>
         /// all objects to detect existing themes
         /// </summary>
-        private static readonly List<IThemeLookup> themeLookups = new List<IThemeLookup>()
+        private static readonly List<IThemeLookup> themeLookups = new()
         {
             new ConstantThemeLookup(),
             new FileThemeLookup(),
@@ -52,15 +51,15 @@ namespace MFBot_1701_E.Theming
             ThemeCapabilities caps = ThemeCapabilities.None;
             if (dark)
             {
-                caps = caps | ThemeCapabilities.DarkMode;
+                caps |= ThemeCapabilities.DarkMode;
             }
             else
             {
-                caps = caps | ThemeCapabilities.LightMode;
+                caps |= ThemeCapabilities.LightMode;
             }
             if (highContrast)
             {
-                caps = caps | ThemeCapabilities.HighContrast;
+                caps |= ThemeCapabilities.HighContrast;
             }
             return caps;
         }
@@ -99,9 +98,9 @@ namespace MFBot_1701_E.Theming
         /// <param name="e"></param>
         private static void Settings_OnChanged(object sender, SettingsChangedEventArgs e)
         {
-            if(e.Key == "GLOBDSKIN" || e.Key == "GLOBDSKINCONT" || e.Key == "GLOBDSKIN.AUTO")
+            if(e.Key is "GLOBDSKIN" or "GLOBDSKINCONT" or "GLOBDSKIN.AUTO")
             {
-                var newTheme = GetTheme();
+                ITheme newTheme = GetTheme();
                 bool changed = newTheme != _current;
                 _current = newTheme;
                 if(changed && OnThemeChanged != null)
@@ -114,12 +113,12 @@ namespace MFBot_1701_E.Theming
         /// <summary>
         /// List of all Themes
         /// </summary>
-        private static readonly Dictionary<string, ITheme> THEMES = new Dictionary<string, ITheme>();
+        private static readonly Dictionary<string, ITheme> THEMES = new();
         static ThemeRegistry()
         {
             //find all themes and add them to our theme list
-            var lookups = themeLookups.OrderByDescending(l => l.Order).ToList();
-            foreach(var l in lookups)
+            List<IThemeLookup> lookups = themeLookups.OrderByDescending(l => l.Order).ToList();
+            foreach(IThemeLookup l in lookups)
             {
                 l.Lookup().ForEach(t => {
                     if(!THEMES.ContainsKey(t.Name))
@@ -128,15 +127,15 @@ namespace MFBot_1701_E.Theming
             }
         }
         /// <summary>
-        /// retuns the list of all theme names
+        /// returns the list of all theme names
         /// </summary>
         /// <returns></returns>
-        public static List<String> ListNames()
+        public static List<string> ListNames()
         {
             return THEMES.Keys.ToList();
         }
         /// <summary>
-        /// retuns all themes
+        /// returns all themes
         /// </summary>
         /// <returns></returns>
         public static List<ITheme> List()
@@ -159,7 +158,7 @@ namespace MFBot_1701_E.Theming
         /// <returns></returns>
         public static ITheme Get(ThemeCapabilities caps)
         {
-            return List().Where(t => (t.Capabilities & caps) == caps).FirstOrDefault();
+            return List().FirstOrDefault(t => (t.Capabilities & caps) == caps);
         }
     }
 }

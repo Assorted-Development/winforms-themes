@@ -1,10 +1,6 @@
 ﻿using MFBot_1701_E.Theming.Themes;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MFBot_1701_E.Theming
 {
@@ -17,15 +13,15 @@ namespace MFBot_1701_E.Theming
 
         public List<ITheme> Lookup()
         {
-            var results = new List<ITheme>();
-            var dir = new DirectoryInfo("themes");
-            if(dir.Exists)
+            List<ITheme> results = new List<ITheme>();
+            DirectoryInfo dir = new DirectoryInfo("themes");
+            if (dir.Exists)
             {
-                var files = dir.EnumerateFiles("*.theme.json");
-                foreach( var file in files)
+                IEnumerable<FileInfo> files = dir.EnumerateFiles("*.theme.json");
+                foreach (FileInfo file in files)
                 {
                     ITheme theme = FileTheme.Load(File.ReadAllText(file.FullName));
-                    if(theme != null)
+                    if (theme != null)
                     {
                         results.Add(theme);
                     }

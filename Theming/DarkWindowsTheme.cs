@@ -17,7 +17,7 @@ namespace MFBot_1701_E.Theming
         {
             if (IsWindows10OrGreater(17763))
             {
-                var attribute = NativeMethods.DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1;
+                int attribute = NativeMethods.DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1;
                 if (IsWindows10OrGreater(18985))
                 {
                     attribute = NativeMethods.DWMWA_USE_IMMERSIVE_DARK_MODE;

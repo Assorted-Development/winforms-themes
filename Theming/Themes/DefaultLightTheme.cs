@@ -39,6 +39,5 @@ namespace MFBot_1701_E.Theming.Themes
         protected override Color ControlWarningForeColor => COLOR_FORE_PRIMARY_VARIANT;
         protected override Color ControlErrorBackColor => COLOR_BACK_ERROR;
         protected override Color ControlErrorForeColor => COLOR_FORE_ERROR;
-
     }
 }
