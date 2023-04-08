@@ -33,6 +33,8 @@ namespace MFBot_1701_E.Theming.Themes
         protected virtual Color TableSelectionBackColor => ControlHighlightColor;
         protected virtual Color TableCellBackColor => TableBackColor;
         protected virtual Color TableCellForeColor => ControlForeColor;
+        protected virtual Color ControlBorderColor => TableSelectionBackColor;
+
         public void Apply(Form form)
         {
             form.SuspendLayout();
@@ -61,7 +63,10 @@ namespace MFBot_1701_E.Theming.Themes
             DarkWindowsTheme.UseDarkThemeVisualStyle(control.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
 
             control.BackColor = GetBackgroundColorForStyle(options);
-            control.ForeColor = GetForgroundColorForStyle(options, !control.Enabled);
+            control.ForeColor = GetForegroundColorForStyle(options, !control.Enabled);
+
+            ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
+
             if (control is TreeView tv)
             {
                 ApplyTreeView(tv);
@@ -69,22 +74,29 @@ namespace MFBot_1701_E.Theming.Themes
             if (control is StylableButton sb)
             {
                 sb.EnabledBackColor = GetBackgroundColorForStyle(options);
-                sb.EnabledForeColor = GetForgroundColorForStyle(options, false);
+                sb.EnabledForeColor = GetForegroundColorForStyle(options, false);
                 sb.DisabledBackColor = GetBackgroundColorForStyle(options);
-                sb.DisabledForeColor = GetForgroundColorForStyle(options, true);
+                sb.DisabledForeColor = GetForegroundColorForStyle(options, true);
             }
             if (control is StyleableDateTimePicker dtp)
             {
                 dtp.EnabledBackColor = GetBackgroundColorForStyle(options);
-                dtp.EnabledForeColor = GetForgroundColorForStyle(options, false);
+                dtp.EnabledForeColor = GetForegroundColorForStyle(options, false);
                 dtp.DisabledBackColor = GetBackgroundColorForStyle(options);
-                dtp.DisabledForeColor = GetForgroundColorForStyle(options, true);
+                dtp.DisabledForeColor = GetForegroundColorForStyle(options, true);
             }
             if (control is DataGridView dgv)
             {
                 ApplyDataGridView(dgv);
             }
-            
+
+            if (control is ToolStrip ts)
+            {
+                ts.Renderer = new ToolStripProfessionalRenderer(new ThemedColorTable(Color.Transparent))
+                {
+                    RoundedEdges = false
+                };
+            }
             foreach (Control child in control.Controls)
             {
                 Apply(child);
@@ -104,7 +116,7 @@ namespace MFBot_1701_E.Theming.Themes
                     return ControlBackColor;
             }
         }
-        private Color GetForgroundColorForStyle(ThemeOptions options, bool disabled)
+        private Color GetForegroundColorForStyle(ThemeOptions options, bool disabled)
         {
             double opacity = disabled ? 0.38 : 1.0;
             Color baseColor;
@@ -141,15 +153,15 @@ namespace MFBot_1701_E.Theming.Themes
             dgv.AlternatingRowsDefaultCellStyle.ForeColor = TableCellForeColor;
 
             dgv.BackgroundColor = TableBackColor;
-            dgv.GridColor = TableSelectionBackColor;
+            dgv.GridColor = ControlBorderColor;
 
             dgv.AdvancedColumnHeadersBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.Single;
             dgv.AdvancedColumnHeadersBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
             dgv.AdvancedColumnHeadersBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.Single;
 
-            dgv.AdvancedColumnHeadersBorderStyle.Bottom = 
-                Capabilities.HasFlag(ThemeCapabilities.DarkMode) 
-                    ? DataGridViewAdvancedCellBorderStyle.InsetDouble 
+            dgv.AdvancedColumnHeadersBorderStyle.Bottom =
+                Capabilities.HasFlag(ThemeCapabilities.DarkMode)
+                    ? DataGridViewAdvancedCellBorderStyle.InsetDouble
                     : DataGridViewAdvancedCellBorderStyle.OutsetPartial;
 
             foreach (DataGridViewColumn col in dgv.Columns)
@@ -169,11 +181,21 @@ namespace MFBot_1701_E.Theming.Themes
         private void ApplyTreeNode(TreeNode tn)
         {
             tn.BackColor = GetBackgroundColorForStyle(ThemeOptions.None);
-            tn.ForeColor = GetForgroundColorForStyle(ThemeOptions.None, false);
+            tn.ForeColor = GetForegroundColorForStyle(ThemeOptions.None, false);
             foreach (TreeNode child in tn.Nodes)
             {
                 ApplyTreeNode(child);
             }
+        }
+
+        private class ThemedColorTable : ProfessionalColorTable
+        {
+            public ThemedColorTable(Color toolStripBorder)
+            {
+                ToolStripBorder = toolStripBorder;
+            }
+
+            public override Color ToolStripBorder { get; }
         }
     }
 }

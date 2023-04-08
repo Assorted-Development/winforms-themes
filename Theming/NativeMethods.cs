@@ -9,10 +9,10 @@ internal class NativeMethods
     internal static extern int SendMessage(IntPtr wnd, int msg, bool param, int lparam);
 
     [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
-    public static extern int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
+    internal static extern int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
 
     [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
-    public static extern IntPtr OpenThemeData(IntPtr hWnd, String classList);
+    internal static extern IntPtr OpenThemeData(IntPtr hWnd, String classList);
 
     /// <summary>
     /// native method to set the title bar style
@@ -35,7 +35,20 @@ internal class NativeMethods
     /// </summary>
     internal const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
     /// <summary>
-    /// constant for redrawing on a window
+    /// Sent to a window to allow changes in that window to be redrawn, or to prevent changes in that window from being redrawn
     /// </summary>
     internal const int WM_SETREDRAW = 11;
+
+    /// <summary>
+    /// Sent when the cursor is in an inactive window and the user presses a mouse button
+    /// </summary>
+    internal const uint WM_MOUSEACTIVATE = 0x21;
+    /// <summary>
+    /// Return value from <see cref="WM_MOUSEACTIVATE"/>: Activates the window, and does not discard the mouse message
+    /// </summary>
+    internal const uint MA_ACTIVATE = 1;
+    /// <summary>
+    /// Return value from <see cref="WM_MOUSEACTIVATE"/>: Activates the window, and discards the mouse message
+    /// </summary>
+    internal const uint MA_ACTIVATEANDEAT = 2;
 }

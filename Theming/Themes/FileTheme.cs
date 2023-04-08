@@ -41,7 +41,7 @@ namespace MFBot_1701_E.Theming.Themes
             //use the theme version to update the configured colors if necessary
             //e.g. when a new version adds a new color you may calculate the missing value from the existing ones
             int themeVersion = (int)doc["version"];
-            if(themeVersion > 1)
+            if(themeVersion >= 1)
             {
                 ControlBackColor = ((string)doc["colors"]["backColor"]).ToColor();
                 ControlSuccessBackColor = ((string)doc["colors"]["successBackColor"]).ToColor();
