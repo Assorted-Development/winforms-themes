@@ -20,6 +20,15 @@ namespace MFBot_1701_E.Theming
         /// </summary>
         private static ITheme _current = null;
         /// <summary>
+        /// all objects to detect existing themes
+        /// </summary>
+        private static readonly List<IThemeLookup> themeLookups = new List<IThemeLookup>()
+        {
+            new ConstantThemeLookup(),
+            new FileThemeLookup(),
+            new ResourceThemeLookup()
+        };
+        /// <summary>
         /// the current theme
         /// </summary>
         public static ITheme Current
@@ -105,12 +114,19 @@ namespace MFBot_1701_E.Theming
         /// <summary>
         /// List of all Themes
         /// </summary>
-        private static readonly Dictionary<string, ITheme> THEMES = new Dictionary<string, ITheme>()
+        private static readonly Dictionary<string, ITheme> THEMES = new Dictionary<string, ITheme>();
+        static ThemeRegistry()
         {
-            { DefaultLightTheme.THEME_NAME, new DefaultLightTheme() },
-            { DefaultDarkTheme.THEME_NAME, new DefaultDarkTheme() },
-            { HighContrastDarkTheme.THEME_NAME, new HighContrastDarkTheme() }
-        };
+            //find all themes and add them to our theme list
+            var lookups = themeLookups.OrderByDescending(l => l.Order).ToList();
+            foreach(var l in lookups)
+            {
+                l.Lookup().ForEach(t => {
+                    if(!THEMES.ContainsKey(t.Name))
+                        THEMES.Add(t.Name, t);
+                });
+            }
+        }
         /// <summary>
         /// retuns the list of all theme names
         /// </summary>
