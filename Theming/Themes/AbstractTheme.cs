@@ -34,6 +34,8 @@ namespace MFBot_1701_E.Theming.Themes
         protected virtual Color TableCellBackColor => TableBackColor;
         protected virtual Color TableCellForeColor => ControlForeColor;
         protected virtual Color ControlBorderColor => TableSelectionBackColor;
+        protected virtual Color ControlBorderLightColor =>
+            Color.FromArgb(125, TableSelectionBackColor);
 
         public void Apply(Form form)
         {
@@ -61,11 +63,10 @@ namespace MFBot_1701_E.Theming.Themes
         public void Apply(Control control, ThemeOptions options)
         {
             DarkWindowsTheme.UseDarkThemeVisualStyle(control.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
+            ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
 
             control.BackColor = GetBackgroundColorForStyle(options);
             control.ForeColor = GetForegroundColorForStyle(options, !control.Enabled);
-
-            ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
 
             if (control is TreeView tv)
             {
@@ -93,7 +94,9 @@ namespace MFBot_1701_E.Theming.Themes
 
             if (control is ToolStrip ts)
             {
-                ts.Renderer = new ToolStripProfessionalRenderer(new ThemedColorTable(Color.Transparent))
+                ts.Renderer = new ToolStripProfessionalRenderer(
+                    new ThemedColorTable(Color.Transparent, ControlBorderLightColor)
+                    )
                 {
                     RoundedEdges = false
                 };
@@ -155,11 +158,11 @@ namespace MFBot_1701_E.Theming.Themes
 
             dgv.BackgroundColor = TableBackColor;
             dgv.GridColor = ControlBorderColor;
-
+            
             dgv.AdvancedColumnHeadersBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.Single;
             dgv.AdvancedColumnHeadersBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
             dgv.AdvancedColumnHeadersBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.Single;
-
+            
             dgv.AdvancedColumnHeadersBorderStyle.Bottom =
                 Capabilities.HasFlag(ThemeCapabilities.DarkMode)
                     ? DataGridViewAdvancedCellBorderStyle.InsetDouble
@@ -191,12 +194,17 @@ namespace MFBot_1701_E.Theming.Themes
 
         private class ThemedColorTable : ProfessionalColorTable
         {
-            public ThemedColorTable(Color toolStripBorder)
+            public ThemedColorTable(Color toolStripBorderColor, Color separatorColor)
             {
-                ToolStripBorder = toolStripBorder;
+                ToolStripBorder = toolStripBorderColor;
+                SeparatorDark = SeparatorLight = GripDark = GripLight = separatorColor;
             }
 
             public override Color ToolStripBorder { get; }
+            public override Color SeparatorDark { get; }
+            public override Color SeparatorLight { get; }
+            public override Color GripDark { get; }
+            public override Color GripLight { get; }
         }
     }
 }
