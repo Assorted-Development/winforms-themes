@@ -153,6 +153,8 @@ namespace MFBot_1701_E.Theming.Themes
             {
                 slv.GroupHeaderForeColor = ListViewHeaderGroupColor;
                 slv.GroupHeaderBackColor = Color.Transparent;
+                slv.SelectedItemBackColor = ControlHighlightColor;
+                slv.SelectedItemForeColor = ControlForeColor;
             }
 
             foreach (Control child in control.Controls)

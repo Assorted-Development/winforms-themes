@@ -71,15 +71,9 @@ internal class NativeMethods
     internal const int LVCDI_ITEMSLIST = 0x2;
 
     internal const int LVM_FIRST = 0x1000;
+    internal const int LVM_GETITEMRECT = LVM_FIRST + 14;
     internal const int LVM_GETGROUPRECT = LVM_FIRST + 98;
-    internal const int LVM_ENABLEGROUPVIEW = LVM_FIRST + 157;
-    internal const int LVM_SETGROUPINFO = LVM_FIRST + 147;
     internal const int LVM_GETGROUPINFO = LVM_FIRST + 149;
-    internal const int LVM_REMOVEGROUP = LVM_FIRST + 150;
-    internal const int LVM_MOVEGROUP = LVM_FIRST + 151;
-    internal const int LVM_GETGROUPCOUNT = LVM_FIRST + 152;
-    internal const int LVM_GETGROUPINFOBYINDEX = LVM_FIRST + 153;
-    internal const int LVM_MOVEITEMTOGROUP = LVM_FIRST + 154;
 
     /// <summary>
     /// Posted when the user releases the left mouse button while the cursor is in the client area of a window.
@@ -206,6 +200,7 @@ internal class NativeMethods
         CDDS_SUBITEMField = 0x20000
     }
 
+    // Listview group specific flags
     internal const int LVGF_NONE = 0x0;
     internal const int LVGF_HEADER = 0x1;
     internal const int LVGF_FOOTER = 0x2;
@@ -223,6 +218,7 @@ internal class NativeMethods
     internal const int LVGF_SUBSET = 0x8000; // pszSubsetTitle is valid
     internal const int LVGF_SUBSETITEMS = 0x10000; // readonly, cItems holds count of items in visible subset, iFirstItem is valid
 
+    // Listview group styles
     internal const int LVGS_NORMAL = 0x0;
     internal const int LVGS_COLLAPSED = 0x1;
     internal const int LVGS_HIDDEN = 0x2;
@@ -239,7 +235,7 @@ internal class NativeMethods
     internal const int LVGA_FOOTER_LEFT = 0x8;
     internal const int LVGA_FOOTER_CENTER = 0x10;
     internal const int LVGA_FOOTER_RIGHT = 0x20; // Don't forget to validate exclusivity
-
+    
     internal const int LVGGR_GROUP = 0; // Entire expanded group
     internal const int LVGGR_HEADER = 1;  // Header only (collapsed group)
     internal const int LVGGR_LABEL = 2;  // Label only
