@@ -123,6 +123,17 @@ namespace MFBot_1701_E.Theming.Themes
                     RoundedEdges = false
                 };
             }
+
+            if (control is StylableTextBox stb)
+            {
+                stb.BorderColor = ControlBorderColor;
+            }
+
+            if (control is StylableTabControl stc)
+            {
+                stc.BackgroundColor = ControlBackColor;
+            }
+
             foreach (Control child in control.Controls)
             {
                 Apply(child);

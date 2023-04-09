@@ -26,7 +26,7 @@ namespace MFBot_1701_E.Theming.Themes
 
         // usually the containers on the form (grid, tab controls, ..)
         public static readonly Color COLOR_SURFACE = "#191919".ToColor();
-        public static readonly Color COLOR_SURFACE_LIGHT = "#333333".ToColor();
+        public static readonly Color COLOR_SURFACE_LIGHT = "#222222".ToColor();
 
         public static readonly Color COLOR_BACK_ERROR = "#6688cf".ToColor();
         public static readonly Color COLOR_FORE_ERROR = "#000000".ToColor();
