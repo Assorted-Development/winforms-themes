@@ -1,4 +1,5 @@
-﻿using MFBot_1701_E.CustomControls;
+﻿using System;
+using MFBot_1701_E.CustomControls;
 using System.Drawing;
 using System.Windows.Forms;
 using MFBot_1701_E.Theming.Themes.ToolStrip;
@@ -42,6 +43,13 @@ namespace MFBot_1701_E.Theming.Themes
         protected virtual Color TableSelectionBackColor => ControlHighlightColor;
         protected virtual Color TableCellBackColor => TableBackColor;
         protected virtual Color TableCellForeColor => ControlForeColor;
+
+        protected virtual Color ListViewHeaderGroupColor =>
+            Color.FromArgb(
+                Math.Min(255, (int)(ControlHighlightColor.A * 1.5)),
+                Math.Min(255, (int)(ControlHighlightColor.R * 1.5)),
+                Math.Min(255, (int)(ControlHighlightColor.G * 1.5)),
+                Math.Min(255, (int)(ControlHighlightColor.B * 1.5)));
 
         protected virtual Color ControlBorderColor => ControlHighlightColor;
         protected virtual Color ControlBorderLightColor =>
@@ -139,6 +147,12 @@ namespace MFBot_1701_E.Theming.Themes
             if (control is StylableLabel stl)
             {
                 stl.DisabledForeColor = GetForegroundColorForStyle(options, true);
+            }
+
+            if (control is StylableListView slv)
+            {
+                slv.GroupHeaderForeColor = ListViewHeaderGroupColor;
+                slv.GroupHeaderBackColor = Color.Transparent;
             }
 
             foreach (Control child in control.Controls)
