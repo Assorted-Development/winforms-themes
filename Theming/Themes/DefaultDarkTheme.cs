@@ -13,6 +13,7 @@ namespace MFBot_1701_E.Theming.Themes
         public const string THEME_NAME = "DARK_DEFAULT";
 
         public static readonly Color COLOR_BACK_PRIMARY = "#082a56".ToColor();
+        public static readonly Color COLOR_BACK_PRIMARY_LIGHT = "#214d86".ToColor();
         public static readonly Color COLOR_FORE_PRIMARY = "#b7bfcf".ToColor();
 
         public static readonly Color COLOR_BACK_PRIMARY_VARIANT = "#3700B3".ToColor();
@@ -26,7 +27,7 @@ namespace MFBot_1701_E.Theming.Themes
 
         // usually the containers on the form (grid, tab controls, ..)
         public static readonly Color COLOR_SURFACE = "#191919".ToColor();
-        public static readonly Color COLOR_SURFACE_LIGHT = "#222222".ToColor();
+        public static readonly Color COLOR_SURFACE_LIGHT = "#202020".ToColor();
 
         public static readonly Color COLOR_BACK_ERROR = "#6688cf".ToColor();
         public static readonly Color COLOR_FORE_ERROR = "#000000".ToColor();
@@ -43,7 +44,7 @@ namespace MFBot_1701_E.Theming.Themes
 
         protected override Color ButtonBackColor => COLOR_BACK_PRIMARY;
         protected override Color ButtonForeColor => COLOR_FORE_PRIMARY;
-        protected override Color ButtonHoverColor => COLOR_SURFACE_LIGHT;
+        protected override Color ButtonHoverColor => COLOR_BACK_PRIMARY_LIGHT;
 
         protected override Color ControlSuccessBackColor => COLOR_BACK_SECONDARY;
         protected override Color ControlSuccessForeColor => COLOR_FORE_SECONDARY;

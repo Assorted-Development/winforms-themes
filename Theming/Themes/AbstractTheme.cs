@@ -132,6 +132,8 @@ namespace MFBot_1701_E.Theming.Themes
             if (control is StylableTabControl stc)
             {
                 stc.BackgroundColor = ControlBackColor;
+                stc.ActiveTabBackgroundColor = ControlHighlightColor;
+                stc.ActiveTabForegroundColor = ControlForeColor;
             }
 
             foreach (Control child in control.Controls)

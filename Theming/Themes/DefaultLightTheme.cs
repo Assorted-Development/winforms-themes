@@ -13,6 +13,7 @@ namespace MFBot_1701_E.Theming.Themes
         public const string THEME_NAME = "LIGHT_DEFAULT_BUILTIN";
 
         public static readonly Color COLOR_BACK_PRIMARY = "#EEEEEE".ToColor();
+        public static readonly Color COLOR_BACK_PRIMARY_LIGHT = "#777777".ToColor();
         public static readonly Color COLOR_FORE_PRIMARY = "#000000".ToColor();
 
         public static readonly Color COLOR_BACK_PRIMARY_VARIANT = "#3700B3".ToColor();
