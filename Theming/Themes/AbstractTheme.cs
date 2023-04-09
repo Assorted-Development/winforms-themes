@@ -136,6 +136,11 @@ namespace MFBot_1701_E.Theming.Themes
                 stc.ActiveTabForegroundColor = ControlForeColor;
             }
 
+            if (control is StylableLabel stl)
+            {
+                stl.DisabledForeColor = GetForegroundColorForStyle(options, true);
+            }
+
             foreach (Control child in control.Controls)
             {
                 Apply(child);
@@ -177,6 +182,12 @@ namespace MFBot_1701_E.Theming.Themes
                 default:
                     baseColor = ControlForeColor;
                     break;
+            }
+
+            // HSL lightness value 0 = black, 1 = white
+            if (baseColor.GetBrightness() > 0.5 && disabled)
+            {
+                return Color.FromArgb(baseColor.A, baseColor.R / 2, baseColor.G / 2, baseColor.B / 2);
             }
             return Color.FromArgb((int)(255 * 0.6), baseColor);
         }
