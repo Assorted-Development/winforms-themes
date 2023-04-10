@@ -163,6 +163,13 @@ namespace MFBot_1701_E.Theming.Themes
                 scb.DisabledForeColor = GetForegroundColorForStyle(options, true);
             }
 
+            if (control is StylableComboBox scbx)
+            {
+                scbx.ForeColor = ControlForeColor;
+                scbx.BackColor = ButtonHoverColor;
+                scbx.BorderColor = ControlBorderColor;
+            }
+
             //TODO: Determine how to make external components stylable despite this being an external library itself
             if (control is ObjectListView olv)
             {
