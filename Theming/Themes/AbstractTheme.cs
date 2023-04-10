@@ -82,7 +82,10 @@ namespace MFBot_1701_E.Theming.Themes
             ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
 
             control.BackColor = GetBackgroundColorForStyle(options);
-            control.ForeColor = GetForegroundColorForStyle(options, !control.Enabled);
+
+            // always assume disabled==false here since most controls don't support ForeColor on disabled states
+            // and have to be set separately
+            control.ForeColor = GetForegroundColorForStyle(options, false);
 
             if (control is Form form)
             {
@@ -153,6 +156,11 @@ namespace MFBot_1701_E.Theming.Themes
                 slv.GroupHeaderBackColor = Color.Transparent;
                 slv.SelectedItemBackColor = ControlHighlightColor;
                 slv.SelectedItemForeColor = ControlForeColor;
+            }
+
+            if (control is StylableCheckBox scb)
+            {
+                scb.DisabledForeColor = GetForegroundColorForStyle(options, true);
             }
 
             //TODO: Determine how to make external components stylable despite this being an external library itself
@@ -235,9 +243,9 @@ namespace MFBot_1701_E.Theming.Themes
             {
                 return Color.FromArgb(
                     baseColor.A,
-                    Math.Min(255, (int)(baseColor.R * 1.3)),
-                    Math.Min(255, (int)(baseColor.G * 1.3)),
-                    Math.Min(255, (int)(baseColor.B * 1.3)));
+                    Math.Min(255, baseColor.R > 10 ? (int)(baseColor.R * 1.3) : 100),
+                    Math.Min(255, baseColor.G > 10 ? (int)(baseColor.G * 1.3) : 100),
+                    Math.Min(255, baseColor.B > 10 ? (int)(baseColor.B * 1.3) : 100));
             }
 
             return Color.FromArgb(baseColor.A, baseColor.R / 2, baseColor.G / 2, baseColor.B / 2);
