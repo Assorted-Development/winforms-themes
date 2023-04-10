@@ -2,6 +2,7 @@
 using MFBot_1701_E.CustomControls;
 using System.Drawing;
 using System.Windows.Forms;
+using BrightIdeasSoftware;
 using MFBot_1701_E.Theming.Themes.ToolStrip;
 
 namespace MFBot_1701_E.Theming.Themes
@@ -37,6 +38,7 @@ namespace MFBot_1701_E.Theming.Themes
         protected abstract Color ControlSuccessForeColor { get; }
         protected abstract Color ControlWarningForeColor { get; }
         protected abstract Color ControlErrorForeColor { get; }
+
         protected virtual Color TableBackColor => ControlBackColor;
         protected virtual Color TableHeaderBackColor => TableBackColor;
         protected virtual Color TableHeaderForeColor => ControlForeColor;
@@ -44,16 +46,12 @@ namespace MFBot_1701_E.Theming.Themes
         protected virtual Color TableCellBackColor => TableBackColor;
         protected virtual Color TableCellForeColor => ControlForeColor;
 
-        protected virtual Color ListViewHeaderGroupColor =>
-            Color.FromArgb(
-                Math.Min(255, (int)(ControlHighlightColor.A * 1.5)),
-                Math.Min(255, (int)(ControlHighlightColor.R * 1.5)),
-                Math.Min(255, (int)(ControlHighlightColor.G * 1.5)),
-                Math.Min(255, (int)(ControlHighlightColor.B * 1.5)));
+        protected virtual Color ListViewHeaderGroupColor => GetSoftenedColor(ControlHighlightColor, true);
 
+        protected virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
+        protected virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
         protected virtual Color ControlBorderColor => ControlHighlightColor;
-        protected virtual Color ControlBorderLightColor =>
-            Color.FromArgb(125, ControlBorderColor);
+        protected virtual Color ControlBorderLightColor => ControlBorderColor;
 
         public void Apply(Form form)
         {
@@ -157,6 +155,18 @@ namespace MFBot_1701_E.Theming.Themes
                 slv.SelectedItemForeColor = ControlForeColor;
             }
 
+            //TODO: Determine how to make external components stylable despite this being an external library itself
+            if (control is ObjectListView olv)
+            {
+                olv.HeaderUsesThemes = false;
+                HeaderFormatStyle headerFormatStyle = new();
+                headerFormatStyle.SetBackColor(TableHeaderBackColor);
+                headerFormatStyle.SetForeColor(TableHeaderForeColor);
+
+                olv.HeaderFormatStyle = headerFormatStyle;
+                olv.AlternateRowBackColor = ControlHighlightDarkColor;
+            }
+
             foreach (Control child in control.Controls)
             {
                 Apply(child);
@@ -201,12 +211,39 @@ namespace MFBot_1701_E.Theming.Themes
             }
 
             // HSL lightness value 0 = black, 1 = white
-            if (baseColor.GetBrightness() > 0.5 && disabled)
+            if (disabled)
             {
-                return Color.FromArgb(baseColor.A, baseColor.R / 2, baseColor.G / 2, baseColor.B / 2);
+                return GetSoftenedColor(baseColor);
             }
             return Color.FromArgb((int)(255 * 0.6), baseColor);
         }
+
+        /// <summary>
+        /// Gets a weaker/softer version of the color passed.
+        /// </summary>
+        /// <param name="baseColor">Color to weaken</param>
+        /// <param name="switchDarkAndLight">If true, a bright color will be made softly brighter, otherwise darker.</param>
+        /// <returns>Softened color</returns>
+        /// <remarks>
+        /// This should primarily thought of as helper function to use the same colors and modify them
+        /// dependent on dark/light theme.
+        /// </remarks>
+        private Color GetSoftenedColor(Color baseColor, bool switchDarkAndLight = false)
+        {
+            // HSL lightness value 0 = black, 1 = white
+            if (baseColor.GetBrightness() < 0.5 || switchDarkAndLight)
+            {
+                return Color.FromArgb(
+                    baseColor.A,
+                    Math.Min(255, (int)(baseColor.R * 1.3)),
+                    Math.Min(255, (int)(baseColor.G * 1.3)),
+                    Math.Min(255, (int)(baseColor.B * 1.3)));
+            }
+
+            return Color.FromArgb(baseColor.A, baseColor.R / 2, baseColor.G / 2, baseColor.B / 2);
+
+        }
+
         private void ApplyDataGridView(DataGridView dgv)
         {
             dgv.EnableHeadersVisualStyles = false;
