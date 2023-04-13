@@ -48,6 +48,9 @@ namespace MFBot_1701_E.Theming.Themes
 
         protected virtual Color ListViewHeaderGroupColor => GetSoftenedColor(ControlHighlightColor, true);
 
+        protected virtual Color ComboBoxItemBackColor => ControlHighlightColor;
+        protected virtual Color ComboBoxItemHoverColor => GetSoftenedColor(ControlHighlightColor, true);
+
         protected virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
         protected virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
         protected virtual Color ControlBorderColor => ControlHighlightColor;
@@ -166,7 +169,8 @@ namespace MFBot_1701_E.Theming.Themes
             if (control is StylableComboBox scbx)
             {
                 scbx.ForeColor = ControlForeColor;
-                scbx.BackColor = ButtonHoverColor;
+                scbx.BackColor = ComboBoxItemBackColor;
+                scbx.ItemHoverColor = ComboBoxItemHoverColor;
                 scbx.BorderColor = ControlBorderColor;
             }
 
