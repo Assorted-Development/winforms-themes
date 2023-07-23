@@ -12,23 +12,23 @@ namespace MFBot_1701_E.Theming.Themes
     {
         public override string Name { get; }
         public override ThemeCapabilities Capabilities { get; }
-        protected override Color BackgroundColor { get; }
-        protected override Color ForegroundColor { get; }
+        public override Color BackgroundColor { get; }
+        public override Color ForegroundColor { get; }
 
-        protected override Color ControlBackColor { get; }
-        protected override Color ControlForeColor { get; }
-        protected override Color ControlHighlightColor { get; }
+        public override Color ControlBackColor { get; }
+        public override Color ControlForeColor { get; }
+        public override Color ControlHighlightColor { get; }
 
-        protected override Color ButtonBackColor { get; }
-        protected override Color ButtonForeColor { get; }
-        protected override Color ButtonHoverColor { get; }
+        public override Color ButtonBackColor { get; }
+        public override Color ButtonForeColor { get; }
+        public override Color ButtonHoverColor { get; }
 
-        protected override Color ControlSuccessBackColor { get; }
-        protected override Color ControlSuccessForeColor { get; }
-        protected override Color ControlWarningBackColor { get; }
-        protected override Color ControlWarningForeColor { get; }
-        protected override Color ControlErrorBackColor { get; }
-        protected override Color ControlErrorForeColor { get; }
+        public override Color ControlSuccessBackColor { get; }
+        public override Color ControlSuccessForeColor { get; }
+        public override Color ControlWarningBackColor { get; }
+        public override Color ControlWarningForeColor { get; }
+        public override Color ControlErrorBackColor { get; }
+        public override Color ControlErrorForeColor { get; }
 
         /// <summary>
         /// constructor
