@@ -1,5 +1,5 @@
 ﻿using System;
-using MFBot_1701_E.CustomControls;
+using StylableWinFormsControls;
 using System.Drawing;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
@@ -112,7 +112,7 @@ namespace MFBot_1701_E.Theming.Themes
                 sb.DisabledForeColor = GetForegroundColorForStyle(options, true);
             }
 
-            if (control is StyleableDateTimePicker dtp)
+            if (control is StylableDateTimePicker dtp)
             {
                 dtp.EnabledBackColor = GetBackgroundColorForStyle(options);
                 dtp.EnabledForeColor = GetForegroundColorForStyle(options, false);
