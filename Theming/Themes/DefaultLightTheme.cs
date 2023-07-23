@@ -35,22 +35,22 @@ namespace MFBot_1701_E.Theming.Themes
         public override string Name => THEME_NAME;
         public override ThemeCapabilities Capabilities => ThemeCapabilities.LightMode;
 
-        protected override Color BackgroundColor => COLOR_BACKGROUND;
-        protected override Color ForegroundColor => COLOR_FORE_PRIMARY;
+        public override Color BackgroundColor => COLOR_BACKGROUND;
+        public override Color ForegroundColor => COLOR_FORE_PRIMARY;
 
-        protected override Color ControlBackColor => COLOR_SURFACE;
-        protected override Color ControlForeColor => COLOR_FORE_PRIMARY;
-        protected override Color ControlHighlightColor => COLOR_BACK_SECONDARY;
+        public override Color ControlBackColor => COLOR_SURFACE;
+        public override Color ControlForeColor => COLOR_FORE_PRIMARY;
+        public override Color ControlHighlightColor => COLOR_BACK_SECONDARY;
 
-        protected override Color ButtonBackColor => COLOR_BACK_PRIMARY;
-        protected override Color ButtonForeColor => COLOR_FORE_PRIMARY;
-        protected override Color ButtonHoverColor => COLOR_SURFACE_LIGHT;
+        public override Color ButtonBackColor => COLOR_BACK_PRIMARY;
+        public override Color ButtonForeColor => COLOR_FORE_PRIMARY;
+        public override Color ButtonHoverColor => COLOR_SURFACE_LIGHT;
 
-        protected override Color ControlSuccessBackColor => COLOR_BACK_SECONDARY;
-        protected override Color ControlSuccessForeColor => COLOR_FORE_SECONDARY;
-        protected override Color ControlWarningBackColor => COLOR_BACK_PRIMARY_VARIANT;
-        protected override Color ControlWarningForeColor => COLOR_FORE_PRIMARY_VARIANT;
-        protected override Color ControlErrorBackColor => COLOR_BACK_ERROR;
-        protected override Color ControlErrorForeColor => COLOR_FORE_ERROR;
+        public override Color ControlSuccessBackColor => COLOR_BACK_SECONDARY;
+        public override Color ControlSuccessForeColor => COLOR_FORE_SECONDARY;
+        public override Color ControlWarningBackColor => COLOR_BACK_PRIMARY_VARIANT;
+        public override Color ControlWarningForeColor => COLOR_FORE_PRIMARY_VARIANT;
+        public override Color ControlErrorBackColor => COLOR_BACK_ERROR;
+        public override Color ControlErrorForeColor => COLOR_FORE_ERROR;
     }
 }

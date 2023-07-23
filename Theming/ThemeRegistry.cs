@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Forms;
 using de.mfbot.MFBot_NG.Basisbibliothek;
+using MFBot_1701_E.Theming.Themes;
 
 namespace MFBot_1701_E.Theming
 {
@@ -160,5 +163,28 @@ namespace MFBot_1701_E.Theming
         {
             return List().FirstOrDefault(t => (t.Capabilities & caps) == caps);
         }
+        #region Theme Plugins
+        /// <summary>
+        /// contains all plugins
+        /// </summary>
+        private static Dictionary<Type, IThemePlugin> _plugins = new Dictionary<Type, IThemePlugin> ();
+        /// <summary>
+        /// returns all registered plugins
+        /// </summary>
+        /// <returns></returns>
+        public static ReadOnlyDictionary<Type, IThemePlugin> GetAllPlugins()
+        {
+            return new ReadOnlyDictionary<Type, IThemePlugin>(_plugins);
+        }
+        /// <summary>
+        /// Add a plugin to handle additional controls for Themes that support it
+        /// </summary>
+        /// <typeparam name="T">the Control to handle</typeparam>
+        /// <param name="plugin">the plugin handling the theming</param>
+        public static void AddPlugin<T>(IThemePlugin plugin) where T : Control
+        {
+            _plugins.Add(typeof(T), plugin);
+        }
+        #endregion
     }
 }

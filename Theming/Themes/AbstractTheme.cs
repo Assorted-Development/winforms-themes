@@ -21,40 +21,40 @@ namespace MFBot_1701_E.Theming.Themes
         /// </summary>
         public abstract ThemeCapabilities Capabilities { get; }
 
-        protected abstract Color BackgroundColor { get; }
-        protected abstract Color ForegroundColor { get; }
+        public abstract Color BackgroundColor { get; }
+        public abstract Color ForegroundColor { get; }
 
-        protected abstract Color ButtonForeColor { get; }
-        protected abstract Color ButtonBackColor { get; }
-        protected abstract Color ButtonHoverColor { get; }
+        public abstract Color ButtonForeColor { get; }
+        public abstract Color ButtonBackColor { get; }
+        public abstract Color ButtonHoverColor { get; }
 
-        protected abstract Color ControlForeColor { get; }
-        protected abstract Color ControlBackColor { get; }
-        protected abstract Color ControlSuccessBackColor { get; }
-        protected abstract Color ControlWarningBackColor { get; }
-        protected abstract Color ControlErrorBackColor { get; }
-        protected abstract Color ControlHighlightColor { get; }
+        public abstract Color ControlForeColor { get; }
+        public abstract Color ControlBackColor { get; }
+        public abstract Color ControlSuccessBackColor { get; }
+        public abstract Color ControlWarningBackColor { get; }
+        public abstract Color ControlErrorBackColor { get; }
+        public abstract Color ControlHighlightColor { get; }
 
-        protected abstract Color ControlSuccessForeColor { get; }
-        protected abstract Color ControlWarningForeColor { get; }
-        protected abstract Color ControlErrorForeColor { get; }
+        public abstract Color ControlSuccessForeColor { get; }
+        public abstract Color ControlWarningForeColor { get; }
+        public abstract Color ControlErrorForeColor { get; }
 
-        protected virtual Color TableBackColor => ControlBackColor;
-        protected virtual Color TableHeaderBackColor => TableBackColor;
-        protected virtual Color TableHeaderForeColor => ControlForeColor;
-        protected virtual Color TableSelectionBackColor => ControlHighlightColor;
-        protected virtual Color TableCellBackColor => TableBackColor;
-        protected virtual Color TableCellForeColor => ControlForeColor;
+        public virtual Color TableBackColor => ControlBackColor;
+        public virtual Color TableHeaderBackColor => TableBackColor;
+        public virtual Color TableHeaderForeColor => ControlForeColor;
+        public virtual Color TableSelectionBackColor => ControlHighlightColor;
+        public virtual Color TableCellBackColor => TableBackColor;
+        public virtual Color TableCellForeColor => ControlForeColor;
 
-        protected virtual Color ListViewHeaderGroupColor => GetSoftenedColor(ControlHighlightColor, true);
+        public virtual Color ListViewHeaderGroupColor => GetSoftenedColor(ControlHighlightColor, true);
 
-        protected virtual Color ComboBoxItemBackColor => ControlHighlightColor;
-        protected virtual Color ComboBoxItemHoverColor => GetSoftenedColor(ControlHighlightColor, true);
+        public virtual Color ComboBoxItemBackColor => ControlHighlightColor;
+        public virtual Color ComboBoxItemHoverColor => GetSoftenedColor(ControlHighlightColor, true);
 
-        protected virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
-        protected virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
-        protected virtual Color ControlBorderColor => ControlHighlightColor;
-        protected virtual Color ControlBorderLightColor => ControlBorderColor;
+        public virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
+        public virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
+        public virtual Color ControlBorderColor => ControlHighlightColor;
+        public virtual Color ControlBorderLightColor => ControlBorderColor;
 
         public void Apply(Form form)
         {
@@ -89,6 +89,16 @@ namespace MFBot_1701_E.Theming.Themes
             // always assume disabled==false here since most controls don't support ForeColor on disabled states
             // and have to be set separately
             control.ForeColor = GetForegroundColorForStyle(options, false);
+
+            Type t = control.GetType();
+            IThemePlugin plugin = null;
+            ThemeRegistry.GetAllPlugins().TryGetValue(t, out plugin);
+            if (plugin != null)
+            {
+                plugin.Apply(control, this);
+                //Plugins should be able to override OOTB logic so we skip every logic when a plugin is found
+                return;
+            }
 
             if (control is Form form)
             {
@@ -180,18 +190,6 @@ namespace MFBot_1701_E.Theming.Themes
                 scbx.BackColor = ComboBoxItemBackColor;
                 scbx.ItemHoverColor = ComboBoxItemHoverColor;
                 scbx.BorderColor = ControlBorderColor;
-            }
-
-            //TODO: Determine how to make external components stylable despite this being an external library itself
-            if (control is ObjectListView olv)
-            {
-                olv.HeaderUsesThemes = false;
-                HeaderFormatStyle headerFormatStyle = new();
-                headerFormatStyle.SetBackColor(TableHeaderBackColor);
-                headerFormatStyle.SetForeColor(TableHeaderForeColor);
-
-                olv.HeaderFormatStyle = headerFormatStyle;
-                olv.AlternateRowBackColor = ControlHighlightDarkColor;
             }
 
             foreach (Control child in control.Controls)
