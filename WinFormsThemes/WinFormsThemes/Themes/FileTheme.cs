@@ -72,7 +72,7 @@ namespace WinFormsThemes.Themes
         /// </summary>
         /// <param name="jsonContent">the JSON content</param>
         /// <returns></returns>
-        public static FileTheme Load(string jsonContent)
+        public static FileTheme? Load(string jsonContent)
         {
             try
             {

@@ -27,7 +27,7 @@ namespace WinFormsThemes
                 foreach (string res in a.GetManifestResourceNames())
                 {
                     if (!res.Contains(RES_THEME_PREFIX)) continue;
-                    ITheme theme = null;
+                    ITheme? theme = null;
                     using (Stream stream = a.GetManifestResourceStream(res))
                     using (StreamReader reader = new StreamReader(stream))
                         theme = FileTheme.Load(reader.ReadToEnd());

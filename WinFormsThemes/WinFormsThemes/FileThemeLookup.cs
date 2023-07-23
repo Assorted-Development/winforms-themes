@@ -18,7 +18,7 @@ namespace WinFormsThemes
                 IEnumerable<FileInfo> files = dir.EnumerateFiles("*.theme.json");
                 foreach (FileInfo file in files)
                 {
-                    ITheme theme = FileTheme.Load(File.ReadAllText(file.FullName));
+                    ITheme? theme = FileTheme.Load(File.ReadAllText(file.FullName));
                     if (theme != null)
                     {
                         results.Add(theme);

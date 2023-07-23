@@ -15,7 +15,7 @@ namespace WinFormsThemes
         /// <summary>
         /// the current theme
         /// </summary>
-        private static ITheme _current = null;
+        private static ITheme? _current = null;
         /// <summary>
         /// all objects to detect existing themes
         /// </summary>
