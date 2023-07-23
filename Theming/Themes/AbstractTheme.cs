@@ -95,6 +95,7 @@ namespace MFBot_1701_E.Theming.Themes
             ThemeRegistry.GetAllPlugins().TryGetValue(t, out plugin);
             if (plugin != null)
             {
+                //TODO: does not currently support subclasses of registered types
                 plugin.Apply(control, this);
                 //Plugins should be able to override OOTB logic so we skip every logic when a plugin is found
                 return;
