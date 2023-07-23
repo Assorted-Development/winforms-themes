@@ -138,6 +138,14 @@ namespace MFBot_1701_E.Theming.Themes
 
             if (control is StylableTextBox stb)
             {
+                //it is okay to run this line multiple times as the eventhandler will detect this and ignore
+                //subsequent calls
+                stb.HintActiveChanged += (sender, e) => Apply((Control)sender);
+                if (stb.IsHintActive && options != ThemeOptions.Hint)
+                {
+                    Apply(stb, ThemeOptions.Hint);
+                    return;
+                }
                 stb.BorderColor = ControlBorderColor;
             }
 
