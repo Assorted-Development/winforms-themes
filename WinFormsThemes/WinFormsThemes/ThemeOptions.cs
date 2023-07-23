@@ -1,4 +1,4 @@
-﻿namespace MFBot_1701_E.Theming
+﻿namespace WinFormsThemes
 {
     /// <summary>
     /// Special options for styling specific controls

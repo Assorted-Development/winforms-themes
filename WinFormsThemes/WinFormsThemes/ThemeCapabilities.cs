@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MFBot_1701_E.Theming
+﻿namespace WinFormsThemes
 {
     /// <summary>
     /// features of a given theme

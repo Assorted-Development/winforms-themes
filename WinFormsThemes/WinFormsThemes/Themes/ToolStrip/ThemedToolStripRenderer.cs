@@ -1,9 +1,7 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
+﻿using System.Drawing.Imaging;
 using System.Drawing.Text;
-using System.Windows.Forms;
 
-namespace MFBot_1701_E.Theming.Themes.ToolStrip;
+namespace WinFormsThemes.Themes.ToolStrip;
 
 internal class ThemedToolStripRenderer : ToolStripProfessionalRenderer
 {

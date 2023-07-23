@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Forms;
-using de.mfbot.MFBot_NG.Basisbibliothek;
-using MFBot_1701_E.Theming.Themes;
+﻿using System.Collections.ObjectModel;
+using WinFormsThemes.Themes;
 
-namespace MFBot_1701_E.Theming
+namespace WinFormsThemes
 {
     /// <summary>
     /// registry for all Themes

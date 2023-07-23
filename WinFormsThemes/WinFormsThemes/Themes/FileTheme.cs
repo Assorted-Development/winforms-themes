@@ -1,9 +1,8 @@
-﻿using MFBot_1701_E.Utilities;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Drawing;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+using WinFormsThemes.Extensions;
 
-namespace MFBot_1701_E.Theming.Themes
+namespace WinFormsThemes.Themes
 {
     /// <summary>
     /// a generic theme that loads its config from a file
@@ -34,10 +33,10 @@ namespace MFBot_1701_E.Theming.Themes
         /// constructor
         /// </summary>
         /// <param name="doc">the doc to load from</param>
-        private FileTheme(JObject doc)
+        private FileTheme(JsonNode doc)
         {
             Name = (string)doc["name"];
-            JArray caps = (JArray)doc["capabilities"];
+            JsonArray caps = (JsonArray)doc["capabilities"];
             foreach (string s in caps)
             {
                 Capabilities |= Enum.Parse<ThemeCapabilities>(s);
@@ -77,7 +76,7 @@ namespace MFBot_1701_E.Theming.Themes
         {
             try
             {
-                return new FileTheme(JObject.Parse(jsonContent));
+                return new FileTheme(JsonNode.Parse(jsonContent));
             }
             catch (Exception)
             {

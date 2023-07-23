@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace MFBot_1701_E.Theming
+﻿namespace WinFormsThemes
 {
     /// <summary>
     /// Base class for all themes

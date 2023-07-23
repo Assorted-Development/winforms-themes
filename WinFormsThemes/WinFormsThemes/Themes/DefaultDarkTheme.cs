@@ -1,7 +1,6 @@
-﻿using MFBot_1701_E.Utilities;
-using System.Drawing;
+﻿using WinFormsThemes.Extensions;
 
-namespace MFBot_1701_E.Theming.Themes
+namespace WinFormsThemes.Themes
 {
     /// <summary>
     /// normal dark theme. For now, loosely based on the Material Design  Palette

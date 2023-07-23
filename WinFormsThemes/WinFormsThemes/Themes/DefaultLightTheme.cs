@@ -1,7 +1,6 @@
-﻿using MFBot_1701_E.Utilities;
-using System.Drawing;
+﻿using WinFormsThemes.Extensions;
 
-namespace MFBot_1701_E.Theming.Themes
+namespace WinFormsThemes.Themes
 {
     /// <summary>
     /// Implementation of a light theme. Depends on the default colors of forms

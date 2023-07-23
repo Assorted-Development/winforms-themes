@@ -1,7 +1,6 @@
-﻿using System.Drawing;
-using MFBot_1701_E.Utilities;
+﻿using WinFormsThemes.Extensions;
 
-namespace MFBot_1701_E.Theming.Themes
+namespace WinFormsThemes.Themes
 {
     public class HighContrastDarkTheme : AbstractTheme
     {

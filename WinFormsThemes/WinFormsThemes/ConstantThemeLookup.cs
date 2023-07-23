@@ -1,7 +1,6 @@
-﻿using MFBot_1701_E.Theming.Themes;
-using System.Collections.Generic;
+﻿using WinFormsThemes.Themes;
 
-namespace MFBot_1701_E.Theming
+namespace WinFormsThemes
 {
     /// <summary>
     /// themes are fix

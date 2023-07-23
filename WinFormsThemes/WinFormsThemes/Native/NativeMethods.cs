@@ -1,7 +1,6 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace MFBot_1701_E.Theming;
+namespace WinFormsThemes.Native;
 
 internal class NativeMethods
 {
@@ -9,7 +8,7 @@ internal class NativeMethods
     internal static extern int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
 
     [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
-    internal static extern IntPtr OpenThemeData(IntPtr hWnd, String classList);
+    internal static extern IntPtr OpenThemeData(IntPtr hWnd, string classList);
 
     /// <summary>
     /// native method to set the title bar style

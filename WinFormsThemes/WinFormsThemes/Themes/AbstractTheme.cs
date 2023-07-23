@@ -1,16 +1,12 @@
-﻿using System;
-using StylableWinFormsControls;
-using System.Drawing;
-using System.Windows.Forms;
-using BrightIdeasSoftware;
-using MFBot_1701_E.Theming.Themes.ToolStrip;
+﻿using StylableWinFormsControls;
+using WinFormsThemes.Themes.ToolStrip;
 
-namespace MFBot_1701_E.Theming.Themes
+namespace WinFormsThemes.Themes
 {
     /// <summary>
     /// abstract class for Dark Themes
     /// </summary>
-    public abstract partial class AbstractTheme : ITheme
+    public abstract class AbstractTheme : ITheme
     {
         /// <summary>
         /// the name of the theme

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MFBot_1701_E.Theming
+﻿namespace WinFormsThemes
 {
     /// <summary>
     /// interface to detect installed themes

@@ -1,10 +1,7 @@
-﻿using MFBot_1701_E.Theming.Themes;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
+using WinFormsThemes.Themes;
 
-namespace MFBot_1701_E.Theming
+namespace WinFormsThemes
 {
     /// <summary>
     /// load Themes from internal resource files

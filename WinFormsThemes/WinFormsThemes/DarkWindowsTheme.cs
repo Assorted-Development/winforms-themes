@@ -1,6 +1,6 @@
-﻿using System;
+﻿using WinFormsThemes.Native;
 
-namespace MFBot_1701_E.Theming
+namespace WinFormsThemes
 {
     /// <summary>
     /// Utility class to also style the title bar (requires Windows 10+)
