@@ -4,7 +4,7 @@
 [![Nuget](https://img.shields.io/nuget/dt/AssortedDevelopment.WinFormsThemes)](https://www.nuget.org/packages/AssortedDevelopment.WinFormsThemes)
 [![Build Status](https://github.com/Assorted-Development/winforms-themes/actions/workflows/prerelease.yml/badge.svg)](https://github.com/Assorted-Development/winforms-themes/actions/workflows/prerelease.yml)
 
-This project adds support for themes in .NET WinForms applications. This project supports bothout-of-the-box and custom themes and uses our  [winforms-stylable-controls](https://github.com/Assorted-Development/winforms-stylable-controls) project to style controls which are lacking style support.
+This project adds support for themes in .NET WinForms applications. This project supports both out-of-the-box and custom themes and uses our [winforms-stylable-controls](https://github.com/Assorted-Development/winforms-stylable-controls) project to style controls which are lacking style support.
 
 # License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
