@@ -35,7 +35,11 @@ namespace WinFormsThemes
         /// </summary>
         public static ITheme Current
         {
-            get { return _current ?? Get(); }
+            get 
+            {
+                _current ??= Get();
+                return _current;
+            }
             set 
             { 
                 _current = value;
