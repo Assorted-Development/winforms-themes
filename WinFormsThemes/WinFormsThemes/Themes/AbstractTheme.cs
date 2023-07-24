@@ -249,7 +249,7 @@ namespace WinFormsThemes.Themes
         /// This should primarily thought of as helper function to use the same colors and modify them
         /// dependent on dark/light theme.
         /// </remarks>
-        private Color GetSoftenedColor(Color baseColor, bool switchDarkAndLight = false)
+        protected Color GetSoftenedColor(Color baseColor, bool switchDarkAndLight = false)
         {
             // HSL lightness value 0 = black, 1 = white
             if (baseColor.GetBrightness() < 0.5 || switchDarkAndLight)

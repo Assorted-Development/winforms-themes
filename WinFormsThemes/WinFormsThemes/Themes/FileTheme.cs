@@ -29,6 +29,23 @@ namespace WinFormsThemes.Themes
         public override Color ControlErrorBackColor { get; }
         public override Color ControlErrorForeColor { get; }
 
+        public override Color TableBackColor { get; }
+        public override Color TableHeaderBackColor { get; }
+        public override Color TableHeaderForeColor { get; }
+        public override Color TableSelectionBackColor { get; }
+        public override Color TableCellBackColor { get; }
+        public override Color TableCellForeColor { get; }
+
+        public override Color ListViewHeaderGroupColor { get; }
+
+        public override Color ComboBoxItemBackColor { get; }
+        public override Color ComboBoxItemHoverColor { get; }
+
+        public override Color ControlHighlightLightColor { get; }
+        public override Color ControlHighlightDarkColor { get; }
+        public override Color ControlBorderColor { get; }
+        public override Color ControlBorderLightColor { get; }
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -64,6 +81,37 @@ namespace WinFormsThemes.Themes
                 ControlWarningForeColor = ((string)doc["colors"]["warningForeColor"]).ToColor();
                 ControlErrorBackColor = ((string)doc["colors"]["errorBackColor"]).ToColor();
                 ControlErrorForeColor = ((string)doc["colors"]["errorForeColor"]).ToColor();
+
+                //backwards compatibility for themes V2
+                TableBackColor = ControlBackColor;
+                TableHeaderBackColor = TableBackColor;
+                TableHeaderForeColor = ControlForeColor;
+                TableSelectionBackColor = ControlHighlightColor;
+                TableCellBackColor = TableBackColor;
+                TableCellForeColor = ControlForeColor;
+                ListViewHeaderGroupColor = GetSoftenedColor(ControlHighlightColor, true);
+                ComboBoxItemBackColor = ControlHighlightColor;
+                ComboBoxItemHoverColor = GetSoftenedColor(ControlHighlightColor, true);
+                ControlHighlightLightColor = GetSoftenedColor(ControlBorderColor, true);
+                ControlHighlightDarkColor = GetSoftenedColor(ControlBorderColor);
+                ControlBorderColor = ControlHighlightColor;
+                ControlBorderLightColor = ControlHighlightColor;
+            }
+            if(themeVersion >= 2)
+            {
+                TableBackColor = ((string)doc["colors"]["tableBackColor"]).ToColor();
+                TableHeaderBackColor = ((string)doc["colors"]["tableHeaderBackColor"]).ToColor();
+                TableHeaderForeColor = ((string)doc["colors"]["tableHeaderForeColor"]).ToColor();
+                TableSelectionBackColor = ((string)doc["colors"]["tableSelectionBackColor"]).ToColor();
+                TableCellBackColor = ((string)doc["colors"]["tableCellBackColor"]).ToColor();
+                TableCellForeColor = ((string)doc["colors"]["tableCellForeColor"]).ToColor();
+                ListViewHeaderGroupColor = ((string)doc["colors"]["listViewHeaderGroupColor"]).ToColor();
+                ComboBoxItemBackColor = ((string)doc["colors"]["comboBoxItemBackColor"]).ToColor();
+                ComboBoxItemHoverColor = ((string)doc["colors"]["comboBoxItemHoverColor"]).ToColor();
+                ControlHighlightLightColor = ((string)doc["colors"]["controlHighlightLightColor"]).ToColor();
+                ControlHighlightDarkColor = ((string)doc["colors"]["controlHighlightDarkColor"]).ToColor();
+                ControlBorderColor = ((string)doc["colors"]["controlBorderColor"]).ToColor();
+                ControlBorderLightColor = ((string)doc["colors"]["controlBorderLightColor"]).ToColor();
             }
         }
 
