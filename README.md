@@ -124,7 +124,7 @@ As we understand you may want to also style other controls, we support adding sp
         }
     }
 ```
-At last, you just need to register it for the correct type: `ThemeRegistry.AddThemePlugin<MyCustomControl>(new MyCustomControlThemePlugin());`. This will execute your code whenever a Control of the type `MyCustomControl` is detected.
+At last, you just need to register it for the correct type: `ThemeRegistry.AddThemePlugin<MyCustomControl>(new MyCustomControlThemePlugin());`. This will execute your code whenever a `Control` of the type `MyCustomControl` is detected.
 
 **Note 1: those plugins do NOT work if you implemented a custom Theme based on `ITheme` instead of `AbstractTheme`. As you are completely free with implementing the `ITheme` interface, we expect you to handle your custom controls too.**
 
