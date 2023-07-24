@@ -108,7 +108,8 @@ namespace WinFormsThemes.Themes
                 ControlBorderColor = ControlHighlightColor;
                 ControlBorderLightColor = ControlHighlightColor;
             }
-            if(themeVersion >= 2)
+            if (themeVersion >= 2)
+
             {
                 TableBackColor = ((string)doc["colors"]["tableBackColor"]).ToColor();
                 TableHeaderBackColor = ((string)doc["colors"]["tableHeaderBackColor"]).ToColor();
