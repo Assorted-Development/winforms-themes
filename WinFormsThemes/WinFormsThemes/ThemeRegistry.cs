@@ -25,14 +25,51 @@ namespace WinFormsThemes
             new FileThemeLookup(),
             new ResourceThemeLookup()
         };
+
+        /// <summary>
+        /// List of all Themes
+        /// </summary>
+        private static readonly Dictionary<string, ITheme> THEMES = new();
         /// <summary>
         /// the current theme
         /// </summary>
         public static ITheme Current
         {
-            get;
-            set;
-        } = GetTheme();
+            get { return _current ?? Get(); }
+            set { _current = value; }
+        }
+        #region Init
+        /// <summary>
+        /// true if InitThemes was already run successfully
+        /// </summary>
+        private static bool _themesAlreadyLoaded = false;
+        /// <summary>
+        /// Initialize the list of available themes
+        /// </summary>
+        private static void InitThemes()
+        {
+            if (_themesAlreadyLoaded) return;
+            //find all themes and add them to our theme list
+            List<IThemeLookup> lookups = _themeLookups.OrderByDescending(l => l.Order).ToList();
+            foreach (IThemeLookup l in lookups)
+            {
+                l.Lookup().ForEach(t => {
+                    if (!THEMES.ContainsKey(t.Name))
+                        THEMES.Add(t.Name, t);
+                });
+            }
+            _themesAlreadyLoaded = true;
+        }
+        #endregion
+        /// <summary>
+        /// add a plugin for looking up theme definitions
+        /// </summary>
+        /// <param name="plugin"></param>
+        public static void AddThemeLookupPlugin(IThemeLookup plugin)
+        {
+            if (_themesAlreadyLoaded) throw new InvalidOperationException("Themes were already loaded - new theme lookups will not be run");
+            _themeLookups.Insert(0, plugin);
+        }
         /// <summary>
         /// return the theme capabilities
         /// </summary>
@@ -67,26 +104,9 @@ namespace WinFormsThemes
         /// return the theme capabilities as configured by the user
         /// </summary>
         /// <returns></returns>
-        public static ITheme GetTheme()
+        public static ITheme Get()
         {
             return Get(GetThemeCaps());
-        }
-
-        /// <summary>
-        /// List of all Themes
-        /// </summary>
-        private static readonly Dictionary<string, ITheme> THEMES = new();
-        static ThemeRegistry()
-        {
-            //find all themes and add them to our theme list
-            List<IThemeLookup> lookups = _themeLookups.OrderByDescending(l => l.Order).ToList();
-            foreach (IThemeLookup l in lookups)
-            {
-                l.Lookup().ForEach(t => {
-                    if (!THEMES.ContainsKey(t.Name))
-                        THEMES.Add(t.Name, t);
-                });
-            }
         }
         /// <summary>
         /// returns the list of all theme names
@@ -94,6 +114,7 @@ namespace WinFormsThemes
         /// <returns></returns>
         public static List<string> ListNames()
         {
+            InitThemes();
             return THEMES.Keys.ToList();
         }
         /// <summary>
@@ -102,6 +123,7 @@ namespace WinFormsThemes
         /// <returns></returns>
         public static List<ITheme> List()
         {
+            InitThemes();
             return THEMES.Values.ToList();
         }
         /// <summary>
@@ -111,6 +133,7 @@ namespace WinFormsThemes
         /// <returns></returns>
         public static ITheme Get(string name)
         {
+            InitThemes();
             return THEMES.ContainsKey(name) ? THEMES[name] : null;
         }
         /// <summary>
@@ -131,7 +154,7 @@ namespace WinFormsThemes
         /// returns all registered plugins
         /// </summary>
         /// <returns></returns>
-        public static ReadOnlyDictionary<Type, IThemePlugin> GetAllPlugins()
+        public static ReadOnlyDictionary<Type, IThemePlugin> GetAllThemePlugins()
         {
             return new ReadOnlyDictionary<Type, IThemePlugin>(_plugins);
         }
@@ -140,7 +163,7 @@ namespace WinFormsThemes
         /// </summary>
         /// <typeparam name="T">the Control to handle</typeparam>
         /// <param name="plugin">the plugin handling the theming</param>
-        public static void AddPlugin<T>(IThemePlugin plugin) where T : Control
+        public static void AddThemePlugin<T>(IThemePlugin plugin) where T : Control
         {
             _plugins.Add(typeof(T), plugin);
         }

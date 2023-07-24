@@ -87,7 +87,7 @@ namespace WinFormsThemes.Themes
             control.ForeColor = GetForegroundColorForStyle(options, false);
 
             Type t = control.GetType();
-            ThemeRegistry.GetAllPlugins().TryGetValue(t, out IThemePlugin? plugin);
+            ThemeRegistry.GetAllThemePlugins().TryGetValue(t, out IThemePlugin? plugin);
             if (plugin != null)
             {
                 //TODO: does not currently support subclasses of registered types
