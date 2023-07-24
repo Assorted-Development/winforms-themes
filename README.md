@@ -96,7 +96,7 @@ If you want to add another theme source besides files and resources (e.g. when i
 ```csharp
     internal class MyThemeLookup : IThemeLookup
     {
-        public int Order => 999;//highest order wins when 2 Lookups return the same theme name
+        public int Order => 999; //highest order wins when 2 lookups return the same theme name
 
         public List<ITheme> Lookup()
         {
