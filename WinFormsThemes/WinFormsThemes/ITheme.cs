@@ -14,6 +14,10 @@
         /// </summary>
         ThemeCapabilities Capabilities { get; }
         /// <summary>
+        /// This allows custom themes to add additional tags and capabilities to support more specific theme filtering
+        /// </summary>
+        IList<String> AdvancedCapabilities { get; }
+        /// <summary>
         /// apply this theme to the given form
         /// </summary>
         /// <param name="form"></param>

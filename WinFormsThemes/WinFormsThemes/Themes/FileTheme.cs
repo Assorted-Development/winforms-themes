@@ -11,6 +11,7 @@ namespace WinFormsThemes.Themes
     {
         public override string Name { get; }
         public override ThemeCapabilities Capabilities { get; }
+        public override IList<string> AdvancedCapabilities { get; }
         public override Color BackgroundColor { get; }
         public override Color ForegroundColor { get; }
 
@@ -54,10 +55,20 @@ namespace WinFormsThemes.Themes
         {
             Name = (string)doc["name"];
             JsonArray caps = (JsonArray)doc["capabilities"];
+            List<String> advancedCaps = new List<string>();
             foreach (string s in caps)
             {
-                Capabilities |= Enum.Parse<ThemeCapabilities>(s);
+                ThemeCapabilities tmp;
+                if (Enum.IsDefined(typeof(ThemeCapabilities), s))
+                {
+                    Capabilities |= Enum.Parse<ThemeCapabilities>(s);
+                }
+                else
+                {
+                    advancedCaps.Add(s);
+                }
             }
+            AdvancedCapabilities = advancedCaps.AsReadOnly();
 
             //use the theme version to update the configured colors if necessary
             //e.g. when a new version adds a new color you may calculate the missing value from the existing ones

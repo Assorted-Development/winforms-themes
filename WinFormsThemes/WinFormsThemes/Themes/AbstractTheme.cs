@@ -16,6 +16,10 @@ namespace WinFormsThemes.Themes
         /// the capabilities of this theme
         /// </summary>
         public abstract ThemeCapabilities Capabilities { get; }
+        /// <summary>
+        /// This allows custom themes to add additional tags and capabilities to support more specific theme filtering
+        /// </summary>
+        public virtual IList<String> AdvancedCapabilities => Array.Empty<String>();
 
         public abstract Color BackgroundColor { get; }
         public abstract Color ForegroundColor { get; }
