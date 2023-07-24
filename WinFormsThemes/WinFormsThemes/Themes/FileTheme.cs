@@ -54,15 +54,15 @@ namespace WinFormsThemes.Themes
                 ControlForeColor = ((string)doc["colors"]["controlForeColor"]).ToColor();
                 ControlHighlightColor = ((string)doc["colors"]["controlHighlightColor"]).ToColor();
 
-                ButtonBackColor = ((string)doc["colors"]["buttonHoverColor"]).ToColor();
-                ButtonForeColor = ((string)doc["colors"]["buttonHoverColor"]).ToColor();
+                ButtonBackColor = ((string)doc["colors"]["buttonBackColor"]).ToColor();
+                ButtonForeColor = ((string)doc["colors"]["buttonForeColor"]).ToColor();
                 ButtonHoverColor = ((string)doc["colors"]["buttonHoverColor"]).ToColor();
 
                 ControlSuccessBackColor = ((string)doc["colors"]["successBackColor"]).ToColor();
-                ControlWarningBackColor = ((string)doc["colors"]["warningBackColor"]).ToColor();
-                ControlErrorBackColor = ((string)doc["colors"]["errorBackColor"]).ToColor();
                 ControlSuccessForeColor = ((string)doc["colors"]["successForeColor"]).ToColor();
+                ControlWarningBackColor = ((string)doc["colors"]["warningBackColor"]).ToColor();
                 ControlWarningForeColor = ((string)doc["colors"]["warningForeColor"]).ToColor();
+                ControlErrorBackColor = ((string)doc["colors"]["errorBackColor"]).ToColor();
                 ControlErrorForeColor = ((string)doc["colors"]["errorForeColor"]).ToColor();
             }
         }
