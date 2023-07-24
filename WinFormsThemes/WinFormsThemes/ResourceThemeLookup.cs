@@ -12,6 +12,7 @@ namespace WinFormsThemes
         /// the prefix to detect the themes in the resources
         /// </summary>
         private const string RES_THEME_PREFIX = "CONFIG_THEMING_THEME_";
+
         public int Order => 10;
 
         public List<ITheme> Lookup()
@@ -20,7 +21,7 @@ namespace WinFormsThemes
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
                 AssemblyCompanyAttribute comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
-                if(comp != null && comp.Company == "Microsoft Corporation")
+                if (comp != null && comp.Company == "Microsoft Corporation")
                 {
                     continue;
                 }

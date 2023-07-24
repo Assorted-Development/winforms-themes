@@ -9,6 +9,7 @@
         /// the order if more than 1 lookup exists. The lookup with the highest order overrides other themes with the same name
         /// </summary>
         int Order { get; }
+
         /// <summary>
         /// find all existing themes
         /// </summary>

@@ -7,6 +7,19 @@ namespace WinFormsThemes
     /// </summary>
     public static class DarkWindowsTheme
     {
+        public static bool UseDarkThemeVisualStyle(IntPtr handle, bool enabled)
+        {
+            if (IsWindows10OrGreater(17763))
+            {
+                bool result = NativeMethods.SetWindowTheme(handle, enabled ? "DarkMode_Explorer" : null, null) == 0;
+
+                // for some versions, an extra scrollbar hack is needed
+                return result && NativeMethods.OpenThemeData(IntPtr.Zero, "Explorer::ScrollBar") != IntPtr.Zero;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// enable/disable dark mode for the title bar
         /// </summary>
@@ -29,20 +42,6 @@ namespace WinFormsThemes
 
             return false;
         }
-
-        public static bool UseDarkThemeVisualStyle(IntPtr handle, bool enabled)
-        {
-            if (IsWindows10OrGreater(17763))
-            {
-                bool result = NativeMethods.SetWindowTheme(handle, enabled ? "DarkMode_Explorer" : null, null) == 0;
-
-                // for some versions, an extra scrollbar hack is needed
-                return result && NativeMethods.OpenThemeData(IntPtr.Zero, "Explorer::ScrollBar") != IntPtr.Zero;
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// returns true if we are running on Windows 10 or later
         /// </summary>

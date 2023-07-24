@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using WinFormsThemes.Extensions;
 
 namespace WinFormsThemes.Themes
@@ -9,44 +8,6 @@ namespace WinFormsThemes.Themes
     /// </summary>
     internal class FileTheme : AbstractTheme
     {
-        public override string Name { get; }
-        public override ThemeCapabilities Capabilities { get; }
-        public override IList<string> AdvancedCapabilities { get; }
-        public override Color BackgroundColor { get; }
-        public override Color ForegroundColor { get; }
-
-        public override Color ControlBackColor { get; }
-        public override Color ControlForeColor { get; }
-        public override Color ControlHighlightColor { get; }
-
-        public override Color ButtonBackColor { get; }
-        public override Color ButtonForeColor { get; }
-        public override Color ButtonHoverColor { get; }
-
-        public override Color ControlSuccessBackColor { get; }
-        public override Color ControlSuccessForeColor { get; }
-        public override Color ControlWarningBackColor { get; }
-        public override Color ControlWarningForeColor { get; }
-        public override Color ControlErrorBackColor { get; }
-        public override Color ControlErrorForeColor { get; }
-
-        public override Color TableBackColor { get; }
-        public override Color TableHeaderBackColor { get; }
-        public override Color TableHeaderForeColor { get; }
-        public override Color TableSelectionBackColor { get; }
-        public override Color TableCellBackColor { get; }
-        public override Color TableCellForeColor { get; }
-
-        public override Color ListViewHeaderGroupColor { get; }
-
-        public override Color ComboBoxItemBackColor { get; }
-        public override Color ComboBoxItemHoverColor { get; }
-
-        public override Color ControlHighlightLightColor { get; }
-        public override Color ControlHighlightDarkColor { get; }
-        public override Color ControlBorderColor { get; }
-        public override Color ControlBorderLightColor { get; }
-
         /// <summary>
         /// constructor
         /// </summary>
@@ -127,6 +88,36 @@ namespace WinFormsThemes.Themes
             }
         }
 
+        public override IList<string> AdvancedCapabilities { get; }
+        public override Color BackgroundColor { get; }
+        public override Color ButtonBackColor { get; }
+        public override Color ButtonForeColor { get; }
+        public override Color ButtonHoverColor { get; }
+        public override ThemeCapabilities Capabilities { get; }
+        public override Color ComboBoxItemBackColor { get; }
+        public override Color ComboBoxItemHoverColor { get; }
+        public override Color ControlBackColor { get; }
+        public override Color ControlBorderColor { get; }
+        public override Color ControlBorderLightColor { get; }
+        public override Color ControlErrorBackColor { get; }
+        public override Color ControlErrorForeColor { get; }
+        public override Color ControlForeColor { get; }
+        public override Color ControlHighlightColor { get; }
+        public override Color ControlHighlightDarkColor { get; }
+        public override Color ControlHighlightLightColor { get; }
+        public override Color ControlSuccessBackColor { get; }
+        public override Color ControlSuccessForeColor { get; }
+        public override Color ControlWarningBackColor { get; }
+        public override Color ControlWarningForeColor { get; }
+        public override Color ForegroundColor { get; }
+        public override Color ListViewHeaderGroupColor { get; }
+        public override string Name { get; }
+        public override Color TableBackColor { get; }
+        public override Color TableCellBackColor { get; }
+        public override Color TableCellForeColor { get; }
+        public override Color TableHeaderBackColor { get; }
+        public override Color TableHeaderForeColor { get; }
+        public override Color TableSelectionBackColor { get; }
         /// <summary>
         /// Parse a theme JSON config
         /// </summary>

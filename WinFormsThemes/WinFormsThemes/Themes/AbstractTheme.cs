@@ -9,53 +9,67 @@ namespace WinFormsThemes.Themes
     public abstract class AbstractTheme : ITheme
     {
         /// <summary>
-        /// the name of the theme
-        /// </summary>
-        public abstract string Name { get; }
-        /// <summary>
-        /// the capabilities of this theme
-        /// </summary>
-        public abstract ThemeCapabilities Capabilities { get; }
-        /// <summary>
         /// This allows custom themes to add additional tags and capabilities to support more specific theme filtering
         /// </summary>
         public virtual IList<String> AdvancedCapabilities => Array.Empty<String>();
 
         public abstract Color BackgroundColor { get; }
-        public abstract Color ForegroundColor { get; }
+
+        public abstract Color ButtonBackColor { get; }
 
         public abstract Color ButtonForeColor { get; }
-        public abstract Color ButtonBackColor { get; }
+
         public abstract Color ButtonHoverColor { get; }
 
-        public abstract Color ControlForeColor { get; }
-        public abstract Color ControlBackColor { get; }
-        public abstract Color ControlSuccessBackColor { get; }
-        public abstract Color ControlWarningBackColor { get; }
-        public abstract Color ControlErrorBackColor { get; }
-        public abstract Color ControlHighlightColor { get; }
+        /// <summary>
+        /// the capabilities of this theme
+        /// </summary>
+        public abstract ThemeCapabilities Capabilities { get; }
 
-        public abstract Color ControlSuccessForeColor { get; }
-        public abstract Color ControlWarningForeColor { get; }
+        public virtual Color ComboBoxItemBackColor => ControlHighlightColor;
+
+        public virtual Color ComboBoxItemHoverColor => GetSoftenedColor(ControlHighlightColor, true);
+
+        public abstract Color ControlBackColor { get; }
+
+        public virtual Color ControlBorderColor => ControlHighlightColor;
+
+        public virtual Color ControlBorderLightColor => ControlBorderColor;
+
+        public abstract Color ControlErrorBackColor { get; }
+
         public abstract Color ControlErrorForeColor { get; }
 
-        public virtual Color TableBackColor => ControlBackColor;
-        public virtual Color TableHeaderBackColor => TableBackColor;
-        public virtual Color TableHeaderForeColor => ControlForeColor;
-        public virtual Color TableSelectionBackColor => ControlHighlightColor;
-        public virtual Color TableCellBackColor => TableBackColor;
-        public virtual Color TableCellForeColor => ControlForeColor;
+        public abstract Color ControlForeColor { get; }
+
+        public abstract Color ControlHighlightColor { get; }
+
+        public virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
+
+        public virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
+
+        public abstract Color ControlSuccessBackColor { get; }
+
+        public abstract Color ControlSuccessForeColor { get; }
+
+        public abstract Color ControlWarningBackColor { get; }
+
+        public abstract Color ControlWarningForeColor { get; }
+
+        public abstract Color ForegroundColor { get; }
 
         public virtual Color ListViewHeaderGroupColor => GetSoftenedColor(ControlHighlightColor, true);
 
-        public virtual Color ComboBoxItemBackColor => ControlHighlightColor;
-        public virtual Color ComboBoxItemHoverColor => GetSoftenedColor(ControlHighlightColor, true);
-
-        public virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
-        public virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
-        public virtual Color ControlBorderColor => ControlHighlightColor;
-        public virtual Color ControlBorderLightColor => ControlBorderColor;
-
+        /// <summary>
+        /// the name of the theme
+        /// </summary>
+        public abstract string Name { get; }
+        public virtual Color TableBackColor => ControlBackColor;
+        public virtual Color TableCellBackColor => TableBackColor;
+        public virtual Color TableCellForeColor => ControlForeColor;
+        public virtual Color TableHeaderBackColor => TableBackColor;
+        public virtual Color TableHeaderForeColor => ControlForeColor;
+        public virtual Color TableSelectionBackColor => ControlHighlightColor;
         public void Apply(Form form)
         {
             form.SuspendLayout();
@@ -197,51 +211,6 @@ namespace WinFormsThemes.Themes
                 Apply(child);
             }
         }
-        private Color GetBackgroundColorForStyle(ThemeOptions options)
-        {
-            switch (options)
-            {
-                case ThemeOptions.Success:
-                    return ControlSuccessBackColor;
-                case ThemeOptions.Warning:
-                    return ControlWarningBackColor;
-                case ThemeOptions.Error:
-                    return ControlErrorBackColor;
-                default:
-                    return ControlBackColor;
-            }
-        }
-        private Color GetForegroundColorForStyle(ThemeOptions options, bool disabled)
-        {
-            double opacity = disabled ? 0.38 : 1.0;
-            Color baseColor;
-            switch (options)
-            {
-                case ThemeOptions.Success:
-                    baseColor = ControlSuccessForeColor;
-                    break;
-                case ThemeOptions.Warning:
-                    baseColor = ControlWarningForeColor;
-                    break;
-                case ThemeOptions.Error:
-                    baseColor = ControlErrorForeColor;
-                    break;
-                case ThemeOptions.Hint:
-                    opacity = 0.6;
-                    baseColor = ControlForeColor;
-                    break;
-                default:
-                    baseColor = ControlForeColor;
-                    break;
-            }
-
-            // HSL lightness value 0 = black, 1 = white
-            if (disabled)
-            {
-                return GetSoftenedColor(baseColor);
-            }
-            return Color.FromArgb((int)(255 * 0.6), baseColor);
-        }
 
         /// <summary>
         /// Gets a weaker/softer version of the color passed.
@@ -266,7 +235,6 @@ namespace WinFormsThemes.Themes
             }
 
             return Color.FromArgb(baseColor.A, baseColor.R / 2, baseColor.G / 2, baseColor.B / 2);
-
         }
 
         private void ApplyDataGridView(DataGridView dgv)
@@ -299,13 +267,7 @@ namespace WinFormsThemes.Themes
                 col.DefaultCellStyle.SelectionBackColor = TableSelectionBackColor;
             }
         }
-        private void ApplyTreeView(TreeView tv)
-        {
-            foreach (TreeNode child in tv.Nodes)
-            {
-                ApplyTreeNode(child);
-            }
-        }
+
         private void ApplyTreeNode(TreeNode tn)
         {
             tn.BackColor = GetBackgroundColorForStyle(ThemeOptions.None);
@@ -314,6 +276,68 @@ namespace WinFormsThemes.Themes
             {
                 ApplyTreeNode(child);
             }
+        }
+
+        private void ApplyTreeView(TreeView tv)
+        {
+            foreach (TreeNode child in tv.Nodes)
+            {
+                ApplyTreeNode(child);
+            }
+        }
+
+        private Color GetBackgroundColorForStyle(ThemeOptions options)
+        {
+            switch (options)
+            {
+                case ThemeOptions.Success:
+                    return ControlSuccessBackColor;
+
+                case ThemeOptions.Warning:
+                    return ControlWarningBackColor;
+
+                case ThemeOptions.Error:
+                    return ControlErrorBackColor;
+
+                default:
+                    return ControlBackColor;
+            }
+        }
+
+        private Color GetForegroundColorForStyle(ThemeOptions options, bool disabled)
+        {
+            double opacity = disabled ? 0.38 : 1.0;
+            Color baseColor;
+            switch (options)
+            {
+                case ThemeOptions.Success:
+                    baseColor = ControlSuccessForeColor;
+                    break;
+
+                case ThemeOptions.Warning:
+                    baseColor = ControlWarningForeColor;
+                    break;
+
+                case ThemeOptions.Error:
+                    baseColor = ControlErrorForeColor;
+                    break;
+
+                case ThemeOptions.Hint:
+                    opacity = 0.6;
+                    baseColor = ControlForeColor;
+                    break;
+
+                default:
+                    baseColor = ControlForeColor;
+                    break;
+            }
+
+            // HSL lightness value 0 = black, 1 = white
+            if (disabled)
+            {
+                return GetSoftenedColor(baseColor);
+            }
+            return Color.FromArgb((int)(255 * 0.6), baseColor);
         }
     }
 }

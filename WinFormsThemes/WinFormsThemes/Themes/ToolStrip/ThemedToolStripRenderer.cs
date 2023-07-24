@@ -5,9 +5,6 @@ namespace WinFormsThemes.Themes.ToolStrip;
 
 internal class ThemedToolStripRenderer : ToolStripProfessionalRenderer
 {
-    private Color TextColorEnabled { get; }
-    private Color TextColorDisabled { get; }
-
     public ThemedToolStripRenderer(
         ProfessionalColorTable professionalColorTable, Color textColorEnabled, Color textColorDisabled)
         : base(professionalColorTable)
@@ -16,6 +13,8 @@ internal class ThemedToolStripRenderer : ToolStripProfessionalRenderer
         TextColorDisabled = textColorDisabled;
     }
 
+    private Color TextColorDisabled { get; }
+    private Color TextColorEnabled { get; }
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
         ToolStripItem item = e.Item;

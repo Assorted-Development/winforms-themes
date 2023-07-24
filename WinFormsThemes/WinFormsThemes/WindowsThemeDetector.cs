@@ -15,6 +15,7 @@ namespace WinFormsThemes
         {
             return ((int)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)) == 0;
         }
+
         /// <summary>
         /// returns true if the global high contrast is enabled
         /// </summary>
