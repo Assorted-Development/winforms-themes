@@ -111,7 +111,7 @@ After this, you need to register this class using `ThemeRegistry.AddThemeLookupP
 
 **Note: This has to be done BEFORE any call to `ThemeRegistry.Current`, `ThemeRegistry.Get` or `ThemeRegistry.List` is done, otherwise the list of themes would already be created and the call to `AddThemeLookupPlugin` would fail.**
 
-### add third-party controls theme support
+### Add third-party controls theme support
 As we do not want to force you to use a specific WinForms control library, we currently only support styling of standard controls and controls from our [winforms-stylable-controls](https://github.com/Assorted-Development/winforms-stylable-controls) project.
 As we understand if you want to also style other controls, we support adding specialised plugins to handle styling of a specific type of control. To do this, you need to implement ``:
 ```csharp
