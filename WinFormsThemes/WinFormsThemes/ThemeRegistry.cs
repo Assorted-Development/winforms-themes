@@ -30,15 +30,9 @@ namespace WinFormsThemes
         /// </summary>
         public static ITheme Current
         {
-            get
-            {
-                if(_current == null)
-                {
-                    InitializeTheme();
-                }
-                return _current;
-            }
-        }
+            get;
+            set;
+        } = GetTheme();
         /// <summary>
         /// return the theme capabilities
         /// </summary>
@@ -67,11 +61,7 @@ namespace WinFormsThemes
         /// <returns></returns>
         private static ThemeCapabilities GetThemeCaps()
         {
-            if (GlobalSettings.Settings.GLOBALDSKIN_AUTO)
-            {
-                return GetThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
-            }
-            return GetThemeCaps(GlobalSettings.Settings.GLOBALDSKIN, GlobalSettings.Settings.GLOBALDSKINContrast);
+            return GetThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
         }
         /// <summary>
         /// return the theme capabilities as configured by the user
@@ -80,32 +70,6 @@ namespace WinFormsThemes
         public static ITheme GetTheme()
         {
             return Get(GetThemeCaps());
-        }
-        /// <summary>
-        /// Initialize the current theme and register for changes
-        /// </summary>
-        private static void InitializeTheme()
-        {
-            _current = GetTheme();
-            GlobalSettings.Settings.OnChanged += Settings_OnChanged;
-        }
-        /// <summary>
-        /// update current theme
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void Settings_OnChanged(object sender, SettingsChangedEventArgs e)
-        {
-            if(e.Key is "GLOBDSKIN" or "GLOBDSKINCONT" or "GLOBDSKIN.AUTO")
-            {
-                ITheme newTheme = GetTheme();
-                bool changed = newTheme != _current;
-                _current = newTheme;
-                if(changed && OnThemeChanged != null)
-                {
-                    OnThemeChanged.Invoke(sender, EventArgs.Empty);
-                }
-            }
         }
 
         /// <summary>
@@ -116,10 +80,10 @@ namespace WinFormsThemes
         {
             //find all themes and add them to our theme list
             List<IThemeLookup> lookups = _themeLookups.OrderByDescending(l => l.Order).ToList();
-            foreach(IThemeLookup l in lookups)
+            foreach (IThemeLookup l in lookups)
             {
                 l.Lookup().ForEach(t => {
-                    if(!THEMES.ContainsKey(t.Name))
+                    if (!THEMES.ContainsKey(t.Name))
                         THEMES.Add(t.Name, t);
                 });
             }
@@ -162,7 +126,7 @@ namespace WinFormsThemes
         /// <summary>
         /// contains all plugins
         /// </summary>
-        private static Dictionary<Type, IThemePlugin> _plugins = new Dictionary<Type, IThemePlugin> ();
+        private static Dictionary<Type, IThemePlugin> _plugins = new Dictionary<Type, IThemePlugin>();
         /// <summary>
         /// returns all registered plugins
         /// </summary>
