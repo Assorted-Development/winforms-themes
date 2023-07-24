@@ -36,7 +36,11 @@ namespace WinFormsThemes
         public static ITheme Current
         {
             get { return _current ?? Get(); }
-            set { _current = value; }
+            set 
+            { 
+                _current = value;
+                OnThemeChanged?.Invoke(value, EventArgs.Empty);
+            }
         }
         #region Init
         /// <summary>
