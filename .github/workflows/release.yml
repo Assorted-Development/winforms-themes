@@ -1,0 +1,41 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore WinFormsThemes/WinFormsThemes.sln
+    - name: Build
+      run: dotnet build WinFormsThemes/WinFormsThemes.sln -c Release --no-restore
+
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: |
+          LICENSE
+          WinFormsThemes/WinFormsThemes/bin/Release/net6.0-windows/WinFormsThemes.dll
+          WinFormsThemes/WinFormsThemes/bin/Release/*.nupkg
+          WinFormsThemes/WinFormsThemes/bin/Release/*.snupkg
+    - name: Pack nugets
+      run: dotnet pack WinFormsThemes/WinFormsThemes.sln -c Release --no-build --output .
+    - name: Push to NuGet
+      run: dotnet nuget push *.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+      

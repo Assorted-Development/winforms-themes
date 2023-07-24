@@ -1,8 +1,6 @@
-﻿using MFBot_1701_E.Theming.Themes;
-using System.Collections.Generic;
-using System.IO;
+﻿using WinFormsThemes.Themes;
 
-namespace MFBot_1701_E.Theming
+namespace WinFormsThemes
 {
     /// <summary>
     /// load external themes from JSON files
@@ -20,7 +18,7 @@ namespace MFBot_1701_E.Theming
                 IEnumerable<FileInfo> files = dir.EnumerateFiles("*.theme.json");
                 foreach (FileInfo file in files)
                 {
-                    ITheme theme = FileTheme.Load(File.ReadAllText(file.FullName));
+                    ITheme? theme = FileTheme.Load(File.ReadAllText(file.FullName));
                     if (theme != null)
                     {
                         results.Add(theme);

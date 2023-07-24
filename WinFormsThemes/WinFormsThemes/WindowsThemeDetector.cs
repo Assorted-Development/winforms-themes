@@ -1,7 +1,6 @@
-﻿using System.Windows.Forms;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 
-namespace MFBot_1701_E.Theming
+namespace WinFormsThemes
 {
     /// <summary>
     /// Utilities to detect high contrast and dark mode
@@ -16,6 +15,7 @@ namespace MFBot_1701_E.Theming
         {
             return ((int)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)) == 0;
         }
+
         /// <summary>
         /// returns true if the global high contrast is enabled
         /// </summary>
