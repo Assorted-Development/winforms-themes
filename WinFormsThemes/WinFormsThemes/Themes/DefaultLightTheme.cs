@@ -5,8 +5,6 @@ namespace WinFormsThemes.Themes
     /// <summary>
     /// Implementation of a light theme. Depends on the default colors of forms
     /// </summary>
-    //TODO: Currently, this does not switch back from dark mode as we depend on the colors of the forms
-    //and just use this theme to colorize warnings and so on
     public class DefaultLightTheme : AbstractTheme
     {
         public const string THEME_NAME = "LIGHT_DEFAULT_BUILTIN";
