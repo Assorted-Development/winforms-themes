@@ -20,6 +20,12 @@ namespace WinFormsThemes
             List<ITheme> results = new List<ITheme>();
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
+                if (a.IsDynamic)
+                {
+                    //Dynamic libraries (e.g. Expression.Compile) do not support reading resources
+                    //and would throw an exception
+                    continue;
+                }
                 AssemblyCompanyAttribute comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
                 if (comp != null && comp.Company == "Microsoft Corporation")
                 {
