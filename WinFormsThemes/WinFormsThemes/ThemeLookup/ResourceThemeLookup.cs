@@ -7,7 +7,7 @@ namespace WinFormsThemes
     /// <summary>
     /// load Themes from internal resource files
     /// </summary>
-    internal class ResourceThemeLookup : IThemeLookup
+    public class ResourceThemeLookup : IThemeLookup
     {
         /// <summary>
         /// the prefix to detect the themes in the resources

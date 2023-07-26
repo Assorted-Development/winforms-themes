@@ -5,7 +5,7 @@ namespace WinFormsThemes
     /// <summary>
     /// load external themes from JSON files
     /// </summary>
-    internal class FileThemeLookup : IThemeLookup
+    public class FileThemeLookup : IThemeLookup
     {
         public int Order => Int32.MinValue;
 
