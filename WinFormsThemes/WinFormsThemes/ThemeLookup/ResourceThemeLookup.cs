@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -20,6 +21,7 @@ namespace WinFormsThemes
             List<ITheme> results = new List<ITheme>();
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
+                string name = a.FullName ?? "";
                 if (a.IsDynamic)
                 {
                     //Dynamic libraries (e.g. Expression.Compile) do not support reading resources
@@ -33,18 +35,60 @@ namespace WinFormsThemes
                 }
                 foreach (string res in a.GetManifestResourceNames())
                 {
-                    if (!res.Contains(RES_THEME_PREFIX)) continue;
-                    ITheme? theme = null;
-                    using (Stream stream = a.GetManifestResourceStream(res))
-                    using (StreamReader reader = new StreamReader(stream))
-                        theme = FileTheme.Load(reader.ReadToEnd());
-                    if (theme != null)
+                    if (res.Contains(RES_THEME_PREFIX))
                     {
-                        results.Add(theme);
+                        ITheme? theme;
+                        using (Stream? stream = a.GetManifestResourceStream(res))
+                            theme = HandleEmbeddedResource(stream);
+                        if (theme != null)
+                        {
+                            results.Add(theme);
+                        }
+                    }
+                    else if (res.EndsWith(".resources"))
+                    {
+                        using (Stream stream = a.GetManifestResourceStream(res))
+                            results.AddRange(HandleResource(stream));
                     }
                 }
             }
             return results;
+        }
+
+        /// <summary>
+        /// Handle Resources embedded directly into the dll
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        private static ITheme? HandleEmbeddedResource(Stream? stream)
+        {
+            if (stream == null) return null;
+            using (StreamReader reader = new StreamReader(stream))
+                return FileTheme.Load(reader.ReadToEnd());
+        }
+
+        /// <summary>
+        /// handle Resources added to a resource file
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        private static List<ITheme> HandleResource(Stream stream)
+        {
+            using (var resourceReader = new System.Resources.ResourceReader(stream))
+            {
+                List<ITheme> results = new List<ITheme>();
+                foreach (DictionaryEntry entry in resourceReader)
+                {
+                    if (entry.Key is string key && key.StartsWith(RES_THEME_PREFIX))
+                    {
+                        if (entry.Value is string value)
+                        {
+                            results.Add(FileTheme.Load(value));
+                        }
+                    }
+                }
+                return results;
+            }//dispose
         }
     }
 }
