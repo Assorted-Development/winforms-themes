@@ -32,8 +32,9 @@
         /// return the theme with the matching capabilities
         /// </summary>
         /// <param name="caps"></param>
+        /// <param name="advancedCapabilitiesFilters"></param>
         /// <returns></returns>
-        ITheme? Get(ThemeCapabilities caps);
+        ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters);
 
         /// <summary>
         /// returns all themes

@@ -55,9 +55,11 @@ namespace WinFormsThemes
             return _themes.ContainsKey(name) ? _themes[name] : null;
         }
 
-        public ITheme? Get(ThemeCapabilities caps)
+        public ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters)
         {
-            return _themes.Values.FirstOrDefault(t => (t.Capabilities & caps) == caps);
+            return _themes.Values.Where(t => (t.Capabilities & caps) == caps)
+                .Where(t => advancedCapabilitiesFilters.All(f => t.AdvancedCapabilities.Contains(f)))
+                .FirstOrDefault();
         }
 
         public List<ITheme> List()
