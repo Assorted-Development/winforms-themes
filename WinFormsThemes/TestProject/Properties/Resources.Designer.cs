@@ -62,22 +62,69 @@ namespace TestProject.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {
-        ///	&quot;name&quot;: &quot;theme-name&quot;,
-        ///	&quot;capabilities&quot;: [&quot;DarkMode&quot;, &quot;LightMode&quot;, &quot;HighContrast&quot;],
-        ///	&quot;version&quot;: 2,
-        ///	&quot;colors&quot;: {
-        ///		&quot;backColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;foreColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;buttonBackColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;buttonForeColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;buttonHoverColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;comboBoxItemBackColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;comboBoxItemHoverColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;controlBackColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;controlForeColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;controlHighlightColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;controlHighlightLightColor&quot;: &quot;#082a56&quot;,
-        ///		&quot;control [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  &quot;name&quot;: &quot;file-error-test&quot;,
+        ///  &quot;capabilities&quot;: [ &quot;DarkMode&quot;, &quot;File&quot;, &quot;Error&quot; ],
+        ///  &quot;version&quot;: 2,
+        ///  &quot;colors&quot;: {
+        ///    &quot;backColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;foreColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonForeColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonHoverColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;comboBoxItemBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;comboBoxItemHoverColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlForeColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlHighlightColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlHighlightLightColor&quot;: &quot; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string CONFIG_THEMING_THEME_FILE_TEST_2_theme {
+            get {
+                return ResourceManager.GetString("CONFIG_THEMING_THEME_FILE_TEST_2.theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {
+        ///  &quot;name&quot;: &quot;file-ok-test&quot;,
+        ///  &quot;capabilities&quot;: [ &quot;DarkMode&quot;, &quot;File&quot;, &quot;OK&quot; ],
+        ///  &quot;version&quot;: 2,
+        ///  &quot;colors&quot;: {
+        ///    &quot;backColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;foreColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonForeColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonHoverColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;comboBoxItemBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;comboBoxItemHoverColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlForeColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlHighlightColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlHighlightLightColor&quot;: &quot;#082a5 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string CONFIG_THEMING_THEME_FILE_TEST_theme {
+            get {
+                return ResourceManager.GetString("CONFIG_THEMING_THEME_FILE_TEST.theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {
+        ///  &quot;name&quot;: &quot;resource-file-test&quot;,
+        ///  &quot;capabilities&quot;: [ &quot;DarkMode&quot;, &quot;Resource-File&quot; ],
+        ///  &quot;version&quot;: 2,
+        ///  &quot;colors&quot;: {
+        ///    &quot;backColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;foreColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonForeColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;buttonHoverColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;comboBoxItemBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;comboBoxItemHoverColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlBackColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlForeColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlHighlightColor&quot;: &quot;#082a56&quot;,
+        ///    &quot;controlHighlightLightColor&quot; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string CONFIG_THEMING_THEME_RESOURCE_TEST_theme {
             get {
