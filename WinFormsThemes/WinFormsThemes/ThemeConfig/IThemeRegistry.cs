@@ -6,6 +6,11 @@
     public interface IThemeRegistry
     {
         /// <summary>
+        /// Event triggers on Theme Change
+        /// </summary>
+        public event EventHandler? OnThemeChanged;
+
+        /// <summary>
         /// the builder to create a new IThemeRegistry
         /// </summary>
         public static IThemeRegistryBuilder BUILDER => new ThemeRegistryBuilder();

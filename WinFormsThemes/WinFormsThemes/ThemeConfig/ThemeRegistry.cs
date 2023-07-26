@@ -40,8 +40,11 @@ namespace WinFormsThemes
             }
             set
             {
-                _current = value;
-                OnThemeChanged?.Invoke(value, EventArgs.Empty);
+                if (_current != value)
+                {
+                    _current = value;
+                    OnThemeChanged?.Invoke(value, EventArgs.Empty);
+                }
             }
         }
 
