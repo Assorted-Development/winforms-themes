@@ -22,7 +22,9 @@ namespace WinFormsThemes.Utilities
         {
             if (IsWindows10OrGreater(17763))
             {
+#pragma warning disable CS8604, CS8625 // Mögliches Nullverweisargument.
                 bool result = NativeMethods.SetWindowTheme(handle, enabled ? "DarkMode_Explorer" : null, null) == 0;
+#pragma warning restore CS8604, CS8625 // Mögliches Nullverweisargument.
 
                 // for some versions, an extra scrollbar hack is needed
                 return result && NativeMethods.OpenThemeData(IntPtr.Zero, "Explorer::ScrollBar") != IntPtr.Zero;

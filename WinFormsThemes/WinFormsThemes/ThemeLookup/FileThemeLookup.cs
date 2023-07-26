@@ -11,8 +11,8 @@ namespace WinFormsThemes
 
         public List<ITheme> Lookup()
         {
-            List<ITheme> results = new List<ITheme>();
-            DirectoryInfo dir = new DirectoryInfo("themes");
+            List<ITheme> results = new();
+            DirectoryInfo dir = new("themes");
             if (dir.Exists)
             {
                 IEnumerable<FileInfo> files = dir.EnumerateFiles("*.theme.json");

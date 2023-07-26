@@ -18,7 +18,7 @@ namespace WinFormsThemes
 
         public List<ITheme> Lookup()
         {
-            List<ITheme> results = new List<ITheme>();
+            List<ITheme> results = new();
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
                 string name = a.FullName ?? "";
@@ -28,7 +28,7 @@ namespace WinFormsThemes
                     //and would throw an exception
                     continue;
                 }
-                AssemblyCompanyAttribute comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
+                AssemblyCompanyAttribute? comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
                 if (comp != null && comp.Company == "Microsoft Corporation")
                 {
                     continue;
@@ -47,7 +47,8 @@ namespace WinFormsThemes
                     }
                     else if (res.EndsWith(".resources"))
                     {
-                        using (Stream stream = a.GetManifestResourceStream(res))
+                        using Stream? stream = a.GetManifestResourceStream(res);
+                        if (stream != null)
                             results.AddRange(HandleResource(stream));
                     }
                 }
@@ -63,8 +64,8 @@ namespace WinFormsThemes
         private static ITheme? HandleEmbeddedResource(Stream? stream)
         {
             if (stream == null) return null;
-            using (StreamReader reader = new StreamReader(stream))
-                return FileTheme.Load(reader.ReadToEnd());
+            using StreamReader reader = new(stream);
+            return FileTheme.Load(reader.ReadToEnd());
         }
 
         /// <summary>
@@ -74,21 +75,24 @@ namespace WinFormsThemes
         /// <returns></returns>
         private static List<ITheme> HandleResource(Stream stream)
         {
-            using (var resourceReader = new System.Resources.ResourceReader(stream))
+            using var resourceReader = new System.Resources.ResourceReader(stream);
+            List<ITheme> results = new();
+            foreach (DictionaryEntry entry in resourceReader)
             {
-                List<ITheme> results = new List<ITheme>();
-                foreach (DictionaryEntry entry in resourceReader)
+                if (entry.Key is string key && key.StartsWith(RES_THEME_PREFIX))
                 {
-                    if (entry.Key is string key && key.StartsWith(RES_THEME_PREFIX))
+                    if (entry.Value is string value)
                     {
-                        if (entry.Value is string value)
+                        ITheme? theme = FileTheme.Load(value);
+                        if (theme != null)
                         {
-                            results.Add(FileTheme.Load(value));
+                            results.Add(theme);
                         }
                     }
                 }
-                return results;
-            }//dispose
+            }
+            return results;
+            //dispose
         }
     }
 }

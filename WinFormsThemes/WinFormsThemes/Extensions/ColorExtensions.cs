@@ -7,8 +7,12 @@
         /// </summary>
         /// <param name="hexColor"></param>
         /// <returns></returns>
-        public static Color ToColor(this string hexColor)
+        public static Color ToColor(this string? hexColor)
         {
+            if (hexColor == null)
+            {
+                return SystemColors.Control;
+            }
             return ColorTranslator.FromHtml(hexColor);
         }
     }
