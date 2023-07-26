@@ -7,7 +7,7 @@ namespace WinFormsThemes
     /// </summary>
     internal class FileThemeLookup : IThemeLookup
     {
-        public int Order => 20;
+        public int Order => Int32.MinValue;
 
         public List<ITheme> Lookup()
         {

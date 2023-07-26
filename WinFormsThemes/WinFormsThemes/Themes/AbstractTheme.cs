@@ -1,5 +1,6 @@
 ﻿using StylableWinFormsControls;
 using WinFormsThemes.Themes.ToolStrip;
+using WinFormsThemes.Utilities;
 
 namespace WinFormsThemes.Themes
 {
@@ -14,11 +15,8 @@ namespace WinFormsThemes.Themes
         public virtual IList<String> AdvancedCapabilities => Array.Empty<String>();
 
         public abstract Color BackgroundColor { get; }
-
         public abstract Color ButtonBackColor { get; }
-
         public abstract Color ButtonForeColor { get; }
-
         public abstract Color ButtonHoverColor { get; }
 
         /// <summary>
@@ -27,49 +25,40 @@ namespace WinFormsThemes.Themes
         public abstract ThemeCapabilities Capabilities { get; }
 
         public virtual Color ComboBoxItemBackColor => ControlHighlightColor;
-
         public virtual Color ComboBoxItemHoverColor => GetSoftenedColor(ControlHighlightColor, true);
-
         public abstract Color ControlBackColor { get; }
-
         public virtual Color ControlBorderColor => ControlHighlightColor;
-
         public virtual Color ControlBorderLightColor => ControlBorderColor;
-
         public abstract Color ControlErrorBackColor { get; }
-
         public abstract Color ControlErrorForeColor { get; }
-
         public abstract Color ControlForeColor { get; }
-
         public abstract Color ControlHighlightColor { get; }
-
         public virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
-
         public virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
-
         public abstract Color ControlSuccessBackColor { get; }
-
         public abstract Color ControlSuccessForeColor { get; }
-
         public abstract Color ControlWarningBackColor { get; }
-
         public abstract Color ControlWarningForeColor { get; }
-
         public abstract Color ForegroundColor { get; }
-
         public virtual Color ListViewHeaderGroupColor => GetSoftenedColor(ControlHighlightColor, true);
 
         /// <summary>
         /// the name of the theme
         /// </summary>
         public abstract string Name { get; }
+
         public virtual Color TableBackColor => ControlBackColor;
         public virtual Color TableCellBackColor => TableBackColor;
         public virtual Color TableCellForeColor => ControlForeColor;
         public virtual Color TableHeaderBackColor => TableBackColor;
         public virtual Color TableHeaderForeColor => ControlForeColor;
         public virtual Color TableSelectionBackColor => ControlHighlightColor;
+
+        /// <summary>
+        /// supports styling of custom controls without reimplementing the whole theme
+        /// </summary>
+        public IDictionary<Type, IThemePlugin> ThemePlugins { get; set; } = new Dictionary<Type, IThemePlugin>();
+
         public void Apply(Form form)
         {
             form.SuspendLayout();
@@ -105,7 +94,7 @@ namespace WinFormsThemes.Themes
             control.ForeColor = GetForegroundColorForStyle(options, false);
 
             Type t = control.GetType();
-            ThemeRegistry.GetAllThemePlugins().TryGetValue(t, out IThemePlugin? plugin);
+            this.ThemePlugins.TryGetValue(t, out IThemePlugin? plugin);
             if (plugin != null)
             {
                 //TODO: does not currently support subclasses of registered types
@@ -222,7 +211,7 @@ namespace WinFormsThemes.Themes
         /// This should primarily thought of as helper function to use the same colors and modify them
         /// dependent on dark/light theme.
         /// </remarks>
-        protected Color GetSoftenedColor(Color baseColor, bool switchDarkAndLight = false)
+        protected static Color GetSoftenedColor(Color baseColor, bool switchDarkAndLight = false)
         {
             // HSL lightness value 0 = black, 1 = white
             if (baseColor.GetBrightness() < 0.5 || switchDarkAndLight)
@@ -288,49 +277,25 @@ namespace WinFormsThemes.Themes
 
         private Color GetBackgroundColorForStyle(ThemeOptions options)
         {
-            switch (options)
+            return options switch
             {
-                case ThemeOptions.Success:
-                    return ControlSuccessBackColor;
-
-                case ThemeOptions.Warning:
-                    return ControlWarningBackColor;
-
-                case ThemeOptions.Error:
-                    return ControlErrorBackColor;
-
-                default:
-                    return ControlBackColor;
-            }
+                ThemeOptions.Success => ControlSuccessBackColor,
+                ThemeOptions.Warning => ControlWarningBackColor,
+                ThemeOptions.Error => ControlErrorBackColor,
+                _ => ControlBackColor,
+            };
         }
 
         private Color GetForegroundColorForStyle(ThemeOptions options, bool disabled)
         {
-            double opacity = disabled ? 0.38 : 1.0;
-            Color baseColor;
-            switch (options)
+            var baseColor = options switch
             {
-                case ThemeOptions.Success:
-                    baseColor = ControlSuccessForeColor;
-                    break;
-
-                case ThemeOptions.Warning:
-                    baseColor = ControlWarningForeColor;
-                    break;
-
-                case ThemeOptions.Error:
-                    baseColor = ControlErrorForeColor;
-                    break;
-
-                case ThemeOptions.Hint:
-                    opacity = 0.6;
-                    baseColor = ControlForeColor;
-                    break;
-
-                default:
-                    baseColor = ControlForeColor;
-                    break;
-            }
+                ThemeOptions.Success => ControlSuccessForeColor,
+                ThemeOptions.Warning => ControlWarningForeColor,
+                ThemeOptions.Error => ControlErrorForeColor,
+                ThemeOptions.Hint => ControlForeColor,
+                _ => ControlForeColor,
+            };
 
             // HSL lightness value 0 = black, 1 = white
             if (disabled)

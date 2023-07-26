@@ -1,0 +1,105 @@
+﻿using WinFormsThemes.Utilities;
+
+namespace WinFormsThemes
+{
+    /// <summary>
+    /// registry for all Themes
+    /// </summary>
+    public class ThemeRegistry : IThemeRegistry
+    {
+        /// <summary>
+        /// dictionary of all themes
+        /// </summary>
+        private readonly Dictionary<string, ITheme> _themes;
+
+        /// <summary>
+        /// the current theme
+        /// </summary>
+        private ITheme? _current = null;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="themes">all available themes</param>
+        public ThemeRegistry(Dictionary<string, ITheme> themes)
+        {
+            _themes = themes;
+        }
+
+        /// <summary>
+        /// Event triggers on Theme Change
+        /// </summary>
+        public event EventHandler? OnThemeChanged;
+
+        public ITheme? Current
+        {
+            get
+            {
+                _current ??= Get();
+                return _current;
+            }
+            set
+            {
+                _current = value;
+                OnThemeChanged?.Invoke(value, EventArgs.Empty);
+            }
+        }
+
+        public ITheme? Get()
+        {
+            return Get(GetThemeCaps());
+        }
+
+        public ITheme? Get(string name)
+        {
+            return _themes.ContainsKey(name) ? _themes[name] : null;
+        }
+
+        public ITheme? Get(ThemeCapabilities caps)
+        {
+            return _themes.Values.FirstOrDefault(t => (t.Capabilities & caps) == caps);
+        }
+
+        public List<ITheme> List()
+        {
+            return _themes.Values.ToList();
+        }
+
+        public List<string> ListNames()
+        {
+            return _themes.Keys.ToList();
+        }
+
+        /// <summary>
+        /// return the theme capabilities
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        private static ThemeCapabilities GetThemeCaps(bool dark, bool highContrast)
+        {
+            ThemeCapabilities caps = ThemeCapabilities.None;
+            if (dark)
+            {
+                caps |= ThemeCapabilities.DarkMode;
+            }
+            else
+            {
+                caps |= ThemeCapabilities.LightMode;
+            }
+            if (highContrast)
+            {
+                caps |= ThemeCapabilities.HighContrast;
+            }
+            return caps;
+        }
+
+        /// <summary>
+        /// return the theme capabilities as configured by the user
+        /// </summary>
+        /// <returns></returns>
+        private static ThemeCapabilities GetThemeCaps()
+        {
+            return GetThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
+        }
+    }
+}

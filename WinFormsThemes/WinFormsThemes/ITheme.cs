@@ -1,4 +1,6 @@
-﻿namespace WinFormsThemes
+﻿using WinFormsThemes.Themes;
+
+namespace WinFormsThemes
 {
     /// <summary>
     /// Base class for all themes
@@ -19,6 +21,12 @@
         /// the name of the theme
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// supports styling of custom controls without reimplementing the whole theme
+        /// </summary>
+        IDictionary<Type, IThemePlugin> ThemePlugins { get; set; }
+
         /// <summary>
         /// apply this theme to the given form
         /// </summary>

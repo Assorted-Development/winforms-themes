@@ -13,7 +13,7 @@ namespace WinFormsThemes
         /// </summary>
         private const string RES_THEME_PREFIX = "CONFIG_THEMING_THEME_";
 
-        public int Order => 10;
+        public int Order => Int32.MinValue;
 
         public List<ITheme> Lookup()
         {

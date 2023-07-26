@@ -17,16 +17,23 @@ This project adds support for themes in .NET WinForms applications. This project
   * [Contributions](#contributions)
 
 ## Usage
-To use this project, you need to add a reference to our nuget package (`dotnet add package AssortedDevelopment.WinFormsThemes`) first. The easiest way to use our themes is to add a single line in the `OnLoad` in all forms to be themed:
+To use this project, you need to add a reference to our nuget package (`dotnet add package AssortedDevelopment.WinFormsThemes`) first.
+
+Next, you need to configure the themes:
 ```csharp
-ThemeRegistry.Current.Apply(this);
+IThemeRegistry.BUILDER.Build();
+```
+This uses the default settings to lookup the themes and register the theme in the `ThemeRegistryHolder`.
+
+At last, you need to add a single line in the `OnLoad` in all forms to be themed:
+```csharp
+ThemeRegistryHolder.ThemeRegistry.Current.Apply(this);
 ```
 
 This line of code will:
 1. check the operating system for the user settings on dark mode and high contrast
-2. Load all available themes
-3. Look for a theme matching the settings for dark mode and high contrast
-4. use the first theme found as your current theme
+2. Look for a theme matching the settings for dark mode and high contrast
+3. use the first theme found as your current theme
 
 Last but not least, this will also apply this theme on the given Form and all children.
 
@@ -35,12 +42,12 @@ Of course, you can extend this library and customize the handling to fit your ne
 
 ### Customize theme selection
 By default, our library will honor the settings of the operating system in regard to dark mode and high contrast. If you want to add additional selection criteria or you want to give the user an option to override this selection you can do that easily.
-Instead of relying on the default settings in `ThemeRegistry.Get()` which is implicitly called by `ThemeRegistry.Current` when no current theme was set you can set `ThemeRegistry.Current` to any theme you want:
+Instead of relying on the default settings in `IThemeRegistry.Get()` which is implicitly called by `IThemeRegistry.Current` when no current theme was set you can set `IThemeRegistry.Current` to any theme you want:
 ```csharp
-List<ITheme> allThemes = ThemeRegistry.List();
+List<ITheme> allThemes = ThemeRegistryHolder.ThemeRegistry.List();
 ITheme selectedTheme = null;
 //logic to select theme here
-ThemeRegistry.Current = selectedTheme;
+ThemeRegistryHolder.ThemeRegistry.Current = selectedTheme;
 ```
 
 ### Add custom themes
@@ -91,6 +98,16 @@ The prefered way is to subclass `AbstractTheme` as you just need to implement th
 
 The more advanced way is implementing the `ITheme` interface. This only supports the basic infrastructure like theme capabilities but the styling is completely in your hands.
 
+The views can be added by either implementing an `IThemeLookup` (see below) or by adding it directly to the builder:
+```csharp
+IThemeRegistry.BUILDER
+    .WithThemes()
+        .AddDefaultThemes()
+        .AddTheme(new MySuperDarkTheme())
+        .CompleteThemeList()
+    .Build();
+```
+
 ### Add custom theme source
 If you want to add another theme source besides files and resources (e.g. when implementing custom `ITheme` or `AbstractTheme` implementations) or you just want to change the folder path, you can add a custom `IThemeLookup` implementation which handles the search for available themes:
 ```csharp
@@ -107,9 +124,15 @@ If you want to add another theme source besides files and resources (e.g. when i
     }
 }
 ```
-After this, you need to register this class using `ThemeRegistry.AddThemeLookupPlugin(new MyThemeLookup());`.
-
-**Note: This has to be done BEFORE any call to `ThemeRegistry.Current`, `ThemeRegistry.Get` or `ThemeRegistry.List` is done, otherwise the list of themes would already be created and the call to `AddThemeLookupPlugin` would fail.**
+After this, you need to register this class in the builder:
+```csharp
+ IThemeRegistry.BUILDER
+     .WithThemes()
+         .AddDefaultThemes()
+         .FromLookup()
+         .CompleteThemeList()
+     .Build();
+```
 
 ### Add third-party controls theme support
 As we do not want to force you to use a specific WinForms control library, we currently only support styling of standard controls and controls from our [winforms-stylable-controls](https://github.com/Assorted-Development/winforms-stylable-controls) project.
@@ -124,11 +147,14 @@ As we understand you may want to also style other controls, we support adding sp
         }
     }
 ```
-At last, you just need to register it for the correct type: `ThemeRegistry.AddThemePlugin<MyCustomControl>(new MyCustomControlThemePlugin());`. This will execute your code whenever a `Control` of the type `MyCustomControl` is detected.
+At last, you just need to register it for the correct type:
+```csharp
+ IThemeRegistry.BUILDER
+     .AddThemePlugin<MyCustomControl>(new MyCustomControlThemePlugin())
+     .Build();
+```
 
-**Note 1: those plugins do NOT work if you implemented a custom Theme based on `ITheme` instead of `AbstractTheme`. As you are completely free with implementing the `ITheme` interface, we expect you to handle your custom controls too.**
-
-**Note 2: Currently, we only support directly registered types. Subclasses will not be styled!**
+**Note: Currently, we only support directly registered types. Subclasses will not be styled!**
 
 ## Contributions
 
