@@ -1,17 +1,17 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET Pre-Release
+name: Pullrequest
 
 on:
-  push:
-    branches: [ "main" ]
+  pull_request:
 
 jobs:
   build:
     permissions:
       contents: write
       checks: write
+      pull-requests: write
     runs-on: windows-latest
 
     steps:
@@ -32,16 +32,22 @@ jobs:
         report_title: Unittests
         set_check_status_from_test_outcome: true
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: "marvinpinto/action-automatic-releases@latest"
+    - name: Test Coverage
+      run: dotnet test WinFormsThemes/TestProject --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+    - uses: 5monkeys/cobertura-action@master
       with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
-        files: |
+        path: ./coverage/**/coverage.cobertura.xml
+        minimum_coverage: 80
+    - name: Upload Artifact
+      id: upload
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: build-output
+        path: |
           LICENSE
           WinFormsThemes/WinFormsThemes/bin/Debug/net6.0-windows/WinFormsThemes.dll
           WinFormsThemes/WinFormsThemes/bin/Debug/*.nupkg
           WinFormsThemes/WinFormsThemes/bin/Debug/*.snupkg
-      
+        if-no-files-found: error
+
       
