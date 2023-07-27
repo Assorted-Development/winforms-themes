@@ -12,9 +12,26 @@ This project adds support for themes in .NET WinForms applications. This project
 # ToC
 * [WinForms Themes](#winforms-themes)
   * [License](#license)
+  * [Development](#development)
   * [Usage](#usage)
   * [Extended Usage](#extended-usage)
   * [Contributions](#contributions)
+
+## Development
+
+### Test Coverage
+First, install the reportgenerator tool:
+```
+dotnet tool install -g dotnet-reportgenerator-globaltool
+```
+
+The test coverage report can then be created using:
+```
+rmdir /s /q WinFormsThemes\TestProject\TestResults
+dotnet test WinFormsThemes/TestProject --no-build --verbosity normal --collect:"XPlat Code Coverage"
+reportgenerator -reports:WinFormsThemes\TestProject\TestResults\*\coverage.cobertura.xml -targetdir:WinFormsThemes\TestProject\TestResults\html -reporttypes:Html -sourcedirs:WinFormsThemes\WinFormsThemes
+```
+
 
 ## Usage
 To use this project, you need to add a reference to our nuget package (`dotnet add package AssortedDevelopment.WinFormsThemes`) first.
