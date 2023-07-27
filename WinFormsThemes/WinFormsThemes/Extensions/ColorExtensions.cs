@@ -1,4 +1,8 @@
-﻿namespace WinFormsThemes.Extensions
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("TestProject")]
+
+namespace WinFormsThemes.Extensions
 {
     internal static class ColorExtensions
     {

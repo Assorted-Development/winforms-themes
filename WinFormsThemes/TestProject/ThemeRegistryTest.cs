@@ -37,5 +37,25 @@ namespace TestProject
             registry.Current = registry.Get();
             Assert.IsFalse(fired);
         }
+
+        [TestMethod]
+        public void TestGetThemeByName()
+        {
+            var registry = IThemeRegistry.BUILDER
+                            .Build();
+            var theme = registry.Get("DARK_HIGH_CONTRAST");
+            Assert.IsNotNull(theme);
+            Assert.AreEqual(ThemeCapabilities.DarkMode, theme.Capabilities & ThemeCapabilities.DarkMode);
+            Assert.AreEqual(ThemeCapabilities.HighContrast, theme.Capabilities & ThemeCapabilities.HighContrast);
+        }
+
+        [TestMethod]
+        public void TestListThemes()
+        {
+            var registry = IThemeRegistry.BUILDER
+                            .Build();
+            var themes = registry.List();
+            Assert.IsTrue(themes.Count > 0);
+        }
     }
 }
