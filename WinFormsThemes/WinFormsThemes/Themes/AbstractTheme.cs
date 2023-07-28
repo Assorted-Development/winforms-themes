@@ -113,6 +113,11 @@ namespace WinFormsThemes.Themes
 
         public void Apply(Form form)
         {
+            Apply(form, ThemeOptions.None);
+        }
+
+        public void Apply(Form form, ThemeOptions options)
+        {
             form.SuspendLayout();
 
             DarkWindowsTheme.UseImmersiveDarkMode(form.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));

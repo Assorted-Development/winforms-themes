@@ -34,6 +34,12 @@ namespace WinFormsThemes
         void Apply(Form form);
 
         /// <summary>
+        /// apply this theme to the given form
+        /// </summary>
+        /// <param name="form"></param>
+        void Apply(Form control, ThemeOptions options);
+
+        /// <summary>
         /// apply this theme to the given control
         /// </summary>
         /// <param name="control"></param>
