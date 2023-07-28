@@ -1,4 +1,5 @@
-﻿using System.Drawing.Imaging;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 
 namespace WinFormsThemes.Themes.ToolStrip;
@@ -13,8 +14,12 @@ internal class ThemedToolStripRenderer : ToolStripProfessionalRenderer
         TextColorDisabled = textColorDisabled;
     }
 
+    [ExcludeFromCodeCoverage]
     private Color TextColorDisabled { get; }
+
+    [ExcludeFromCodeCoverage]
     private Color TextColorEnabled { get; }
+
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
         ToolStripItem item = e.Item;

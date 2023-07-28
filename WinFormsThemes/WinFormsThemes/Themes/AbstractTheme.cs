@@ -1,4 +1,5 @@
 ﻿using StylableWinFormsControls;
+using System.Diagnostics.CodeAnalysis;
 using WinFormsThemes.Themes.ToolStrip;
 using WinFormsThemes.Utilities;
 
@@ -14,9 +15,16 @@ namespace WinFormsThemes.Themes
         /// </summary>
         public virtual IList<String> AdvancedCapabilities => Array.Empty<String>();
 
+        [ExcludeFromCodeCoverage]
         public abstract Color BackgroundColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ButtonBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ButtonForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ButtonHoverColor { get; }
 
         /// <summary>
@@ -24,22 +32,55 @@ namespace WinFormsThemes.Themes
         /// </summary>
         public abstract ThemeCapabilities Capabilities { get; }
 
+        [ExcludeFromCodeCoverage]
         public virtual Color ComboBoxItemBackColor => ControlHighlightColor;
+
+        [ExcludeFromCodeCoverage]
         public virtual Color ComboBoxItemHoverColor => GetSoftenedColor(ControlHighlightColor, true);
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public virtual Color ControlBorderColor => ControlHighlightColor;
+
+        [ExcludeFromCodeCoverage]
         public virtual Color ControlBorderLightColor => ControlBorderColor;
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlErrorBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlErrorForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlHighlightColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
+
+        [ExcludeFromCodeCoverage]
         public virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlSuccessBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlSuccessForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlWarningBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ControlWarningForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public abstract Color ForegroundColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public virtual Color ListViewHeaderGroupColor => GetSoftenedColor(ControlHighlightColor, true);
 
         /// <summary>
@@ -47,11 +88,22 @@ namespace WinFormsThemes.Themes
         /// </summary>
         public abstract string Name { get; }
 
+        [ExcludeFromCodeCoverage]
         public virtual Color TableBackColor => ControlBackColor;
+
+        [ExcludeFromCodeCoverage]
         public virtual Color TableCellBackColor => TableBackColor;
+
+        [ExcludeFromCodeCoverage]
         public virtual Color TableCellForeColor => ControlForeColor;
+
+        [ExcludeFromCodeCoverage]
         public virtual Color TableHeaderBackColor => TableBackColor;
+
+        [ExcludeFromCodeCoverage]
         public virtual Color TableHeaderForeColor => ControlForeColor;
+
+        [ExcludeFromCodeCoverage]
         public virtual Color TableSelectionBackColor => ControlHighlightColor;
 
         /// <summary>
@@ -197,7 +249,7 @@ namespace WinFormsThemes.Themes
 
             foreach (Control child in control.Controls)
             {
-                Apply(child);
+                Apply(child, options);
             }
         }
 

@@ -74,6 +74,10 @@ namespace TestProject
         public void TestControlStylableLabel()
         {
             TestControl(new StylableLabel() { Text = "Test" });
+            TestControl(new StylableLabel() { Text = "Hint" }, ThemeOptions.Hint);
+            TestControl(new StylableLabel() { Text = "Success" }, ThemeOptions.Success);
+            TestControl(new StylableLabel() { Text = "Warning" }, ThemeOptions.Warning);
+            TestControl(new StylableLabel() { Text = "Error" }, ThemeOptions.Error);
         }
 
         [TestMethod]
@@ -123,7 +127,7 @@ namespace TestProject
             TestControl(treeView);
         }
 
-        private static void TestControl(Control c)
+        private static void TestControl(Control c, ThemeOptions options = ThemeOptions.None)
         {
             //create a form and add the control to it
             var form = new Form();
@@ -134,22 +138,22 @@ namespace TestProject
             //make sure that the control is visible as some code(e.g. ToolStrip) does not apply
             // the theme until the control is visible
             form.Show();
-            TestWithTheme(form, registry.Get(ThemeCapabilities.LightMode));
-            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode));
-            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast));
+            TestWithTheme(form, registry.Get(ThemeCapabilities.LightMode), options);
+            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode), options);
+            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast), options);
             //close the form but allow the control to be reused
             form.Controls.Remove(c);
             form.Close();
         }
 
-        private static void TestWithTheme(Form form, ITheme? theme)
+        private static void TestWithTheme(Form form, ITheme? theme, ThemeOptions options = ThemeOptions.None)
         {
             if (theme == null)
             {
                 return;
             }
             //apply the theme
-            theme.Apply(form);
+            theme.Apply(form, options);
             //make sure that the control stays visible visible as some code(e.g. ToolStrip) does not apply
             // the theme until the control is visible and events are processed
             for (int i = 0; i < 10; i++)

@@ -105,7 +105,7 @@ namespace WinFormsThemes
         {
             if (_themes.ContainsKey(theme.Name))
             {
-                throw new ArgumentException($"Theme with name {theme.Name} already exists");
+                throw new InvalidOperationException($"Theme with name {theme.Name} already exists");
             }
             _themes.Add(theme.Name, theme);
             return this;

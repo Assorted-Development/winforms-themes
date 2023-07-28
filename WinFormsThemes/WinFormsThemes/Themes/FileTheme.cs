@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 using WinFormsThemes.Extensions;
 
 namespace WinFormsThemes.Themes
@@ -99,35 +100,94 @@ namespace WinFormsThemes.Themes
             }
         }
 
+        [ExcludeFromCodeCoverage]
         public override IList<string> AdvancedCapabilities { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color BackgroundColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ButtonBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ButtonForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ButtonHoverColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override ThemeCapabilities Capabilities { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ComboBoxItemBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ComboBoxItemHoverColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlBorderColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlBorderLightColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlErrorBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlErrorForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlHighlightColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlHighlightDarkColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlHighlightLightColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlSuccessBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlSuccessForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlWarningBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlWarningForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ForegroundColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ListViewHeaderGroupColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override string Name { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableCellBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableCellForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableHeaderBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableHeaderForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableSelectionBackColor { get; }
 
         /// <summary>
