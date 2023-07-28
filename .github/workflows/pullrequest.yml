@@ -37,6 +37,10 @@ jobs:
     - uses: 5monkeys/cobertura-action@master
       with:
         path: ./coverage/**/coverage.cobertura.xml
+        skip_covered: false
+        show_missing: true
+        link_missing_lines: true
+        link_missing_lines_source_dir: WinFormsThemes/WinFormsThemes
         minimum_coverage: 80
     - name: Upload Artifact
       id: upload
