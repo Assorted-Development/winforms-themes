@@ -131,5 +131,70 @@ namespace TestProject.Properties {
                 return ResourceManager.GetString("CONFIG_THEMING_THEME_RESOURCE_TEST.theme", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {
+        ///	&quot;name&quot;: &quot;theme-name&quot;,
+        ///	&quot;version&quot;: 2,
+        ///	&quot;colors&quot;: {
+        ///		&quot;backColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;foreColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;buttonBackColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;buttonForeColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;buttonHoverColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;comboBoxItemBackColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;comboBoxItemHoverColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlBackColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlForeColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlHighlightColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlHighlightLightColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlHighlightDarkColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlBorderColor&quot;: &quot;#08 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string MISSING_CAPS {
+            get {
+                return ResourceManager.GetString("MISSING_CAPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {
+        ///	&quot;name&quot;: &quot;theme-name&quot;,
+        ///	&quot;capabilities&quot;: [&quot;DarkMode&quot;, &quot;HighContrast&quot;],
+        ///	&quot;version&quot;: 2,
+        ///	&quot;colors&quot;: {
+        ///	}
+        ///} ähnelt.
+        /// </summary>
+        internal static string MISSING_COLORS {
+            get {
+                return ResourceManager.GetString("MISSING_COLORS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {
+        ///	&quot;capabilities&quot;: [&quot;DarkMode&quot;, &quot;HighContrast&quot;],
+        ///	&quot;version&quot;: 2,
+        ///	&quot;colors&quot;: {
+        ///		&quot;backColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;foreColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;buttonBackColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;buttonForeColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;buttonHoverColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;comboBoxItemBackColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;comboBoxItemHoverColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlBackColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlForeColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlHighlightColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlHighlightLightColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;controlHighlightDarkColor&quot;: &quot;#082a56&quot;,
+        ///		&quot;c [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string MISSING_NAME {
+            get {
+                return ResourceManager.GetString("MISSING_NAME", resourceCulture);
+            }
+        }
     }
 }

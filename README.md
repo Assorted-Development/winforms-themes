@@ -30,7 +30,7 @@ The test coverage report can then be created using:
 rmdir /s /q WinFormsThemes\TestProject\TestResults
 dotnet test WinFormsThemes/TestProject --no-build --verbosity normal --collect:"XPlat Code Coverage"
 reportgenerator -reports:WinFormsThemes\TestProject\TestResults\*\coverage.cobertura.xml -targetdir:WinFormsThemes\TestProject\TestResults\html -reporttypes:Html -sourcedirs:WinFormsThemes\WinFormsThemes
-WinFormsThemes\TestProject\TestResults\html
+start "" WinFormsThemes\TestProject\TestResults\html\index.html
 ```
 
 
