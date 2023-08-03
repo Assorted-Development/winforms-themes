@@ -10,10 +10,12 @@
 
   <ItemGroup>
     <None Remove="Resources\CONFIG_THEMING_THEME_RESOURCE_TEST_2.theme.json" />
+    <None Remove="Resources\CUSTOM_THEMING_PREFIX_TEST.theme.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\CONFIG_THEMING_THEME_RESOURCE_TEST_2.theme.json" />
+    <EmbeddedResource Include="Resources\CUSTOM_THEMING_PREFIX_TEST.theme.json" />
   </ItemGroup>
 
   <ItemGroup>

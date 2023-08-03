@@ -129,6 +129,18 @@ namespace WinFormsThemes
             return this;
         }
 
+        public IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null)
+        {
+            _lookups.Add(new FileThemeLookup(themeFolder));
+            return this;
+        }
+
+        public IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null)
+        {
+            _lookups.Add(new ResourceThemeLookup(resourcePrefix));
+            return this;
+        }
+
         /// <summary>
         /// Build the final list of themes
         /// </summary>

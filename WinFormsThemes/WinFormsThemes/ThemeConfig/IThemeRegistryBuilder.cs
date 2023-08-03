@@ -49,10 +49,22 @@ namespace WinFormsThemes
         IThemeRegistryBuilder CompleteThemeList();
 
         /// <summary>
-        /// Adds all themes from FileSystemThemeLookup and EmbeddedResourceThemeLookup
+        /// Adds all themes from FileSystemThemeLookup and ResourceThemeLookup
         /// </summary>
         /// <returns></returns>
         IThemeRegistryThemeListBuilder FromDefaultLookups();
+        /// <summary>
+        /// adds ResourceThemeLookup to the list of lookups
+        /// </summary>
+        /// <param name="resourcePrefix">the prefix to detect the themes in the resources. If not set, the default will be used</param>
+        /// <returns></returns>
+        IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null);
+        /// <summary>
+        /// adds FileSystemThemeLookup to the list of lookups
+        /// </summary>
+        /// <param name="themeFolder">the folder to search for the themes. If not set, the default will be used</param>
+        /// <returns></returns>
+        IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null);
 
         /// <summary>
         /// Adds custom themes from the given source

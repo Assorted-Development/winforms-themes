@@ -14,6 +14,21 @@ namespace WinFormsThemes
         /// </summary>
         private const string RES_THEME_PREFIX = "CONFIG_THEMING_THEME_";
 
+        private readonly string _resThemePrefix;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="prefix">the prefix to detect the themes in the resources</param>
+        public ResourceThemeLookup(string? prefix = null)
+        {
+            if (prefix == null)
+            {
+                prefix = RES_THEME_PREFIX;
+            }
+            _resThemePrefix = prefix;
+        }
+
         public int Order => Int32.MinValue;
 
         public List<ITheme> Lookup()
@@ -35,7 +50,7 @@ namespace WinFormsThemes
                 }
                 foreach (string res in a.GetManifestResourceNames())
                 {
-                    if (res.Contains(RES_THEME_PREFIX))
+                    if (res.Contains(_resThemePrefix))
                     {
                         ITheme? theme;
                         using (Stream? stream = a.GetManifestResourceStream(res))
@@ -73,13 +88,13 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        private static List<ITheme> HandleResource(Stream stream)
+        private List<ITheme> HandleResource(Stream stream)
         {
             using var resourceReader = new System.Resources.ResourceReader(stream);
             List<ITheme> results = new();
             foreach (DictionaryEntry entry in resourceReader)
             {
-                if (entry.Key is string key && key.StartsWith(RES_THEME_PREFIX))
+                if (entry.Key is string key && key.StartsWith(_resThemePrefix))
                 {
                     if (entry.Value is string value)
                     {

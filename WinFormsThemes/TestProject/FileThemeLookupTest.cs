@@ -48,5 +48,25 @@ namespace TestProject
             var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "Error");
             Assert.IsNull(theme);
         }
+
+        [TestMethod]
+        public void CheckDifferentFolderHandling()
+        {
+            if (Directory.Exists("themes"))
+            {
+                Directory.Delete("themes", true);
+            }
+            var dir = Directory.CreateDirectory("themes2");
+            File.WriteAllText("themes2\\test.theme.json", Resources.CONFIG_THEMING_THEME_FILE_TEST_theme);
+
+            var registry = IThemeRegistry.BUILDER
+                .WithThemes()
+                    .WithFileLookup(dir)
+                    .CompleteThemeList()
+                .Build();
+            var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "OK");
+            Assert.IsNotNull(theme);
+            Assert.AreEqual("file-ok-test", theme.Name);
+        }
     }
 }
