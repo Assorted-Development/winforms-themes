@@ -172,7 +172,7 @@ At last, you just need to register it for the correct type:
      .Build();
 ```
 
-**Note: Currently, we only support directly registered types. Subclasses will not be styled!**
+**Note: Currently, we only support directly registered types. Subclasses will not be styled automatically!**
 
 ## Contributions
 
