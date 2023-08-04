@@ -25,6 +25,11 @@ First, install the reportgenerator tool:
 dotnet tool install -g dotnet-reportgenerator-globaltool
 ```
 
+Next, build a debug version of the project:
+```
+dotnet build WinFormsThemes/WinFormsThemes.sln -c Debug
+```
+
 The test coverage report can then be created using:
 ```
 rmdir /s /q WinFormsThemes\TestProject\TestResults
