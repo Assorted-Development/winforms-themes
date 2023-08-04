@@ -13,8 +13,8 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                             .AddThemePlugin<Button>(new ThemePlugin())
                             .Build();
-            Assert.AreEqual(1, registry.Current?.ThemePlugins?.Count);
-            Assert.AreEqual(typeof(ThemePlugin), registry.Current?.ThemePlugins?[typeof(Button)]?.GetType());
+            Assert.AreEqual(1, registry.Get()?.ThemePlugins?.Count);
+            Assert.AreEqual(typeof(ThemePlugin), registry.Get()?.ThemePlugins?[typeof(Button)]?.GetType());
         }
 
         [TestMethod]

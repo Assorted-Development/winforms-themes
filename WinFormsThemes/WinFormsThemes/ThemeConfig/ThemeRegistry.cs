@@ -35,7 +35,6 @@ namespace WinFormsThemes
         {
             get
             {
-                _current ??= Get();
                 return _current;
             }
             set

@@ -46,9 +46,10 @@ To use this project, you need to add a reference to our nuget package (`dotnet a
 
 Next, you need to configure the themes:
 ```csharp
-ThemeRegistryHolder.ThemeRegistry.Current = IThemeRegistry.BUILDER.Build();
+ThemeRegistryHolder.ThemeRegistry = IThemeRegistry.BUILDER.Build();
+ThemeRegistryHolder.ThemeRegistry.Current = ThemeRegistryHolder.ThemeRegistry.Get();
 ```
-This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes and register the theme in the `ThemeRegistryHolder`.
+This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes, register the theme in the `ThemeRegistryHolder` and use the standard theme as default.
 
 At last, you need to add a single line in the `Load` event of all forms to be themed:
 ```csharp
@@ -67,7 +68,7 @@ Of course, you can extend this library and customize the handling to fit your ne
 
 ### Customize theme selection
 By default, our library will honor the settings of the operating system in regard to dark mode and high contrast. If you want to add additional selection criteria or you want to give the user an option to override this selection you can do that easily.
-Instead of relying on the default settings in `IThemeRegistry.Get()` which is implicitly called by `IThemeRegistry.Current` when no current theme was set you can set `IThemeRegistry.Current` to any theme you want:
+Instead of relying on the default settings in `IThemeRegistry.Get()` you can set `IThemeRegistry.Current` to any theme you want:
 ```csharp
 List<ITheme> allThemes = ThemeRegistryHolder.ThemeRegistry.List();
 ITheme selectedTheme = null;
