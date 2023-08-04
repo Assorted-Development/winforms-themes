@@ -5,7 +5,7 @@ namespace WinFormsThemes
     /// <summary>
     /// registry for all Themes
     /// </summary>
-    public class ThemeRegistry : IThemeRegistry
+    internal class ThemeRegistry : IThemeRegistry
     {
         /// <summary>
         /// dictionary of all themes
