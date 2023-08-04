@@ -111,7 +111,7 @@ namespace WinFormsThemes
             return this;
         }
 
-        public IThemeRegistryBuilder CompleteThemeList()
+        public IThemeRegistryBuilder FinishThemeList()
         {
             return _parent;
         }

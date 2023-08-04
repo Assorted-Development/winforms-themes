@@ -14,7 +14,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
                     .FromLookup(new FileThemeLookup())
-                    .CompleteThemeList()
+                    .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "OK");
             Assert.IsNotNull(theme);
@@ -28,7 +28,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
                     .FromLookup(new FileThemeLookup())
-                    .CompleteThemeList()
+                    .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "Error");
             Assert.IsNull(theme);
@@ -43,7 +43,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
                     .FromLookup(new FileThemeLookup())
-                    .CompleteThemeList()
+                    .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "Error");
             Assert.IsNull(theme);
@@ -62,7 +62,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
                     .WithFileLookup(dir)
-                    .CompleteThemeList()
+                    .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "OK");
             Assert.IsNotNull(theme);

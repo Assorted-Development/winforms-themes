@@ -11,7 +11,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
                     .FromLookup(new ResourceThemeLookup())
-                    .CompleteThemeList()
+                    .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-Embedded");
             Assert.IsNotNull(theme);
@@ -24,7 +24,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
                     .FromLookup(new ResourceThemeLookup())
-                    .CompleteThemeList()
+                    .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);
@@ -37,7 +37,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
                     .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
-                    .CompleteThemeList()
+                    .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);

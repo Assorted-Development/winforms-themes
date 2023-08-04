@@ -46,7 +46,7 @@ namespace WinFormsThemes
         /// this completes the theme list
         /// </summary>
         /// <returns></returns>
-        IThemeRegistryBuilder CompleteThemeList();
+        IThemeRegistryBuilder FinishThemeList();
 
         /// <summary>
         /// Adds all themes from FileSystemThemeLookup and ResourceThemeLookup

@@ -40,7 +40,7 @@ namespace TestProject
             var registry = IThemeRegistry.BUILDER
                             .WithThemes()
                                 .AddTheme(new DefaultDarkTheme())
-                            .CompleteThemeList();
+                            .FinishThemeList();
             Assert.ThrowsException<InvalidOperationException>(() => registry.WithThemes());
         }
 
