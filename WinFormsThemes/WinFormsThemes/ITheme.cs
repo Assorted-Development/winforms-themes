@@ -23,7 +23,7 @@ namespace WinFormsThemes
         string Name { get; }
 
         /// <summary>
-        /// supports styling of custom controls without reimplementing the whole theme
+        /// Gets or sets a dictionary of plugins which support styling of custom controls without reimplementing the whole theme
         /// </summary>
         IDictionary<Type, IThemePlugin> ThemePlugins { get; set; }
 
