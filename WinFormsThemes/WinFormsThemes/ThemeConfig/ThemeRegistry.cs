@@ -27,7 +27,7 @@ namespace WinFormsThemes
         }
 
         /// <summary>
-        /// Event triggers on Theme Change
+        /// Event that gets triggered when the <see cref="Current"/> theme has changed
         /// </summary>
         public event EventHandler? OnThemeChanged;
 
