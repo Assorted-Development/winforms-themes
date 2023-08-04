@@ -107,7 +107,6 @@ namespace WinFormsThemes
                 }
             }
             return results;
-            //dispose
         }
     }
 }
