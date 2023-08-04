@@ -9,6 +9,7 @@
         /// the builder to create a new IThemeRegistry
         /// </summary>
         public static IThemeRegistryBuilder GetBuilder() => new ThemeRegistryBuilder();
+        
         /// <summary>
         /// the instance of <see cref="IThemeRegistry"/> the <see cref="ThemeRegistryHolder"/> currently holds.
         /// </summary>
