@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 using WinFormsThemes.Extensions;
 
 namespace WinFormsThemes.Themes
@@ -14,12 +15,23 @@ namespace WinFormsThemes.Themes
         /// <param name="doc">the doc to load from</param>
         private FileTheme(JsonNode doc)
         {
-            Name = (string)doc["name"];
-            JsonArray caps = (JsonArray)doc["capabilities"];
-            List<String> advancedCaps = new List<string>();
-            foreach (string s in caps)
+            string? name = (string?)doc["name"];
+            //require Name to be not null
+            if (name == null || name.Length == 0)
             {
-                ThemeCapabilities tmp;
+                throw new ArgumentException("Theme name is mandatory");
+            }
+            Name = name;
+            JsonArray? caps = (JsonArray?)doc["capabilities"];
+            //require Name to be not null
+            if (caps == null || caps.Count == 0)
+            {
+                throw new ArgumentException("at least one capability must be set");
+            }
+            List<String> advancedCaps = new();
+            foreach (string? s in caps.Select(node => (string?)node))
+            {
+                if (s == null) continue;
                 if (Enum.IsDefined(typeof(ThemeCapabilities), s))
                 {
                     Capabilities |= Enum.Parse<ThemeCapabilities>(s);
@@ -33,26 +45,26 @@ namespace WinFormsThemes.Themes
 
             //use the theme version to update the configured colors if necessary
             //e.g. when a new version adds a new color you may calculate the missing value from the existing ones
-            int themeVersion = (int)doc["version"];
+            int themeVersion = ((int?)doc["version"]) ?? 1;
             if (themeVersion >= 1)
             {
-                BackgroundColor = ((string)doc["colors"]["backColor"]).ToColor();
-                ForegroundColor = ((string)doc["colors"]["foreColor"]).ToColor();
+                BackgroundColor = ((string?)doc["colors"]?["backColor"]).ToColor();
+                ForegroundColor = ((string?)doc["colors"]?["foreColor"]).ToColor();
 
-                ControlBackColor = ((string)doc["colors"]["controlBackColor"]).ToColor();
-                ControlForeColor = ((string)doc["colors"]["controlForeColor"]).ToColor();
-                ControlHighlightColor = ((string)doc["colors"]["controlHighlightColor"]).ToColor();
+                ControlBackColor = ((string?)doc["colors"]?["controlBackColor"]).ToColor();
+                ControlForeColor = ((string?)doc["colors"]?["controlForeColor"]).ToColor();
+                ControlHighlightColor = ((string?)doc["colors"]?["controlHighlightColor"]).ToColor();
 
-                ButtonBackColor = ((string)doc["colors"]["buttonBackColor"]).ToColor();
-                ButtonForeColor = ((string)doc["colors"]["buttonForeColor"]).ToColor();
-                ButtonHoverColor = ((string)doc["colors"]["buttonHoverColor"]).ToColor();
+                ButtonBackColor = ((string?)doc["colors"]?["buttonBackColor"]).ToColor();
+                ButtonForeColor = ((string?)doc["colors"]?["buttonForeColor"]).ToColor();
+                ButtonHoverColor = ((string?)doc["colors"]?["buttonHoverColor"]).ToColor();
 
-                ControlSuccessBackColor = ((string)doc["colors"]["successBackColor"]).ToColor();
-                ControlSuccessForeColor = ((string)doc["colors"]["successForeColor"]).ToColor();
-                ControlWarningBackColor = ((string)doc["colors"]["warningBackColor"]).ToColor();
-                ControlWarningForeColor = ((string)doc["colors"]["warningForeColor"]).ToColor();
-                ControlErrorBackColor = ((string)doc["colors"]["errorBackColor"]).ToColor();
-                ControlErrorForeColor = ((string)doc["colors"]["errorForeColor"]).ToColor();
+                ControlSuccessBackColor = ((string?)doc["colors"]?["successBackColor"]).ToColor();
+                ControlSuccessForeColor = ((string?)doc["colors"]?["successForeColor"]).ToColor();
+                ControlWarningBackColor = ((string?)doc["colors"]?["warningBackColor"]).ToColor();
+                ControlWarningForeColor = ((string?)doc["colors"]?["warningForeColor"]).ToColor();
+                ControlErrorBackColor = ((string?)doc["colors"]?["errorBackColor"]).ToColor();
+                ControlErrorForeColor = ((string?)doc["colors"]?["errorForeColor"]).ToColor();
 
                 //backwards compatibility for themes V2
                 TableBackColor = ControlBackColor;
@@ -72,52 +84,112 @@ namespace WinFormsThemes.Themes
             if (themeVersion >= 2)
 
             {
-                TableBackColor = ((string)doc["colors"]["tableBackColor"]).ToColor();
-                TableHeaderBackColor = ((string)doc["colors"]["tableHeaderBackColor"]).ToColor();
-                TableHeaderForeColor = ((string)doc["colors"]["tableHeaderForeColor"]).ToColor();
-                TableSelectionBackColor = ((string)doc["colors"]["tableSelectionBackColor"]).ToColor();
-                TableCellBackColor = ((string)doc["colors"]["tableCellBackColor"]).ToColor();
-                TableCellForeColor = ((string)doc["colors"]["tableCellForeColor"]).ToColor();
-                ListViewHeaderGroupColor = ((string)doc["colors"]["listViewHeaderGroupColor"]).ToColor();
-                ComboBoxItemBackColor = ((string)doc["colors"]["comboBoxItemBackColor"]).ToColor();
-                ComboBoxItemHoverColor = ((string)doc["colors"]["comboBoxItemHoverColor"]).ToColor();
-                ControlHighlightLightColor = ((string)doc["colors"]["controlHighlightLightColor"]).ToColor();
-                ControlHighlightDarkColor = ((string)doc["colors"]["controlHighlightDarkColor"]).ToColor();
-                ControlBorderColor = ((string)doc["colors"]["controlBorderColor"]).ToColor();
-                ControlBorderLightColor = ((string)doc["colors"]["controlBorderLightColor"]).ToColor();
+                TableBackColor = ((string?)doc["colors"]?["tableBackColor"]).ToColor();
+                TableHeaderBackColor = ((string?)doc["colors"]?["tableHeaderBackColor"]).ToColor();
+                TableHeaderForeColor = ((string?)doc["colors"]?["tableHeaderForeColor"]).ToColor();
+                TableSelectionBackColor = ((string?)doc["colors"]?["tableSelectionBackColor"]).ToColor();
+                TableCellBackColor = ((string?)doc["colors"]?["tableCellBackColor"]).ToColor();
+                TableCellForeColor = ((string?)doc["colors"]?["tableCellForeColor"]).ToColor();
+                ListViewHeaderGroupColor = ((string?)doc["colors"]?["listViewHeaderGroupColor"]).ToColor();
+                ComboBoxItemBackColor = ((string?)doc["colors"]?["comboBoxItemBackColor"]).ToColor();
+                ComboBoxItemHoverColor = ((string?)doc["colors"]?["comboBoxItemHoverColor"]).ToColor();
+                ControlHighlightLightColor = ((string?)doc["colors"]?["controlHighlightLightColor"]).ToColor();
+                ControlHighlightDarkColor = ((string?)doc["colors"]?["controlHighlightDarkColor"]).ToColor();
+                ControlBorderColor = ((string?)doc["colors"]?["controlBorderColor"]).ToColor();
+                ControlBorderLightColor = ((string?)doc["colors"]?["controlBorderLightColor"]).ToColor();
             }
         }
 
+        [ExcludeFromCodeCoverage]
         public override IList<string> AdvancedCapabilities { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color BackgroundColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ButtonBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ButtonForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ButtonHoverColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override ThemeCapabilities Capabilities { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ComboBoxItemBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ComboBoxItemHoverColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlBorderColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlBorderLightColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlErrorBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlErrorForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlHighlightColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlHighlightDarkColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlHighlightLightColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlSuccessBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlSuccessForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlWarningBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ControlWarningForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ForegroundColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color ListViewHeaderGroupColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override string Name { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableCellBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableCellForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableHeaderBackColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableHeaderForeColor { get; }
+
+        [ExcludeFromCodeCoverage]
         public override Color TableSelectionBackColor { get; }
+
         /// <summary>
         /// Parse a theme JSON config
         /// </summary>
@@ -127,7 +199,9 @@ namespace WinFormsThemes.Themes
         {
             try
             {
-                return new FileTheme(JsonNode.Parse(jsonContent));
+                var json = JsonNode.Parse(jsonContent);
+                if (json == null) return null;
+                return new FileTheme(json);
             }
             catch (Exception)
             {

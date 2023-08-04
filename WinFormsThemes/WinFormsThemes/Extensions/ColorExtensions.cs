@@ -1,4 +1,8 @@
-﻿namespace WinFormsThemes.Extensions
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("TestProject")]
+
+namespace WinFormsThemes.Extensions
 {
     internal static class ColorExtensions
     {
@@ -7,8 +11,12 @@
         /// </summary>
         /// <param name="hexColor"></param>
         /// <returns></returns>
-        public static Color ToColor(this string hexColor)
+        public static Color ToColor(this string? hexColor)
         {
+            if (hexColor == null)
+            {
+                return SystemColors.Control;
+            }
             return ColorTranslator.FromHtml(hexColor);
         }
     }

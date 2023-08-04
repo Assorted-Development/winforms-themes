@@ -12,6 +12,7 @@ jobs:
   build:
     permissions:
       contents: write
+      checks: write
     runs-on: windows-latest
 
     steps:
@@ -24,7 +25,14 @@ jobs:
       run: dotnet restore WinFormsThemes/WinFormsThemes.sln
     - name: Build
       run: dotnet build WinFormsThemes/WinFormsThemes.sln -c Release --no-restore
-
+    - name: run unittests
+      uses: zyborg/dotnet-tests-report@v1
+      with:
+        project_path: WinFormsThemes/TestProject
+        report_name: Unittests
+        report_title: Unittests
+        set_check_status_from_test_outcome: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
