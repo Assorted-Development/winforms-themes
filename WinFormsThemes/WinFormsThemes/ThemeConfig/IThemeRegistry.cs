@@ -34,7 +34,7 @@
         ITheme? Get(string name);
 
         /// <summary>
-        /// return the theme with the matching capabilities
+        /// returns a theme with the matching capabilities
         /// </summary>
         /// <param name="caps"></param>
         /// <param name="advancedCapabilitiesFilters"></param>
