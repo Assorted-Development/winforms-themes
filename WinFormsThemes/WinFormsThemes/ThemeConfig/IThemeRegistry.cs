@@ -21,7 +21,7 @@
         ITheme? Current { get; set; }
 
         /// <summary>
-        /// return the theme capabilities as configured by the user
+        /// returns the theme with capabilities configured by the user
         /// </summary>
         /// <returns></returns>
         ITheme? Get();
