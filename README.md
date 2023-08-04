@@ -43,7 +43,7 @@ IThemeRegistry.BUILDER.Build();
 ```
 This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes and register the theme in the `ThemeRegistryHolder`.
 
-At last, you need to add a single line in the `OnLoad` in all forms to be themed:
+At last, you need to add a single line in the `Load` event of all forms to be themed:
 ```csharp
 ThemeRegistryHolder.ThemeRegistry.Current.Apply(this);
 ```
