@@ -49,7 +49,6 @@ namespace WinFormsThemes
                 themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
             }
             var registry = new ThemeRegistry(themes);
-            ThemeRegistryHolder.ThemeRegistry = registry;
             return registry;
         }
 

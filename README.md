@@ -46,7 +46,7 @@ To use this project, you need to add a reference to our nuget package (`dotnet a
 
 Next, you need to configure the themes:
 ```csharp
-IThemeRegistry.BUILDER.Build();
+ThemeRegistryHolder.ThemeRegistry.Current = IThemeRegistry.BUILDER.Build();
 ```
 This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes and register the theme in the `ThemeRegistryHolder`.
 

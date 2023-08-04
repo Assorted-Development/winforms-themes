@@ -55,14 +55,6 @@ namespace TestProject
             Assert.AreEqual(0, registry.Get(DefaultDarkTheme.THEME_NAME)?.AdvancedCapabilities?.Count);
         }
 
-        [TestMethod]
-        public void ThemeRegistryHolderShouldBeSet()
-        {
-            var registry = IThemeRegistry.BUILDER
-                            .Build();
-            Assert.AreEqual(registry, ThemeRegistryHolder.ThemeRegistry);
-        }
-
         private class ThemePlugin : IThemePlugin
         {
             public void Apply(Control control, AbstractTheme theme)
