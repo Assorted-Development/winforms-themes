@@ -20,7 +20,7 @@ namespace WinFormsThemes
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="themes">all available themes</param>
+        /// <param name="themes">all available themes with their name as key and the <see cref="ITheme"/> instance as value</param>
         public ThemeRegistry(Dictionary<string, ITheme> themes)
         {
             _themes = themes;
