@@ -123,7 +123,7 @@ namespace WinFormsThemes
             return this;
         }
 
-        public IThemeRegistryThemeListBuilder FromLookup(IThemeLookup themeLookup)
+        public IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup)
         {
             _lookups.Add(themeLookup);
             return this;

@@ -71,6 +71,6 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="themeLookup"></param>
         /// <returns></returns>
-        IThemeRegistryThemeListBuilder FromLookup(IThemeLookup themeLookup);
+        IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup);
     }
 }

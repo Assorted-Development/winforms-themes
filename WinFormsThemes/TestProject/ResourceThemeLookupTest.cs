@@ -10,7 +10,7 @@ namespace TestProject
         {
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
-                    .FromLookup(new ResourceThemeLookup())
+                    .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-Embedded");
@@ -23,7 +23,7 @@ namespace TestProject
         {
             var registry = IThemeRegistry.BUILDER
                 .WithThemes()
-                    .FromLookup(new ResourceThemeLookup())
+                    .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
                 .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");

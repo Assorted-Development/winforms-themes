@@ -127,7 +127,7 @@ IThemeRegistry.BUILDER
     .WithThemes()
         .AddDefaultThemes()
         .AddTheme(new MySuperDarkTheme())
-        .CompleteThemeList()
+        .FinishThemeList()
     .Build();
 ```
 
@@ -152,8 +152,8 @@ After this, you need to register this class in the builder:
  IThemeRegistry.BUILDER
      .WithThemes()
          .AddDefaultThemes()
-         .FromLookup()
-         .CompleteThemeList()
+         .WithLookup()
+         .FinishThemeList()
      .Build();
 ```
 
