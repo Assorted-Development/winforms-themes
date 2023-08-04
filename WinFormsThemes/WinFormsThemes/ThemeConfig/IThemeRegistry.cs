@@ -36,8 +36,8 @@
         /// <summary>
         /// returns a theme with the matching capabilities
         /// </summary>
-        /// <param name="caps"></param>
-        /// <param name="advancedCapabilitiesFilters"></param>
+        /// <param name="caps">Can be used to filter for light/dark/high contrast themes</param>
+        /// <param name="advancedCapabilitiesFilters">Can be used to filter for custom identifiers in custom themes (e.g. file based themes)</param>
         /// <returns></returns>
         ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters);
 
