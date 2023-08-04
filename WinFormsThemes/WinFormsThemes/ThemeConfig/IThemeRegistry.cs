@@ -6,7 +6,7 @@
     public interface IThemeRegistry
     {
         /// <summary>
-        /// Event triggers on Theme Change
+        /// Event that triggers when the <see cref="Current"/> theme has changed
         /// </summary>
         public event EventHandler? OnThemeChanged;
 
