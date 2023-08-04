@@ -42,6 +42,8 @@ start "" WinFormsThemes\TestProject\TestResults\html\index.html
 ## Usage
 To use this project, you need to add a reference to our nuget package (`dotnet add package AssortedDevelopment.WinFormsThemes`) first.
 
+**Note: Currently, this project requires .NET 6.0 or higher.**
+
 Next, you need to configure the themes:
 ```csharp
 IThemeRegistry.BUILDER.Build();
