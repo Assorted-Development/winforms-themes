@@ -48,7 +48,7 @@
         List<ITheme> List();
 
         /// <summary>
-        /// returns the list of all theme names
+        /// returns a list of the names of all themes that are registered in this <see cref="IThemeRegistry"/> instance
         /// </summary>
         /// <returns></returns>
         List<string> ListNames();
