@@ -46,7 +46,7 @@ To use this project, you need to add a reference to our nuget package (`dotnet a
 
 Next, you need to configure the themes:
 ```csharp
-ThemeRegistryHolder.ThemeRegistry = IThemeRegistry.BUILDER.Build();
+ThemeRegistryHolder.ThemeRegistry = ThemeRegistryHolder.GetBuilder().Build();
 ThemeRegistryHolder.ThemeRegistry.Current = ThemeRegistryHolder.ThemeRegistry.Get();
 ```
 This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes, register the theme in the `ThemeRegistryHolder` and use the standard theme as default.
@@ -126,7 +126,7 @@ The more advanced way is implementing the `ITheme` interface. This only supports
 
 The views can be added by either implementing an `IThemeLookup` (see below) or by adding it directly to the builder:
 ```csharp
-IThemeRegistry.BUILDER
+ThemeRegistryHolder.GetBuilder()
     .WithThemes()
         .AddDefaultThemes()
         .AddTheme(new MySuperDarkTheme())
@@ -152,7 +152,7 @@ If you want to add another theme source besides files and resources (e.g. when i
 ```
 After this, you need to register this class in the builder:
 ```csharp
- IThemeRegistry.BUILDER
+ ThemeRegistryHolder.GetBuilder()
      .WithThemes()
          .AddDefaultThemes()
          .WithLookup()
@@ -175,7 +175,7 @@ As we understand you may want to also style other controls, we support adding sp
 ```
 At last, you just need to register it for the correct type:
 ```csharp
- IThemeRegistry.BUILDER
+ ThemeRegistryHolder.GetBuilder()
      .AddThemePlugin<MyCustomControl>(new MyCustomControlThemePlugin())
      .Build();
 ```

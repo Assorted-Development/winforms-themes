@@ -11,11 +11,6 @@
         public event EventHandler? OnThemeChanged;
 
         /// <summary>
-        /// the builder to create a new IThemeRegistry
-        /// </summary>
-        public static IThemeRegistryBuilder BUILDER => new ThemeRegistryBuilder();
-
-        /// <summary>
         /// the current theme
         /// </summary>
         ITheme? Current { get; set; }

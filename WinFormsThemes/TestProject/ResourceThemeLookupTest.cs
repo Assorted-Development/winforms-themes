@@ -8,7 +8,7 @@ namespace TestProject
         [TestMethod]
         public void ThemeInEmbeddedResourceShouldBeFound()
         {
-            var registry = IThemeRegistry.BUILDER
+            var registry = ThemeRegistryHolder.GetBuilder()
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
@@ -21,7 +21,7 @@ namespace TestProject
         [TestMethod]
         public void ThemeInResourceFileShouldBeFound()
         {
-            var registry = IThemeRegistry.BUILDER
+            var registry = ThemeRegistryHolder.GetBuilder()
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
@@ -34,7 +34,7 @@ namespace TestProject
         [TestMethod]
         public void CheckDifferentFolderHandling()
         {
-            var registry = IThemeRegistry.BUILDER
+            var registry = ThemeRegistryHolder.GetBuilder()
                 .WithThemes()
                     .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
                     .FinishThemeList()
