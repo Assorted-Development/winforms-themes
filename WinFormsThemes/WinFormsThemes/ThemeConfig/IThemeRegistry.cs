@@ -42,7 +42,7 @@
         ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters);
 
         /// <summary>
-        /// returns all themes
+        /// returns all themes that are registered in this <see cref="IThemeRegistry"/> instance
         /// </summary>
         /// <returns></returns>
         List<ITheme> List();
