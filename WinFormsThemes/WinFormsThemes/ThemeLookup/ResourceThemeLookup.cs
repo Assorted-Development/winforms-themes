@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Globalization;
 using System.Reflection;
+using System.Resources;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -62,9 +64,7 @@ namespace WinFormsThemes
                     }
                     else if (res.EndsWith(".resources"))
                     {
-                        using Stream? stream = a.GetManifestResourceStream(res);
-                        if (stream != null)
-                            results.AddRange(HandleResource(stream));
+                        results.AddRange(HandleResource(res, a));
                     }
                 }
             }
@@ -88,11 +88,14 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        private List<ITheme> HandleResource(Stream stream)
+        private List<ITheme> HandleResource(string resourceName, Assembly assembly)
         {
-            using var resourceReader = new System.Resources.ResourceReader(stream);
+            var resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources"));
+            var rm = new ResourceManager(resBaseName, assembly);
+            ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+            if(resourceSet == null) return new List<ITheme>();
             List<ITheme> results = new();
-            foreach (DictionaryEntry entry in resourceReader)
+            foreach (DictionaryEntry entry in resourceSet)
             {
                 if (entry.Key is string key && key.StartsWith(_resThemePrefix))
                 {
