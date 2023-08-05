@@ -1,4 +1,5 @@
-﻿using WinFormsThemes.Themes;
+﻿using Microsoft.Extensions.Logging;
+using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
 {
@@ -53,12 +54,7 @@ namespace WinFormsThemes
         /// </summary>
         /// <returns></returns>
         IThemeRegistryThemeListBuilder FromDefaultLookups();
-        /// <summary>
-        /// adds ResourceThemeLookup to the list of lookups
-        /// </summary>
-        /// <param name="resourcePrefix">the prefix to detect the themes in the resources. If not set, the default will be used</param>
-        /// <returns></returns>
-        IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null);
+
         /// <summary>
         /// adds FileSystemThemeLookup to the list of lookups
         /// </summary>
@@ -72,5 +68,12 @@ namespace WinFormsThemes
         /// <param name="themeLookup"></param>
         /// <returns></returns>
         IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup);
+
+        /// <summary>
+        /// adds ResourceThemeLookup to the list of lookups
+        /// </summary>
+        /// <param name="resourcePrefix">the prefix to detect the themes in the resources. If not set, the default will be used</param>
+        /// <returns></returns>
+        IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null);
     }
 }

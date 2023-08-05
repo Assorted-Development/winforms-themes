@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections.ObjectModel;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -14,17 +16,35 @@ namespace WinFormsThemes
         private readonly Dictionary<Type, IThemePlugin> _themePlugins = new();
 
         /// <summary>
+        /// the logger to use
+        /// </summary>
+        private ILogger<IThemeRegistryBuilder> _logger;
+
+        /// <summary>
+        /// the logger factory to use
+        /// </summary>
+        private ILoggerFactory _loggerFactory;
+
+        /// <summary>
         /// the builder for adding themes
         /// </summary>
         private ThemeRegistryThemeListBuilder? _themeListBuilder;
+
+        public ThemeRegistryBuilder(ILoggerFactory loggerFactory)
+        {
+            _loggerFactory = loggerFactory;
+            _logger = new Logger<IThemeRegistryBuilder>(_loggerFactory);
+        }
 
         public IThemeRegistryBuilder AddThemePlugin<T>(IThemePlugin plugin) where T : Control
         {
             Type t = typeof(T);
             if (_themePlugins.ContainsKey(t))
             {
+                _logger.LogError($"ThemePlugin for {t.Name} already added");
                 throw new InvalidOperationException($"ThemePlugin for {t.Name} already added");
             }
+            _logger.LogTrace($"Adding ThemePlugin for {t.Name}");
             _themePlugins.Add(t, plugin);
             return this;
         }
@@ -37,7 +57,8 @@ namespace WinFormsThemes
             if (_themeListBuilder == null)
             {
                 //themes were not set explicitly so initialize with default themes
-                _themeListBuilder = new ThemeRegistryThemeListBuilder(this);
+                _logger.LogDebug("No themes were set explicitly, initializing with default themes");
+                _themeListBuilder = new ThemeRegistryThemeListBuilder(this, _loggerFactory);
                 _themeListBuilder.FromDefaultLookups()
                                  .AddDefaultThemes();
             }
@@ -56,9 +77,10 @@ namespace WinFormsThemes
         {
             if (_themeListBuilder != null)
             {
+                _logger.LogError("WithThemes() can only be called once");
                 throw new InvalidOperationException("WithThemes() can only be called once");
             }
-            _themeListBuilder = new ThemeRegistryThemeListBuilder(this);
+            _themeListBuilder = new ThemeRegistryThemeListBuilder(this, _loggerFactory);
             return _themeListBuilder;
         }
     }
@@ -68,6 +90,16 @@ namespace WinFormsThemes
     /// </summary>
     internal class ThemeRegistryThemeListBuilder : IThemeRegistryThemeListBuilder
     {
+        /// <summary>
+        /// the logger to use
+        /// </summary>
+        private readonly ILogger<IThemeRegistryThemeListBuilder> _logger = new Logger<IThemeRegistryThemeListBuilder>(new NullLoggerFactory());
+
+        /// <summary>
+        /// the logger factory to use
+        /// </summary>
+        private readonly ILoggerFactory _loggerFactory = new NullLoggerFactory();
+
         /// <summary>
         /// the list of lookups to use
         /// </summary>
@@ -86,14 +118,18 @@ namespace WinFormsThemes
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="parent"></param>
-        public ThemeRegistryThemeListBuilder(ThemeRegistryBuilder parent)
+        /// <param name="parent">the owning ThemeRegistryBuilder object</param>
+        /// <param name="loggerFactory">the loggerFactory to use</param>
+        public ThemeRegistryThemeListBuilder(ThemeRegistryBuilder parent, ILoggerFactory loggerFactory)
         {
             _parent = parent;
+            _loggerFactory = loggerFactory;
+            _logger = new Logger<IThemeRegistryThemeListBuilder>(_loggerFactory);
         }
 
         public IThemeRegistryThemeListBuilder AddDefaultThemes()
         {
+            _logger.LogTrace("Adding default themes");
             AddTheme(new DefaultLightTheme());
             AddTheme(new DefaultDarkTheme());
             AddTheme(new HighContrastDarkTheme());
@@ -104,8 +140,11 @@ namespace WinFormsThemes
         {
             if (_themes.ContainsKey(theme.Name))
             {
+                _logger.LogError($"Theme with name {theme.Name} already exists");
                 throw new InvalidOperationException($"Theme with name {theme.Name} already exists");
             }
+            _logger.LogTrace($"Adding theme {theme.Name}");
+            theme.UseLogger(_loggerFactory);
             _themes.Add(theme.Name, theme);
             return this;
         }
@@ -117,25 +156,29 @@ namespace WinFormsThemes
 
         public IThemeRegistryThemeListBuilder FromDefaultLookups()
         {
+            _logger.LogTrace("Adding default lookups");
             _lookups.Add(new FileThemeLookup());
             _lookups.Add(new ResourceThemeLookup());
             return this;
         }
 
-        public IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup)
+        public IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null)
         {
-            _lookups.Add(themeLookup);
+            _logger.LogTrace($"Adding file theme lookup for folder: {themeFolder?.FullName}");
+            _lookups.Add(new FileThemeLookup(themeFolder));
             return this;
         }
 
-        public IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null)
+        public IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup)
         {
-            _lookups.Add(new FileThemeLookup(themeFolder));
+            _logger.LogTrace($"Adding theme lookup {themeLookup.GetType().Name}");
+            _lookups.Add(themeLookup);
             return this;
         }
 
         public IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null)
         {
+            _logger.LogTrace($"Adding resource theme lookup for prefix: {resourcePrefix}");
             _lookups.Add(new ResourceThemeLookup(resourcePrefix));
             return this;
         }
@@ -148,19 +191,28 @@ namespace WinFormsThemes
         {
             //sort the lookups in descending order
             _lookups.Sort((x, y) => y.Order.CompareTo(x.Order));
+            _logger.LogTrace($"Building theme list from {_lookups.Count} lookups");
             //loop through all lookups
             foreach (IThemeLookup lookup in _lookups)
             {
-                //get the themes from the lookup
-                List<ITheme> themes = lookup.Lookup();
-                //loop through all themes
-                foreach (ITheme theme in themes)
+                try
                 {
-                    //add the theme to the list but check if it already exists first
-                    if (!_themes.ContainsKey(theme.Name))
+                    lookup.UseLogger(_loggerFactory);
+                    //get the themes from the lookup
+                    List<ITheme> themes = lookup.Lookup();
+                    //loop through all themes
+                    foreach (ITheme theme in themes)
                     {
-                        AddTheme(theme);
+                        //add the theme to the list but check if it already exists first
+                        if (!_themes.ContainsKey(theme.Name))
+                        {
+                            AddTheme(theme);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Error looking up themes from {lookup.GetType().Name}");
                 }
             }
             return _themes;

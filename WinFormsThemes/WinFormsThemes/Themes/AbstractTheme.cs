@@ -1,4 +1,6 @@
-﻿using StylableWinFormsControls;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using StylableWinFormsControls;
 using System.Diagnostics.CodeAnalysis;
 using WinFormsThemes.Themes.ToolStrip;
 using WinFormsThemes.Utilities;
@@ -110,6 +112,11 @@ namespace WinFormsThemes.Themes
         /// supports styling of custom controls without reimplementing the whole theme
         /// </summary>
         public IDictionary<Type, IThemePlugin> ThemePlugins { get; set; } = new Dictionary<Type, IThemePlugin>();
+
+        /// <summary>
+        /// the logger to use
+        /// </summary>
+        protected ILogger<ITheme> Logger { get; private set; } = new Logger<ITheme>(new NullLoggerFactory());
 
         public void Apply(Form form)
         {
@@ -256,6 +263,11 @@ namespace WinFormsThemes.Themes
             {
                 Apply(child, options);
             }
+        }
+
+        public void UseLogger(ILoggerFactory loggerFactory)
+        {
+            Logger = new Logger<ITheme>(loggerFactory);
         }
 
         /// <summary>

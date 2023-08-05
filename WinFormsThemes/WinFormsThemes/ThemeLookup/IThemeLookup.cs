@@ -1,4 +1,6 @@
-﻿namespace WinFormsThemes
+﻿using Microsoft.Extensions.Logging;
+
+namespace WinFormsThemes
 {
     /// <summary>
     /// interface to detect installed themes
@@ -15,5 +17,11 @@
         /// </summary>
         /// <returns></returns>
         List<ITheme> Lookup();
+
+        /// <summary>
+        /// create a logger from the given factory and use that for logging
+        /// </summary>
+        /// <param name="loggerFactory">the logging factory to use</param>
+        void UseLogger(ILoggerFactory loggerFactory) { }
     }
 }

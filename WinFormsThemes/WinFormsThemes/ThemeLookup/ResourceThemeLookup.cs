@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections;
 using System.Reflection;
 using WinFormsThemes.Themes;
 
@@ -17,15 +19,17 @@ namespace WinFormsThemes
         private readonly string _resThemePrefix;
 
         /// <summary>
+        /// the logger to use
+        /// </summary>
+        private ILogger<IThemeLookup> _logger = new Logger<IThemeLookup>(new NullLoggerFactory());
+
+        /// <summary>
         /// constructor
         /// </summary>
         /// <param name="prefix">the prefix to detect the themes in the resources</param>
         public ResourceThemeLookup(string? prefix = null)
         {
-            if (prefix == null)
-            {
-                prefix = RES_THEME_PREFIX;
-            }
+            prefix ??= RES_THEME_PREFIX;
             _resThemePrefix = prefix;
         }
 
@@ -41,11 +45,13 @@ namespace WinFormsThemes
                 {
                     //Dynamic libraries (e.g. Expression.Compile) do not support reading resources
                     //and would throw an exception
+                    _logger.LogTrace("Skipping dynamic assembly {name}", name);
                     continue;
                 }
                 AssemblyCompanyAttribute? comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
                 if (comp != null && comp.Company == "Microsoft Corporation")
                 {
+                    _logger.LogTrace("Skipping Microsoft assembly {name}", name);
                     continue;
                 }
                 foreach (string res in a.GetManifestResourceNames())
@@ -59,6 +65,10 @@ namespace WinFormsThemes
                         {
                             results.Add(theme);
                         }
+                        else
+                        {
+                            _logger.LogDebug("Skipping invalid theme {res} in assembly {name}", res, name);
+                        }
                     }
                     else if (res.EndsWith(".resources"))
                     {
@@ -66,9 +76,18 @@ namespace WinFormsThemes
                         if (stream != null)
                             results.AddRange(HandleResource(stream));
                     }
+                    else
+                    {
+                        _logger.LogDebug("Skipping unknown resource {res} in assembly {name}", res, name);
+                    }
                 }
             }
             return results;
+        }
+
+        public void UseLogger(ILoggerFactory loggerFactory)
+        {
+            _logger = new Logger<IThemeLookup>(loggerFactory);
         }
 
         /// <summary>
@@ -102,6 +121,10 @@ namespace WinFormsThemes
                         if (theme != null)
                         {
                             results.Add(theme);
+                        }
+                        else
+                        {
+                            _logger.LogDebug("Skipping invalid theme {key} in resource", key);
                         }
                     }
                 }

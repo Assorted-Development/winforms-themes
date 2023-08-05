@@ -1,4 +1,5 @@
-﻿using WinFormsThemes.Themes;
+﻿using Microsoft.Extensions.Logging;
+using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
 {
@@ -50,5 +51,11 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="control"></param>
         void Apply(Control control, ThemeOptions options);
+
+        /// <summary>
+        /// create a logger from the given factory and use that for logging
+        /// </summary>
+        /// <param name="loggerFactory">the logging factory to use</param>
+        void UseLogger(ILoggerFactory loggerFactory) { }
     }
 }
