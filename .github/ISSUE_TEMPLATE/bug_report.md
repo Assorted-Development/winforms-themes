@@ -26,4 +26,4 @@ If applicable, add screenshots to help explain your problem.
  - Library Version [e.g. V0.2.0]
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context (for example error logs, additional environment details) about the problem here.
