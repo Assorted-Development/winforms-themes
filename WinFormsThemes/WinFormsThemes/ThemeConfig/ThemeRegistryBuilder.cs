@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using WinFormsThemes.ThemeConfig;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -12,6 +13,11 @@ namespace WinFormsThemes
         /// dictionary of all theme plugins
         /// </summary>
         private readonly Dictionary<Type, IThemePlugin> _themePlugins = new();
+
+        /// <summary>
+        /// the given selector for the current theme
+        /// </summary>
+        private SimpleCurrentThemeSelector? _currentThemeSelector;
 
         /// <summary>
         /// the builder for adding themes
@@ -48,8 +54,18 @@ namespace WinFormsThemes
                 var plugins = new ReadOnlyDictionary<Type, IThemePlugin>(_themePlugins);
                 themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
             }
-            var registry = new ThemeRegistry(themes);
+            var registry = new ThemeRegistry(themes, _currentThemeSelector);
             return registry;
+        }
+
+        public IThemeRegistryBuilder WithCurrentThemeSelector(SimpleCurrentThemeSelector selector)
+        {
+            if (_currentThemeSelector != null)
+            {
+                throw new InvalidOperationException("WithCurrentThemeSelector() can only be called once");
+            }
+            _currentThemeSelector = selector;
+            return this;
         }
 
         public IThemeRegistryThemeListBuilder WithThemes()
@@ -122,15 +138,15 @@ namespace WinFormsThemes
             return this;
         }
 
-        public IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup)
-        {
-            _lookups.Add(themeLookup);
-            return this;
-        }
-
         public IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null)
         {
             _lookups.Add(new FileThemeLookup(themeFolder));
+            return this;
+        }
+
+        public IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup)
+        {
+            _lookups.Add(themeLookup);
             return this;
         }
 

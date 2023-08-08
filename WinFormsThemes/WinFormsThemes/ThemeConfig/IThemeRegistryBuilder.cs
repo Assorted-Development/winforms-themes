@@ -1,4 +1,5 @@
-﻿using WinFormsThemes.Themes;
+﻿using WinFormsThemes.ThemeConfig;
+using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
 {
@@ -16,6 +17,12 @@ namespace WinFormsThemes
         /// </summary>
         /// <returns></returns>
         IThemeRegistry Build();
+
+        /// <summary>
+        /// Adds a selector for the current theme so that <see cref="IThemeRegistry.Current"/> can be used
+        /// </summary>
+        /// <param name="selector">the selector to use</param>
+        IThemeRegistryBuilder WithCurrentThemeSelector(SimpleCurrentThemeSelector selector);
 
         /// <summary>
         /// allows specifying the list of themes. If not specified, the default list will be used
@@ -53,12 +60,7 @@ namespace WinFormsThemes
         /// </summary>
         /// <returns></returns>
         IThemeRegistryThemeListBuilder FromDefaultLookups();
-        /// <summary>
-        /// adds ResourceThemeLookup to the list of lookups
-        /// </summary>
-        /// <param name="resourcePrefix">the prefix to detect the themes in the resources. If not set, the default will be used</param>
-        /// <returns></returns>
-        IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null);
+
         /// <summary>
         /// adds FileSystemThemeLookup to the list of lookups
         /// </summary>
@@ -72,5 +74,12 @@ namespace WinFormsThemes
         /// <param name="themeLookup"></param>
         /// <returns></returns>
         IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup);
+
+        /// <summary>
+        /// adds ResourceThemeLookup to the list of lookups
+        /// </summary>
+        /// <param name="resourcePrefix">the prefix to detect the themes in the resources. If not set, the default will be used</param>
+        /// <returns></returns>
+        IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null);
     }
 }
