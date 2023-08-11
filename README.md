@@ -81,7 +81,7 @@ private ITheme SelectCurrentTheme(IThemeRegistry registry)
 ThemeRegistryHolder.ThemeRegistry =  ThemeRegistryHolder.GetBuilder().WithCurrentThemeSelector(SelectCurrentTheme).Build();
 ```
 
-This enables you to use `IThemeRegistry.Current` to retrieve the current theme and `IThemeRegistry.OnThemeChanged` to be notified of changed:
+This enables you to use `IThemeRegistry.Current` to retrieve the current theme and `IThemeRegistry.OnThemeChanged` to be notified of changes:
 ```csharp
 var mytheme = ThemeRegistryHolder.ThemeRegistry.Current;
 ThemeRegistryHolder.ThemeRegistry.OnThemeChanged += (sender, args) =>
