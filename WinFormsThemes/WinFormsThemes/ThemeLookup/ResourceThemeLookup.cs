@@ -17,6 +17,10 @@ namespace WinFormsThemes
         private const string RES_THEME_PREFIX = "CONFIG_THEMING_THEME_";
 
         private readonly string _resThemePrefix;
+        /// <summary>
+        /// the result list of themes
+        /// </summary>
+        private readonly List<ITheme> _themes = new();
 
         /// <summary>
         /// constructor
@@ -35,7 +39,6 @@ namespace WinFormsThemes
 
         public List<ITheme> Lookup()
         {
-            List<ITheme> results = new();
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
                 string name = a.FullName ?? "";
@@ -54,62 +57,57 @@ namespace WinFormsThemes
                 {
                     if (res.Contains(_resThemePrefix))
                     {
-                        ITheme? theme;
                         using (Stream? stream = a.GetManifestResourceStream(res))
-                            theme = HandleEmbeddedResource(stream);
-                        if (theme != null)
-                        {
-                            results.Add(theme);
-                        }
+                            HandleEmbeddedResource(stream);
                     }
                     else if (res.EndsWith(".resources"))
                     {
-                        results.AddRange(HandleResource(res, a));
+                        HandleResource(res, a);
                     }
                 }
             }
-            return results;
+            return _themes;
         }
 
         /// <summary>
         /// Handle Resources embedded directly into the dll
         /// </summary>
         /// <param name="stream"></param>
-        /// <returns></returns>
-        private static ITheme? HandleEmbeddedResource(Stream? stream)
+        private void HandleEmbeddedResource(Stream? stream)
         {
-            if (stream == null) return null;
-            using StreamReader reader = new(stream);
-            return FileTheme.Load(reader.ReadToEnd());
+            if (stream != null)
+            {
+                using StreamReader reader = new(stream);
+                Add(FileTheme.Load(reader.ReadToEnd()));
+            }
         }
-
+        /// <summary>
+        /// Add a theme to the resultlist
+        /// </summary>
+        /// <param name="theme"></param>
+        private void Add(ITheme? theme)
+        {
+            if (theme != null)
+                _themes.Add(theme);
+        }
         /// <summary>
         /// handle Resources added to a resource file
         /// </summary>
         /// <param name="stream"></param>
-        /// <returns></returns>
-        private List<ITheme> HandleResource(string resourceName, Assembly assembly)
+        private void HandleResource(string resourceName, Assembly assembly)
         {
             var resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources"));
             var rm = new ResourceManager(resBaseName, assembly);
             ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
-            if(resourceSet == null) return new List<ITheme>();
-            List<ITheme> results = new();
+            if(resourceSet == null) return;
             foreach (DictionaryEntry entry in resourceSet)
             {
-                if (entry.Key is string key && key.StartsWith(_resThemePrefix))
+                if (entry.Key is string key && key.StartsWith(_resThemePrefix) &&
+                    entry.Value is string value)
                 {
-                    if (entry.Value is string value)
-                    {
-                        ITheme? theme = FileTheme.Load(value);
-                        if (theme != null)
-                        {
-                            results.Add(theme);
-                        }
-                    }
+                    Add(FileTheme.Load(value));
                 }
             }
-            return results;
         }
     }
 }
