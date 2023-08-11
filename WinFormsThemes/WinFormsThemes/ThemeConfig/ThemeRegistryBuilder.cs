@@ -17,7 +17,7 @@ namespace WinFormsThemes
         /// <summary>
         /// the given selector for the current theme
         /// </summary>
-        private SimpleCurrentThemeSelector? _currentThemeSelector;
+        private CurrentThemeSelector? _currentThemeSelector;
 
         /// <summary>
         /// the builder for adding themes
@@ -58,7 +58,7 @@ namespace WinFormsThemes
             return registry;
         }
 
-        public IThemeRegistryBuilder WithCurrentThemeSelector(SimpleCurrentThemeSelector selector)
+        public IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector)
         {
             if (_currentThemeSelector != null)
             {

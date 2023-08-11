@@ -15,7 +15,7 @@ namespace WinFormsThemes
         /// <summary>
         /// the current theme
         /// </summary>
-        /// <exception cref="InvalidOperationException">thrown when <see cref="IThemeRegistryBuilder.WithCurrentThemeSelector(SimpleCurrentThemeSelector)"/> was not called</exception>
+        /// <exception cref="InvalidOperationException">thrown when <see cref="IThemeRegistryBuilder.WithCurrentThemeSelector(CurrentThemeSelector)"/> was not called</exception>
         ITheme? Current { get; }
 
         /// <summary>

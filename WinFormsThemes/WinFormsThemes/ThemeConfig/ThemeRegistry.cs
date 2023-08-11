@@ -22,7 +22,7 @@ namespace WinFormsThemes
         /// constructor
         /// </summary>
         /// <param name="themes">all available themes with their name as key and the <see cref="ITheme"/> instance as value</param>
-        public ThemeRegistry(Dictionary<string, ITheme> themes, SimpleCurrentThemeSelector? selector)
+        public ThemeRegistry(Dictionary<string, ITheme> themes, CurrentThemeSelector? selector)
         {
             _themes = themes;
             CurrentThemeSelector = selector;
@@ -54,7 +54,7 @@ namespace WinFormsThemes
         /// <summary>
         /// A simple way to provide a current theme through <see cref="IThemeRegistry.Current"/>.
         /// </summary>
-        private SimpleCurrentThemeSelector? CurrentThemeSelector { get; }
+        private CurrentThemeSelector? CurrentThemeSelector { get; }
 
         public ITheme? Get()
         {

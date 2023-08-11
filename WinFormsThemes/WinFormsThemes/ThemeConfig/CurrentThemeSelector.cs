@@ -6,5 +6,5 @@
     /// </summary>
     /// <param name="registry">the source registry</param>
     /// <returns>the current theme</returns>
-    public delegate ITheme? SimpleCurrentThemeSelector(IThemeRegistry registry);
+    public delegate ITheme? CurrentThemeSelector(IThemeRegistry registry);
 }

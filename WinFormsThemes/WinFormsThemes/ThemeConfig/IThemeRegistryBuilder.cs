@@ -22,7 +22,7 @@ namespace WinFormsThemes
         /// Adds a selector for the current theme so that <see cref="IThemeRegistry.Current"/> can be used
         /// </summary>
         /// <param name="selector">the selector to use</param>
-        IThemeRegistryBuilder WithCurrentThemeSelector(SimpleCurrentThemeSelector selector);
+        IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector);
 
         /// <summary>
         /// allows specifying the list of themes. If not specified, the default list will be used
