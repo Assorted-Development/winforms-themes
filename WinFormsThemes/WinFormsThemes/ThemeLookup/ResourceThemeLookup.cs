@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
+using System.Windows.Forms;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -17,10 +20,16 @@ namespace WinFormsThemes
         private const string RES_THEME_PREFIX = "CONFIG_THEMING_THEME_";
 
         private readonly string _resThemePrefix;
+
         /// <summary>
         /// the result list of themes
         /// </summary>
         private readonly List<ITheme> _themes = new();
+
+        /// <summary>
+        /// the logger to use
+        /// </summary>
+        private ILogger<IThemeLookup> _logger = new Logger<IThemeLookup>(new NullLoggerFactory());
 
         /// <summary>
         /// constructor
@@ -28,11 +37,7 @@ namespace WinFormsThemes
         /// <param name="prefix">the prefix to detect the themes in the resources</param>
         public ResourceThemeLookup(string? prefix = null)
         {
-            if (prefix == null)
-            {
-                prefix = RES_THEME_PREFIX;
-            }
-            _resThemePrefix = prefix;
+            _resThemePrefix = prefix ?? RES_THEME_PREFIX;
         }
 
         public int Order => Int32.MinValue;
@@ -46,11 +51,13 @@ namespace WinFormsThemes
                 {
                     //Dynamic libraries (e.g. Expression.Compile) do not support reading resources
                     //and would throw an exception
+                    _logger.LogTrace("Skipping dynamic assembly {name}", name);
                     continue;
                 }
                 AssemblyCompanyAttribute? comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
                 if (comp != null && comp.Company == "Microsoft Corporation")
                 {
+                    _logger.LogTrace("Skipping Microsoft assembly {name}", name);
                     continue;
                 }
                 foreach (string res in a.GetManifestResourceNames())
@@ -58,7 +65,7 @@ namespace WinFormsThemes
                     if (res.Contains(_resThemePrefix))
                     {
                         using (Stream? stream = a.GetManifestResourceStream(res))
-                            HandleEmbeddedResource(stream);
+                            HandleEmbeddedResource(stream, res);
                     }
                     else if (res.EndsWith(".resources"))
                     {
@@ -69,27 +76,38 @@ namespace WinFormsThemes
             return _themes;
         }
 
-        /// <summary>
-        /// Handle Resources embedded directly into the dll
-        /// </summary>
-        /// <param name="stream"></param>
-        private void HandleEmbeddedResource(Stream? stream)
+        public void UseLogger(ILoggerFactory loggerFactory)
         {
-            if (stream != null)
-            {
-                using StreamReader reader = new(stream);
-                Add(FileTheme.Load(reader.ReadToEnd()));
-            }
+            _logger = new Logger<IThemeLookup>(loggerFactory);
         }
+
         /// <summary>
         /// Add a theme to the resultlist
         /// </summary>
         /// <param name="theme"></param>
-        private void Add(ITheme? theme)
+        /// <param name="resName"></param>
+        private void Add(ITheme? theme, string resName)
         {
             if (theme != null)
                 _themes.Add(theme);
+            else
+                _logger.LogDebug("Skipping invalid theme {key} in resource", resName);
         }
+
+        /// <summary>
+        /// Handle Resources embedded directly into the dll
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="resName"></param>
+        private void HandleEmbeddedResource(Stream? stream, string resName)
+        {
+            if (stream != null)
+            {
+                using StreamReader reader = new(stream);
+                Add(FileTheme.Load(reader.ReadToEnd()), resName);
+            }
+        }
+
         /// <summary>
         /// handle Resources added to a resource file
         /// </summary>
@@ -99,13 +117,13 @@ namespace WinFormsThemes
             var resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources"));
             var rm = new ResourceManager(resBaseName, assembly);
             ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
-            if(resourceSet == null) return;
+            if (resourceSet == null) return;
             foreach (DictionaryEntry entry in resourceSet)
             {
                 if (entry.Key is string key && key.StartsWith(_resThemePrefix) &&
                     entry.Value is string value)
                 {
-                    Add(FileTheme.Load(value));
+                    Add(FileTheme.Load(value), key);
                 }
             }
         }

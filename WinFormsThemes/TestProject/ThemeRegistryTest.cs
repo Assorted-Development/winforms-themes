@@ -3,12 +3,12 @@
 namespace TestProject
 {
     [TestClass]
-    public class ThemeRegistryTest
+    public class ThemeRegistryTest : AbstractTestClass
     {
         [TestMethod]
         public void GetShouldReturnCorrectTheme()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .Build();
             var theme = registry.Get(ThemeCapabilities.DarkMode);
             Assert.IsNotNull(theme);
@@ -18,7 +18,7 @@ namespace TestProject
         [TestMethod]
         public void OnThemeChangedShouldFireOnChange()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .WithCurrentThemeSelector((r) => r.Get())
                             .Build();
             bool fired = false;
@@ -30,7 +30,7 @@ namespace TestProject
         [TestMethod]
         public void OnThemeChangedShouldNotFireOnSameTheme()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .WithCurrentThemeSelector((r) => r.Get())
                             .Build();
             var current = registry.Current;
@@ -51,7 +51,7 @@ namespace TestProject
         [TestMethod]
         public void TestGetThemeByName()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .Build();
             var theme = registry.Get("DARK_HIGH_CONTRAST");
             Assert.IsNotNull(theme);
@@ -62,7 +62,7 @@ namespace TestProject
         [TestMethod]
         public void TestListThemes()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .Build();
             var themes = registry.List();
             Assert.IsTrue(themes.Count > 0);

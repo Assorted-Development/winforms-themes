@@ -5,13 +5,14 @@ using WinFormsThemes.Themes;
 namespace TestProject
 {
     [TestClass]
-    public class AbstractThemeTest
+    public class AbstractThemeTest : AbstractTestClass
     {
         [TestMethod]
         public void PluginShouldBeCalledForExactType()
         {
             var plugin = new ThemePlugin();
             var registry = ThemeRegistryHolder.GetBuilder()
+                            .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var button = new Button();
@@ -24,6 +25,7 @@ namespace TestProject
         {
             var plugin = new ThemePlugin();
             var registry = ThemeRegistryHolder.GetBuilder()
+                            .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var form = new Form();
@@ -35,7 +37,7 @@ namespace TestProject
         public void PluginShouldNotBeCalledForSubType()
         {
             var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var button = new MyCustomButton();

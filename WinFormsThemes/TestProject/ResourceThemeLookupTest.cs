@@ -3,12 +3,25 @@
 namespace TestProject
 {
     [TestClass]
-    public class ResourceThemeLookupTest
+    public class ResourceThemeLookupTest : AbstractTestClass
     {
+        [TestMethod]
+        public void CheckDifferentFolderHandling()
+        {
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+                .WithThemes()
+                    .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
+                    .FinishThemeList()
+                .Build();
+            var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            Assert.IsNotNull(theme);
+            Assert.AreEqual("resource-file-prefix-test", theme.Name);
+        }
+
         [TestMethod]
         public void ThemeInEmbeddedResourceShouldBeFound()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
@@ -21,7 +34,7 @@ namespace TestProject
         [TestMethod]
         public void ThemeInResourceFileShouldBeFound()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()

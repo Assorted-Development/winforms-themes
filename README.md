@@ -61,6 +61,15 @@ This will apply this theme on the given Form and all children.
 ## Extended Usage
 Of course, you can extend this library and customize the handling to fit your needs. Here are a few examples:
 
+### Logging
+If you want to debug an issue with this library, you can enable logging in the `IThemeRegistryBuilder`:
+```csharp
+ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory).Build();
+```
+This will log all actions of the library to the given `ILoggerFactory`.
+
+**Note: Any calls before calling `SetLoggerFactory` will not be affected so we advise to call `SetLoggerFactory` as early as possible.**
+
 ### Making IThemeRegistry and ITheme globally available
 When you do not have a dependency injection available in your project, we provide utilities to make both `IThemeRegistry` and `ITheme` globally available:
 1. `IThemeRegistry`

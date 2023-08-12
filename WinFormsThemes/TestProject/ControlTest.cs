@@ -5,7 +5,7 @@ using WinFormsThemes;
 namespace TestProject
 {
     [TestClass]
-    public class ControlTest
+    public class ControlTest : AbstractTestClass
     {
         [TestMethod]
         public void TestControlButton()
@@ -26,6 +26,7 @@ namespace TestProject
         public void TestControlMdiForm()
         {
             var registry = ThemeRegistryHolder.GetBuilder()
+                            .SetLoggerFactory(LoggerFactory)
                             .Build();
             var parent = new Form
             {
@@ -127,25 +128,6 @@ namespace TestProject
             TestControl(treeView);
         }
 
-        private static void TestControl(Control c, ThemeOptions options = ThemeOptions.None)
-        {
-            //create a form and add the control to it
-            var form = new Form();
-            form.Controls.Add(c);
-            //create a theme registry
-            var registry = ThemeRegistryHolder.GetBuilder()
-                            .Build();
-            //make sure that the control is visible as some code(e.g. ToolStrip) does not apply
-            // the theme until the control is visible
-            form.Show();
-            TestWithTheme(form, registry.Get(ThemeCapabilities.LightMode), options);
-            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode), options);
-            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast), options);
-            //close the form but allow the control to be reused
-            form.Controls.Remove(c);
-            form.Close();
-        }
-
         private static void TestWithTheme(Form form, ITheme? theme, ThemeOptions options = ThemeOptions.None)
         {
             if (theme == null)
@@ -161,6 +143,26 @@ namespace TestProject
                 Application.DoEvents();
                 Thread.Sleep(100);
             }
+        }
+
+        private void TestControl(Control c, ThemeOptions options = ThemeOptions.None)
+        {
+            //create a form and add the control to it
+            var form = new Form();
+            form.Controls.Add(c);
+            //create a theme registry
+            var registry = ThemeRegistryHolder.GetBuilder()
+                            .SetLoggerFactory(LoggerFactory)
+                            .Build();
+            //make sure that the control is visible as some code(e.g. ToolStrip) does not apply
+            // the theme until the control is visible
+            form.Show();
+            TestWithTheme(form, registry.Get(ThemeCapabilities.LightMode), options);
+            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode), options);
+            TestWithTheme(form, registry.Get(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast), options);
+            //close the form but allow the control to be reused
+            form.Controls.Remove(c);
+            form.Close();
         }
     }
 }

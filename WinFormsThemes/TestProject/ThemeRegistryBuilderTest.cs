@@ -5,12 +5,12 @@ using WinFormsThemes.Themes;
 namespace TestProject
 {
     [TestClass]
-    public class ThemeRegistryBuilderTest
+    public class ThemeRegistryBuilderTest : AbstractTestClass
     {
         [TestMethod]
         public void AddingThemePluginsShouldWork()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(new ThemePlugin())
                             .Build();
             Assert.AreEqual(1, registry.Get()?.ThemePlugins?.Count);
@@ -20,7 +20,7 @@ namespace TestProject
         [TestMethod]
         public void AddingThemePluginTwiceShouldThrow()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(new ThemePlugin());
             Assert.ThrowsException<InvalidOperationException>(() => registry.AddThemePlugin<Button>(new ThemePlugin()));
         }
@@ -36,7 +36,7 @@ namespace TestProject
         [TestMethod]
         public void AddingThemeTwiceShouldThrow()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .WithThemes()
                                 .AddTheme(new DefaultDarkTheme());
             Assert.ThrowsException<InvalidOperationException>(() => registry.AddTheme(new DefaultDarkTheme()));
@@ -45,7 +45,7 @@ namespace TestProject
         [TestMethod]
         public void CallingWithThemesTwiceShouldThrow()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .WithThemes()
                                 .AddTheme(new DefaultDarkTheme())
                             .FinishThemeList();
@@ -55,7 +55,7 @@ namespace TestProject
         [TestMethod]
         public void DefaultsShouldBeAddedWhenNotSet()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .Build();
             Assert.IsTrue(registry.ListNames().Contains(DefaultDarkTheme.THEME_NAME));
             Assert.IsTrue(registry.ListNames().Contains(DefaultLightTheme.THEME_NAME));
