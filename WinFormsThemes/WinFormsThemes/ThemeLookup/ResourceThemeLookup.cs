@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
+using System.Resources;
+using System.Windows.Forms;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -19,6 +22,11 @@ namespace WinFormsThemes
         private readonly string _resThemePrefix;
 
         /// <summary>
+        /// the result list of themes
+        /// </summary>
+        private readonly List<ITheme> _themes = new();
+
+        /// <summary>
         /// the logger to use
         /// </summary>
         private ILogger<IThemeLookup> _logger = new Logger<IThemeLookup>(new NullLoggerFactory());
@@ -29,15 +37,13 @@ namespace WinFormsThemes
         /// <param name="prefix">the prefix to detect the themes in the resources</param>
         public ResourceThemeLookup(string? prefix = null)
         {
-            prefix ??= RES_THEME_PREFIX;
-            _resThemePrefix = prefix;
+            _resThemePrefix = prefix ?? RES_THEME_PREFIX;
         }
 
         public int Order => Int32.MinValue;
 
         public List<ITheme> Lookup()
         {
-            List<ITheme> results = new();
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
                 string name = a.FullName ?? "";
@@ -58,31 +64,16 @@ namespace WinFormsThemes
                 {
                     if (res.Contains(_resThemePrefix))
                     {
-                        ITheme? theme;
                         using (Stream? stream = a.GetManifestResourceStream(res))
-                            theme = HandleEmbeddedResource(stream);
-                        if (theme != null)
-                        {
-                            results.Add(theme);
-                        }
-                        else
-                        {
-                            _logger.LogDebug("Skipping invalid theme {res} in assembly {name}", res, name);
-                        }
+                            HandleEmbeddedResource(stream, res);
                     }
                     else if (res.EndsWith(".resources"))
                     {
-                        using Stream? stream = a.GetManifestResourceStream(res);
-                        if (stream != null)
-                            results.AddRange(HandleResource(stream));
-                    }
-                    else
-                    {
-                        _logger.LogDebug("Skipping unknown resource {res} in assembly {name}", res, name);
+                        HandleResource(res, a);
                     }
                 }
             }
-            return results;
+            return _themes;
         }
 
         public void UseLogger(ILoggerFactory loggerFactory)
@@ -91,45 +82,50 @@ namespace WinFormsThemes
         }
 
         /// <summary>
+        /// Add a theme to the resultlist
+        /// </summary>
+        /// <param name="theme"></param>
+        /// <param name="resName"></param>
+        private void Add(ITheme? theme, string resName)
+        {
+            if (theme != null)
+                _themes.Add(theme);
+            else
+                _logger.LogDebug("Skipping invalid theme {key} in resource", resName);
+        }
+
+        /// <summary>
         /// Handle Resources embedded directly into the dll
         /// </summary>
         /// <param name="stream"></param>
-        /// <returns></returns>
-        private static ITheme? HandleEmbeddedResource(Stream? stream)
+        /// <param name="resName"></param>
+        private void HandleEmbeddedResource(Stream? stream, string resName)
         {
-            if (stream == null) return null;
-            using StreamReader reader = new(stream);
-            return FileTheme.Load(reader.ReadToEnd());
+            if (stream != null)
+            {
+                using StreamReader reader = new(stream);
+                Add(FileTheme.Load(reader.ReadToEnd()), resName);
+            }
         }
 
         /// <summary>
         /// handle Resources added to a resource file
         /// </summary>
         /// <param name="stream"></param>
-        /// <returns></returns>
-        private List<ITheme> HandleResource(Stream stream)
+        private void HandleResource(string resourceName, Assembly assembly)
         {
-            using var resourceReader = new System.Resources.ResourceReader(stream);
-            List<ITheme> results = new();
-            foreach (DictionaryEntry entry in resourceReader)
+            var resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources"));
+            var rm = new ResourceManager(resBaseName, assembly);
+            ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+            if (resourceSet == null) return;
+            foreach (DictionaryEntry entry in resourceSet)
             {
-                if (entry.Key is string key && key.StartsWith(_resThemePrefix))
+                if (entry.Key is string key && key.StartsWith(_resThemePrefix) &&
+                    entry.Value is string value)
                 {
-                    if (entry.Value is string value)
-                    {
-                        ITheme? theme = FileTheme.Load(value);
-                        if (theme != null)
-                        {
-                            results.Add(theme);
-                        }
-                        else
-                        {
-                            _logger.LogDebug("Skipping invalid theme {key} in resource", key);
-                        }
-                    }
+                    Add(FileTheme.Load(value), key);
                 }
             }
-            return results;
         }
     }
 }

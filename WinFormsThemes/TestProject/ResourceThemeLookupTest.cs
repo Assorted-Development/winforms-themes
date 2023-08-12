@@ -43,5 +43,18 @@ namespace TestProject
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-file-test", theme.Name);
         }
+
+        [TestMethod]
+        public void CheckDifferentPrefixHandling()
+        {
+            var registry = ThemeRegistryHolder.GetBuilder()
+                .WithThemes()
+                    .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
+                    .FinishThemeList()
+                .Build();
+            var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            Assert.IsNotNull(theme);
+            Assert.AreEqual("resource-file-prefix-test", theme.Name);
+        }
     }
 }
