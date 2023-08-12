@@ -46,25 +46,49 @@ To use this project, you need to add a reference to our nuget package (`dotnet a
 
 Next, you need to configure the themes:
 ```csharp
-ThemeRegistryHolder.ThemeRegistry = ThemeRegistryHolder.GetBuilder().Build();
-ThemeRegistryHolder.ThemeRegistry.Current = ThemeRegistryHolder.ThemeRegistry.Get();
+var registry = ThemeRegistryHolder.GetBuilder().Build();
+var theme = registry.ThemeRegistry.Get();
 ```
-This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes, register the theme in the `ThemeRegistryHolder` and use the standard theme as default.
+This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes, return the registry and use its standard theme.
 
-At last, you need to add a single line in the `Load` event of all forms to be themed:
+At last, you need to provide the theme to all forms to be themed and add a single line in the `Load` event:
 ```csharp
-ThemeRegistryHolder.ThemeRegistry.Current.Apply(this);
+theme.Apply(this);
 ```
 
-This line of code will:
-1. check the operating system for the user settings on dark mode and high contrast
-2. Look for a theme matching the settings for dark mode and high contrast
-3. use the first theme found as your current theme
-
-Last but not least, this will also apply this theme on the given Form and all children.
+This will apply this theme on the given Form and all children.
 
 ## Extended Usage
 Of course, you can extend this library and customize the handling to fit your needs. Here are a few examples:
+
+### Making IThemeRegistry and ITheme globally available
+When you do not have a dependency injection available in your project, we provide utilities to make both `IThemeRegistry` and `ITheme` globally available:
+1. `IThemeRegistry`
+For the `IThemeRegistry`, we provide the `ThemeRegistryHolder` class which can be used to store the registry and retrieve it later:
+```csharp
+ThemeRegistryHolder.ThemeRegistry = ThemeRegistryHolder.GetBuilder().Build();
+```
+After this, you can retrieve the registry from anywhere in your application using: `var registry = ThemeRegistryHolder.ThemeRegistry;`
+
+2. `ITheme`
+For the `ITheme`, the `IThemeRegistry` provides a `Current` property which can be used to retrieve the current theme. For this to work though, you need to configure a selector that defines the current theme:
+```csharp
+private ITheme SelectCurrentTheme(IThemeRegistry registry)
+{
+	//logic to select theme here
+}
+...
+ThemeRegistryHolder.ThemeRegistry =  ThemeRegistryHolder.GetBuilder().WithCurrentThemeSelector(SelectCurrentTheme).Build();
+```
+
+This enables you to use `IThemeRegistry.Current` to retrieve the current theme and `IThemeRegistry.OnThemeChanged` to be notified of changes:
+```csharp
+var mytheme = ThemeRegistryHolder.ThemeRegistry.Current;
+ThemeRegistryHolder.ThemeRegistry.OnThemeChanged += (sender, args) =>
+{
+	//logic to handle theme change here
+};
+```
 
 ### Customize theme selection
 By default, our library will honor the settings of the operating system in regard to dark mode and high contrast. If you want to add additional selection criteria or you want to give the user an option to override this selection you can do that easily.
