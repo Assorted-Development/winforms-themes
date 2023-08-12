@@ -69,11 +69,11 @@ Of course, you can extend this library and customize the handling to fit your ne
 ### Logging
 If you want to debug an issue with this library, you can enable logging in the `IThemeRegistryBuilder`:
 ```csharp
-ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory).Build();
+ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory).Build();
 ```
 This will log all actions of the library to the given `ILoggerFactory`.
 
-**Note: Any calls before calling `EnableLogging` will not be affected so we advise to call `EnableLogging` as early as possible.**
+**Note: Any calls before calling `SetLoggerFactory` will not be affected so we advise to call `SetLoggerFactory` as early as possible.**
 
 ### Customize theme selection
 By default, our library will honor the settings of the operating system in regard to dark mode and high contrast. If you want to add additional selection criteria or you want to give the user an option to override this selection you can do that easily.

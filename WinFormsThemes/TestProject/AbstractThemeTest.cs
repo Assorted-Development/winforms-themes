@@ -12,7 +12,7 @@ namespace TestProject
         {
             var plugin = new ThemePlugin();
             var registry = ThemeRegistryHolder.GetBuilder()
-                            .EnableLogging(LoggerFactory)
+                            .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var button = new Button();
@@ -25,7 +25,7 @@ namespace TestProject
         {
             var plugin = new ThemePlugin();
             var registry = ThemeRegistryHolder.GetBuilder()
-                            .EnableLogging(LoggerFactory)
+                            .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var form = new Form();
@@ -37,7 +37,7 @@ namespace TestProject
         public void PluginShouldNotBeCalledForSubType()
         {
             var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var button = new MyCustomButton();

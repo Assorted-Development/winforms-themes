@@ -72,7 +72,7 @@ namespace WinFormsThemes
             return registry;
         }
 
-        public IThemeRegistryBuilder EnableLogging(ILoggerFactory factory)
+        public IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory)
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));
             if (_loggerFactory.GetType() != typeof(NullLoggerFactory))

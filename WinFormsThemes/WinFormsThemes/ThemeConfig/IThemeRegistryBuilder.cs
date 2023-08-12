@@ -22,7 +22,7 @@ namespace WinFormsThemes
         /// enables logging for the ThemeRegistry by providing a logger factory other then <see cref="NullLoggerFactory"/>
         /// </summary>
         /// <param name="factory">the logger Factory to use</param>
-        IThemeRegistryBuilder EnableLogging(ILoggerFactory factory);
+        IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory);
 
         /// <summary>
         /// allows specifying the list of themes. If not specified, the default list will be used

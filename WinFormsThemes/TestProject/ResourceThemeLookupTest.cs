@@ -8,7 +8,7 @@ namespace TestProject
         [TestMethod]
         public void CheckDifferentFolderHandling()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
                     .FinishThemeList()
@@ -21,7 +21,7 @@ namespace TestProject
         [TestMethod]
         public void ThemeInEmbeddedResourceShouldBeFound()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
@@ -34,7 +34,7 @@ namespace TestProject
         [TestMethod]
         public void ThemeInResourceFileShouldBeFound()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
