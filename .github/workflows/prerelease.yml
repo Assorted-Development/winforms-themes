@@ -4,8 +4,21 @@
 name: .NET Pre-Release
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 'the type of the prerelease'
+        required: true
+        default: 'beta'
+        type: choice
+        options:
+        - alpha
+        - beta
+      number:
+        description: 'the number of the prerelease, e.g. 2 for beta-2'
+        required: true
+        default: "1"
+        type: string
 
 jobs:
   build:
@@ -13,17 +26,22 @@ jobs:
       contents: write
       checks: write
     runs-on: windows-latest
-
+    if: github.ref == 'refs/heads/main'
     steps:
-    - uses: actions/checkout@v3
+    - name: checkout project
+      uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore WinFormsThemes/WinFormsThemes.sln
+    - name: set prerelease version
+      run: (Get-Content WinFormsThemes/WinFormsThemes/WinFormsThemes.csproj) -replace '<Version>(\d+\.\d+.\d+)</Version>', "<Version>`$1-$Env:SUFFIX</Version>" | Out-File WinFormsThemes/WinFormsThemes/WinFormsThemes.csproj
+      env:
+        SUFFIX: ${{ inputs.type }}.${{ inputs.number }}
     - name: Build
-      run: dotnet build WinFormsThemes/WinFormsThemes.sln --no-restore
+      run: dotnet build WinFormsThemes/WinFormsThemes.sln  -c Release --no-restore
     - name: run unittests
       uses: zyborg/dotnet-tests-report@v1
       with:
@@ -40,8 +58,13 @@ jobs:
         title: "Development Build"
         files: |
           LICENSE
-          WinFormsThemes/WinFormsThemes/bin/Debug/net6.0-windows/WinFormsThemes.dll
-          WinFormsThemes/WinFormsThemes/bin/Debug/*.nupkg
-          WinFormsThemes/WinFormsThemes/bin/Debug/*.snupkg
+          WinFormsThemes/WinFormsThemes/bin/Release/net6.0-windows/WinFormsThemes.dll
+          WinFormsThemes/WinFormsThemes/bin/Release/*.nupkg
+          WinFormsThemes/WinFormsThemes/bin/Release/*.snupkg
+    - name: Pack nugets
+      run: dotnet pack WinFormsThemes/WinFormsThemes/WinFormsThemes.csproj -c Release --no-build --output .
+    - name: Push to NuGet
+      run: dotnet nuget push *.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+      
       
       

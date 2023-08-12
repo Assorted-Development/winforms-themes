@@ -43,7 +43,7 @@ jobs:
           WinFormsThemes/WinFormsThemes/bin/Release/*.nupkg
           WinFormsThemes/WinFormsThemes/bin/Release/*.snupkg
     - name: Pack nugets
-      run: dotnet pack WinFormsThemes/WinFormsThemes.sln -c Release --no-build --output .
+      run: dotnet pack WinFormsThemes/WinFormsThemes/WinFormsThemes.csproj -c Release --no-build --output .
     - name: Push to NuGet
       run: dotnet nuget push *.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
       
