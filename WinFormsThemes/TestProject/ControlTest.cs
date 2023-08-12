@@ -25,7 +25,8 @@ namespace TestProject
         [TestMethod]
         public void TestControlMdiForm()
         {
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder()
+                            .EnableLogging(LoggerFactory)
                             .Build();
             var parent = new Form
             {
@@ -150,7 +151,8 @@ namespace TestProject
             var form = new Form();
             form.Controls.Add(c);
             //create a theme registry
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder()
+                            .EnableLogging(LoggerFactory)
                             .Build();
             //make sure that the control is visible as some code(e.g. ToolStrip) does not apply
             // the theme until the control is visible

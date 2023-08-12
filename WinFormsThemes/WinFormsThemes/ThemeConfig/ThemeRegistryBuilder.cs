@@ -23,16 +23,15 @@ namespace WinFormsThemes
         /// <summary>
         /// the logger factory to use
         /// </summary>
-        private ILoggerFactory _loggerFactory;
+        private ILoggerFactory _loggerFactory = new NullLoggerFactory();
 
         /// <summary>
         /// the builder for adding themes
         /// </summary>
         private ThemeRegistryThemeListBuilder? _themeListBuilder;
 
-        public ThemeRegistryBuilder(ILoggerFactory loggerFactory)
+        public ThemeRegistryBuilder()
         {
-            _loggerFactory = loggerFactory;
             _logger = new Logger<IThemeRegistryBuilder>(_loggerFactory);
         }
 
@@ -71,6 +70,18 @@ namespace WinFormsThemes
             }
             var registry = new ThemeRegistry(themes);
             return registry;
+        }
+
+        public IThemeRegistryBuilder EnableLogging(ILoggerFactory factory)
+        {
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+            if (_loggerFactory.GetType() != typeof(NullLoggerFactory))
+            {
+                throw new InvalidOperationException("EnableLogging() can only be called once");
+            }
+            _loggerFactory = factory;
+            _logger = new Logger<IThemeRegistryBuilder>(_loggerFactory);
+            return this;
         }
 
         public IThemeRegistryThemeListBuilder WithThemes()

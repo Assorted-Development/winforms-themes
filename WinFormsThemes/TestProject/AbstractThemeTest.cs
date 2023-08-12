@@ -11,7 +11,8 @@ namespace TestProject
         public void PluginShouldBeCalledForExactType()
         {
             var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder()
+                            .EnableLogging(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var button = new Button();
@@ -23,7 +24,8 @@ namespace TestProject
         public void PluginShouldNotBeCalledForDifferentType()
         {
             var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder()
+                            .EnableLogging(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var form = new Form();
@@ -35,7 +37,7 @@ namespace TestProject
         public void PluginShouldNotBeCalledForSubType()
         {
             var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             var button = new MyCustomButton();

@@ -11,12 +11,7 @@ namespace WinFormsThemes
         /// <summary>
         /// returns a builder to create a new IThemeRegistry
         /// </summary>
-        /// <param name="loggerFactory">the loggerFactory to use for this library</param>
-        public static IThemeRegistryBuilder GetBuilder(ILoggerFactory loggerFactory) => new ThemeRegistryBuilder(loggerFactory);
-        /// <summary>
-        /// returns a builder to create a new IThemeRegistry
-        /// </summary>
-        public static IThemeRegistryBuilder GetBuilder() => new ThemeRegistryBuilder(new NullLoggerFactory());
+        public static IThemeRegistryBuilder GetBuilder() => new ThemeRegistryBuilder();
 
         /// <summary>
         /// the instance of <see cref="IThemeRegistry"/> the <see cref="ThemeRegistryHolder"/> currently holds.

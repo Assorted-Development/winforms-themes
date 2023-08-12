@@ -16,7 +16,7 @@ namespace TestProject
             var dir = Directory.CreateDirectory("themes2");
             File.WriteAllText("themes2\\test.theme.json", Resources.CONFIG_THEMING_THEME_FILE_TEST_theme);
 
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
                 .WithThemes()
                     .WithFileLookup(dir)
                     .FinishThemeList()
@@ -31,7 +31,7 @@ namespace TestProject
         {
             Directory.CreateDirectory("themes");
             File.WriteAllText("themes\\test.theme.json", Resources.CONFIG_THEMING_THEME_FILE_TEST_theme);
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
@@ -45,7 +45,7 @@ namespace TestProject
         public void ShouldNotFindFilesOutsideDirectory()
         {
             File.WriteAllText("test.theme.json", Resources.CONFIG_THEMING_THEME_FILE_TEST_2_theme);
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
@@ -60,7 +60,7 @@ namespace TestProject
             Directory.CreateDirectory("themes");
             File.WriteAllText("themes\\test.theme.json.disabled", Resources.CONFIG_THEMING_THEME_FILE_TEST_2_theme);
 
-            var registry = ThemeRegistryHolder.GetBuilder(LoggerFactory)
+            var registry = ThemeRegistryHolder.GetBuilder().EnableLogging(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
