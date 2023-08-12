@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using StylableWinFormsControls;
 using System.Diagnostics.CodeAnalysis;
@@ -15,7 +15,7 @@ namespace WinFormsThemes.Themes
         /// <summary>
         /// This allows custom themes to add additional tags and capabilities to support more specific theme filtering
         /// </summary>
-        public virtual IList<String> AdvancedCapabilities => Array.Empty<String>();
+        public virtual IList<string> AdvancedCapabilities => Array.Empty<string>();
 
         [ExcludeFromCodeCoverage]
         public abstract Color BackgroundColor { get; }
@@ -151,15 +151,15 @@ namespace WinFormsThemes.Themes
             DarkWindowsTheme.UseDarkThemeVisualStyle(control.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
             ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
 
-            control.BackColor = GetBackgroundColorForStyle(options);
+            control.BackColor = getBackgroundColorForStyle(options);
 
             // always assume disabled==false here since most controls don't support ForeColor on disabled states
             // and have to be set separately
-            control.ForeColor = GetForegroundColorForStyle(options, false);
+            control.ForeColor = getForegroundColorForStyle(options, false);
 
             Type t = control.GetType();
-            this.ThemePlugins.TryGetValue(t, out IThemePlugin? plugin);
-            if (plugin != null)
+            ThemePlugins.TryGetValue(t, out IThemePlugin? plugin);
+            if (plugin is not null)
             {
                 //TODO: does not currently support subclasses of registered types
                 plugin.Apply(control, this);
@@ -175,7 +175,7 @@ namespace WinFormsThemes.Themes
 
             if (control is TreeView tv)
             {
-                ApplyTreeView(tv);
+                applyTreeView(tv);
             }
 
             if (control is StylableButton sb)
@@ -186,19 +186,19 @@ namespace WinFormsThemes.Themes
                 sb.BorderColor = ControlBorderColor;
 
                 sb.DisabledBackColor = ButtonHoverColor;
-                sb.DisabledForeColor = GetForegroundColorForStyle(options, true);
+                sb.DisabledForeColor = getForegroundColorForStyle(options, true);
             }
 
             if (control is StylableDateTimePicker dtp)
             {
-                dtp.EnabledBackColor = GetBackgroundColorForStyle(options);
-                dtp.EnabledForeColor = GetForegroundColorForStyle(options, false);
-                dtp.DisabledBackColor = GetBackgroundColorForStyle(options);
-                dtp.DisabledForeColor = GetForegroundColorForStyle(options, true);
+                dtp.EnabledBackColor = getBackgroundColorForStyle(options);
+                dtp.EnabledForeColor = getForegroundColorForStyle(options, false);
+                dtp.DisabledBackColor = getBackgroundColorForStyle(options);
+                dtp.DisabledForeColor = getForegroundColorForStyle(options, true);
             }
             if (control is DataGridView dgv)
             {
-                ApplyDataGridView(dgv);
+                applyDataGridView(dgv);
             }
 
             if (control is System.Windows.Forms.ToolStrip ts)
@@ -207,7 +207,7 @@ namespace WinFormsThemes.Themes
                     new ThemedColorTable(
                         Color.Transparent, ControlBorderLightColor, ButtonHoverColor, ControlHighlightColor, ControlBackColor),
                     ButtonForeColor,
-                    GetForegroundColorForStyle(options, true))
+                    getForegroundColorForStyle(options, true))
                 {
                     RoundedEdges = false
                 };
@@ -217,7 +217,7 @@ namespace WinFormsThemes.Themes
             {
                 //it is okay to run this line multiple times as the eventhandler will detect this and ignore
                 //subsequent calls
-                stb.HintActiveChanged += (sender, e) => { if (sender != null) Apply((Control)sender); };
+                stb.HintActiveChanged += (sender, e) => { if (sender is not null) { Apply((Control)sender); } };
                 if (stb.IsHintActive && options != ThemeOptions.Hint)
                 {
                     Apply(stb, ThemeOptions.Hint);
@@ -235,7 +235,7 @@ namespace WinFormsThemes.Themes
 
             if (control is StylableLabel stl)
             {
-                stl.DisabledForeColor = GetForegroundColorForStyle(options, true);
+                stl.DisabledForeColor = getForegroundColorForStyle(options, true);
             }
 
             if (control is StylableListView slv)
@@ -248,7 +248,7 @@ namespace WinFormsThemes.Themes
 
             if (control is StylableCheckBox scb)
             {
-                scb.DisabledForeColor = GetForegroundColorForStyle(options, true);
+                scb.DisabledForeColor = getForegroundColorForStyle(options, true);
             }
 
             if (control is StylableComboBox scbx)
@@ -295,7 +295,7 @@ namespace WinFormsThemes.Themes
             return Color.FromArgb(baseColor.A, baseColor.R / 2, baseColor.G / 2, baseColor.B / 2);
         }
 
-        private void ApplyDataGridView(DataGridView dgv)
+        private void applyDataGridView(DataGridView dgv)
         {
             dgv.EnableHeadersVisualStyles = false;
             dgv.ColumnHeadersDefaultCellStyle.BackColor = TableHeaderBackColor;
@@ -326,25 +326,25 @@ namespace WinFormsThemes.Themes
             }
         }
 
-        private void ApplyTreeNode(TreeNode tn)
+        private void applyTreeNode(TreeNode tn)
         {
-            tn.BackColor = GetBackgroundColorForStyle(ThemeOptions.None);
-            tn.ForeColor = GetForegroundColorForStyle(ThemeOptions.None, false);
+            tn.BackColor = getBackgroundColorForStyle(ThemeOptions.None);
+            tn.ForeColor = getForegroundColorForStyle(ThemeOptions.None, false);
             foreach (TreeNode child in tn.Nodes)
             {
-                ApplyTreeNode(child);
+                applyTreeNode(child);
             }
         }
 
-        private void ApplyTreeView(TreeView tv)
+        private void applyTreeView(TreeView tv)
         {
             foreach (TreeNode child in tv.Nodes)
             {
-                ApplyTreeNode(child);
+                applyTreeNode(child);
             }
         }
 
-        private Color GetBackgroundColorForStyle(ThemeOptions options)
+        private Color getBackgroundColorForStyle(ThemeOptions options)
         {
             return options switch
             {
@@ -355,9 +355,9 @@ namespace WinFormsThemes.Themes
             };
         }
 
-        private Color GetForegroundColorForStyle(ThemeOptions options, bool disabled)
+        private Color getForegroundColorForStyle(ThemeOptions options, bool disabled)
         {
-            var baseColor = options switch
+            Color baseColor = options switch
             {
                 ThemeOptions.Success => ControlSuccessForeColor,
                 ThemeOptions.Warning => ControlWarningForeColor,

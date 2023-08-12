@@ -4,7 +4,6 @@ using System.Collections;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
-using System.Windows.Forms;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -40,13 +39,13 @@ namespace WinFormsThemes
             _resThemePrefix = prefix ?? RES_THEME_PREFIX;
         }
 
-        public int Order => Int32.MinValue;
+        public int Order => int.MinValue;
 
-        public List<ITheme> Lookup()
+        public IList<ITheme> Lookup()
         {
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
-                string name = a.FullName ?? "";
+                string name = a.FullName ?? string.Empty;
                 if (a.IsDynamic)
                 {
                     //Dynamic libraries (e.g. Expression.Compile) do not support reading resources
@@ -55,21 +54,21 @@ namespace WinFormsThemes
                     continue;
                 }
                 AssemblyCompanyAttribute? comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
-                if (comp != null && comp.Company == "Microsoft Corporation")
+                if (comp?.Company == "Microsoft Corporation")
                 {
                     _logger.LogTrace("Skipping Microsoft assembly {name}", name);
                     continue;
                 }
                 foreach (string res in a.GetManifestResourceNames())
                 {
-                    if (res.Contains(_resThemePrefix))
+                    if (res.Contains(_resThemePrefix, StringComparison.OrdinalIgnoreCase))
                     {
-                        using (Stream? stream = a.GetManifestResourceStream(res))
-                            HandleEmbeddedResource(stream, res);
+                        using Stream? stream = a.GetManifestResourceStream(res);
+                        handleEmbeddedResource(stream, res);
                     }
-                    else if (res.EndsWith(".resources"))
+                    else if (res.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
                     {
-                        HandleResource(res, a);
+                        handleResource(res, a);
                     }
                 }
             }
@@ -86,12 +85,16 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="theme"></param>
         /// <param name="resName"></param>
-        private void Add(ITheme? theme, string resName)
+        private void add(ITheme? theme, string resName)
         {
-            if (theme != null)
+            if (theme is not null)
+            {
                 _themes.Add(theme);
+            }
             else
+            {
                 _logger.LogDebug("Skipping invalid theme {key} in resource", resName);
+            }
         }
 
         /// <summary>
@@ -99,31 +102,34 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="resName"></param>
-        private void HandleEmbeddedResource(Stream? stream, string resName)
+        private void handleEmbeddedResource(Stream? stream, string resName)
         {
-            if (stream != null)
+            if (stream is not null)
             {
                 using StreamReader reader = new(stream);
-                Add(FileTheme.Load(reader.ReadToEnd()), resName);
+                add(FileTheme.Load(reader.ReadToEnd()), resName);
             }
         }
 
         /// <summary>
         /// handle Resources added to a resource file
         /// </summary>
-        /// <param name="stream"></param>
-        private void HandleResource(string resourceName, Assembly assembly)
+        private void handleResource(string resourceName, Assembly assembly)
         {
-            var resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources"));
-            var rm = new ResourceManager(resBaseName, assembly);
+            string resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources", StringComparison.OrdinalIgnoreCase));
+            ResourceManager rm = new(resBaseName, assembly);
             ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
-            if (resourceSet == null) return;
+            if (resourceSet is null)
+            {
+                return;
+            }
+
             foreach (DictionaryEntry entry in resourceSet)
             {
-                if (entry.Key is string key && key.StartsWith(_resThemePrefix) &&
+                if (entry.Key is string key && key.StartsWith(_resThemePrefix, StringComparison.OrdinalIgnoreCase) &&
                     entry.Value is string value)
                 {
-                    Add(FileTheme.Load(value), key);
+                    add(FileTheme.Load(value), key);
                 }
             }
         }

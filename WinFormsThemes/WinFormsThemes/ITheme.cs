@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -11,7 +11,7 @@ namespace WinFormsThemes
         /// <summary>
         /// This allows custom themes to add additional tags and capabilities to support more specific theme filtering
         /// </summary>
-        IList<String> AdvancedCapabilities { get; }
+        IList<string> AdvancedCapabilities { get; }
 
         /// <summary>
         /// the capabilities of this theme
@@ -37,8 +37,7 @@ namespace WinFormsThemes
         /// <summary>
         /// apply this theme to the given form
         /// </summary>
-        /// <param name="form"></param>
-        void Apply(Form control, ThemeOptions options);
+        void Apply(Form form, ThemeOptions options);
 
         /// <summary>
         /// apply this theme to the given control

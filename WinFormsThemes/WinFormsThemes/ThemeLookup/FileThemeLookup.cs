@@ -22,9 +22,9 @@ namespace WinFormsThemes
             _folder = folder;
         }
 
-        public int Order => Int32.MinValue;
+        public int Order => int.MinValue;
 
-        public List<ITheme> Lookup()
+        public IList<ITheme> Lookup()
         {
             List<ITheme> results = new();
             if (_folder.Exists)
@@ -34,7 +34,7 @@ namespace WinFormsThemes
                 foreach (FileInfo file in files)
                 {
                     ITheme? theme = FileTheme.Load(File.ReadAllText(file.FullName));
-                    if (theme != null)
+                    if (theme is not null)
                     {
                         results.Add(theme);
                     }

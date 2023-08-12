@@ -16,7 +16,7 @@ namespace TestProject
         [TestMethod]
         public void TestControlDataGridView()
         {
-            var dtaGridView = new DataGridView();
+            DataGridView dtaGridView = new();
             dtaGridView.Columns.Add("Test", "Test");
             dtaGridView.Rows.Add("Test");
             TestControl(dtaGridView);
@@ -25,17 +25,13 @@ namespace TestProject
         [TestMethod]
         public void TestControlMdiForm()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
                             .Build();
-            var parent = new Form
-            {
-                IsMdiContainer = true
-            };
-            var child = new Form
-            {
-                MdiParent = parent
-            };
+
+            using Form parent = new() { IsMdiContainer = true };
+            using Form child = new() { MdiParent = parent };
+
             parent.Show();
             TestWithTheme(parent, registry.Get(ThemeCapabilities.LightMode));
             TestWithTheme(parent, registry.Get(ThemeCapabilities.DarkMode));
@@ -58,7 +54,7 @@ namespace TestProject
         [TestMethod]
         public void TestControlStylableComboBox()
         {
-            var combobox = new StylableComboBox();
+            StylableComboBox combobox = new();
             combobox.Items.Add("Item 1");
             combobox.Items.Add("Item 2");
             combobox.Items.Add("Item 3");
@@ -84,7 +80,7 @@ namespace TestProject
         [TestMethod]
         public void TestControlStylableListView()
         {
-            var listView = new StylableListView();
+            StylableListView listView = new();
             listView.Items.Add("Test");
             TestControl(listView);
         }
@@ -92,7 +88,7 @@ namespace TestProject
         [TestMethod]
         public void TestControlStylableTabControl()
         {
-            var tabControl = new StylableTabControl();
+            StylableTabControl tabControl = new();
             tabControl.TabPages.Add("Test 1");
             tabControl.TabPages.Add("Test 2");
             TestControl(tabControl);
@@ -107,8 +103,8 @@ namespace TestProject
         [TestMethod]
         public void TestControlToolStrip()
         {
-            var toolStripContainer = new ToolStripContainer();
-            var toolstrip = new ToolStrip();
+            ToolStripContainer toolStripContainer = new();
+            ToolStrip toolstrip = new();
             toolstrip.Items.Add("Test");
             toolstrip.Items.Add("One");
             toolstrip.Items.Add("Two");
@@ -122,7 +118,7 @@ namespace TestProject
         [TestMethod]
         public void TestControlTreeView()
         {
-            var treeView = new TreeView();
+            TreeView treeView = new();
             treeView.Nodes.Add("Test");
             treeView.Nodes[0].Nodes.Add("Child");
             TestControl(treeView);
@@ -148,10 +144,10 @@ namespace TestProject
         private void TestControl(Control c, ThemeOptions options = ThemeOptions.None)
         {
             //create a form and add the control to it
-            var form = new Form();
+            Form form = new();
             form.Controls.Add(c);
             //create a theme registry
-            var registry = ThemeRegistryHolder.GetBuilder()
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
                             .Build();
             //make sure that the control is visible as some code(e.g. ToolStrip) does not apply

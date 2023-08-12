@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Nodes;
 using WinFormsThemes.Extensions;
 
@@ -7,7 +7,7 @@ namespace WinFormsThemes.Themes
     /// <summary>
     /// a generic theme that loads its config from a file
     /// </summary>
-    internal class FileTheme : AbstractTheme
+    internal sealed class FileTheme : AbstractTheme
     {
         /// <summary>
         /// constructor
@@ -17,21 +17,25 @@ namespace WinFormsThemes.Themes
         {
             string? name = (string?)doc["name"];
             //require Name to be not null
-            if (name == null || name.Length == 0)
+            if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentException("Theme name is mandatory");
             }
             Name = name;
             JsonArray? caps = (JsonArray?)doc["capabilities"];
             //require Name to be not null
-            if (caps == null || caps.Count == 0)
+            if (caps is null || caps.Count == 0)
             {
                 throw new ArgumentException("at least one capability must be set");
             }
-            List<String> advancedCaps = new();
+            List<string> advancedCaps = new();
             foreach (string? s in caps.Select(node => (string?)node))
             {
-                if (s == null) continue;
+                if (s is null)
+                {
+                    continue;
+                }
+
                 if (Enum.IsDefined(typeof(ThemeCapabilities), s))
                 {
                     Capabilities |= Enum.Parse<ThemeCapabilities>(s);
@@ -194,13 +198,16 @@ namespace WinFormsThemes.Themes
         /// Parse a theme JSON config
         /// </summary>
         /// <param name="jsonContent">the JSON content</param>
-        /// <returns></returns>
         public static FileTheme? Load(string jsonContent)
         {
             try
             {
-                var json = JsonNode.Parse(jsonContent);
-                if (json == null) return null;
+                JsonNode? json = JsonNode.Parse(jsonContent);
+                if (json is null)
+                {
+                    return null;
+                }
+
                 return new FileTheme(json);
             }
             catch (Exception)

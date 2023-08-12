@@ -10,69 +10,69 @@ namespace WinFormsThemes.Themes
     {
         public const string THEME_NAME = "LIGHT_DEFAULT_BUILTIN";
 
-        public static readonly Color COLOR_BACK_ERROR = "#B00020".ToColor();
-        public static readonly Color COLOR_BACK_PRIMARY = "#EEEEEE".ToColor();
-        public static readonly Color COLOR_BACK_PRIMARY_LIGHT = "#777777".ToColor();
-        public static readonly Color COLOR_BACK_PRIMARY_VARIANT = "#3700B3".ToColor();
-        public static readonly Color COLOR_BACK_SECONDARY = "#3487b2".ToColor();
+        public static readonly Color BACK_ERROR = "#B00020".ToColor();
+        public static readonly Color BACK_PRIMARY = "#EEEEEE".ToColor();
+        public static readonly Color BACK_PRIMARY_LIGHT = "#777777".ToColor();
+        public static readonly Color BACK_PRIMARY_VARIANT = "#3700B3".ToColor();
+        public static readonly Color BACK_SECONDARY = "#3487b2".ToColor();
 
         // Usually the form
-        public static readonly Color COLOR_BACKGROUND = "#EEEEEE".ToColor();
+        public static readonly Color BACKGROUND = "#EEEEEE".ToColor();
 
-        public static readonly Color COLOR_FORE_ERROR = "#FFFFFF".ToColor();
-        public static readonly Color COLOR_FORE_PRIMARY = "#000000".ToColor();
-        public static readonly Color COLOR_FORE_PRIMARY_VARIANT = "#ffffff".ToColor();
-        public static readonly Color COLOR_FORE_SECONDARY = "#ffffff".ToColor();
+        public static readonly Color FORE_ERROR = "#FFFFFF".ToColor();
+        public static readonly Color FORE_PRIMARY = "#000000".ToColor();
+        public static readonly Color FORE_PRIMARY_VARIANT = "#ffffff".ToColor();
+        public static readonly Color FORE_SECONDARY = "#ffffff".ToColor();
 
         // usually the containers on the form (grid, tab controls, ..)
-        public static readonly Color COLOR_SURFACE = "#EEEEEE".ToColor();
+        public static readonly Color SURFACE = "#EEEEEE".ToColor();
 
-        public static readonly Color COLOR_SURFACE_LIGHT = "#cccccc".ToColor();
-
-        [ExcludeFromCodeCoverage]
-        public override Color BackgroundColor => COLOR_BACKGROUND;
+        public static readonly Color SURFACE_LIGHT = "#cccccc".ToColor();
 
         [ExcludeFromCodeCoverage]
-        public override Color ButtonBackColor => COLOR_BACK_PRIMARY;
+        public override Color BackgroundColor => BACKGROUND;
 
         [ExcludeFromCodeCoverage]
-        public override Color ButtonForeColor => COLOR_FORE_PRIMARY;
+        public override Color ButtonBackColor => BACK_PRIMARY;
 
         [ExcludeFromCodeCoverage]
-        public override Color ButtonHoverColor => COLOR_SURFACE_LIGHT;
+        public override Color ButtonForeColor => FORE_PRIMARY;
+
+        [ExcludeFromCodeCoverage]
+        public override Color ButtonHoverColor => SURFACE_LIGHT;
 
         [ExcludeFromCodeCoverage]
         public override ThemeCapabilities Capabilities => ThemeCapabilities.LightMode;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlBackColor => COLOR_SURFACE;
+        public override Color ControlBackColor => SURFACE;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlErrorBackColor => COLOR_BACK_ERROR;
+        public override Color ControlErrorBackColor => BACK_ERROR;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlErrorForeColor => COLOR_FORE_ERROR;
+        public override Color ControlErrorForeColor => FORE_ERROR;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlForeColor => COLOR_FORE_PRIMARY;
+        public override Color ControlForeColor => FORE_PRIMARY;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlHighlightColor => COLOR_BACK_SECONDARY;
+        public override Color ControlHighlightColor => BACK_SECONDARY;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlSuccessBackColor => COLOR_BACK_SECONDARY;
+        public override Color ControlSuccessBackColor => BACK_SECONDARY;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlSuccessForeColor => COLOR_FORE_SECONDARY;
+        public override Color ControlSuccessForeColor => FORE_SECONDARY;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlWarningBackColor => COLOR_BACK_PRIMARY_VARIANT;
+        public override Color ControlWarningBackColor => BACK_PRIMARY_VARIANT;
 
         [ExcludeFromCodeCoverage]
-        public override Color ControlWarningForeColor => COLOR_FORE_PRIMARY_VARIANT;
+        public override Color ControlWarningForeColor => FORE_PRIMARY_VARIANT;
 
         [ExcludeFromCodeCoverage]
-        public override Color ForegroundColor => COLOR_FORE_PRIMARY;
+        public override Color ForegroundColor => FORE_PRIMARY;
 
         [ExcludeFromCodeCoverage]
         public override string Name => THEME_NAME;

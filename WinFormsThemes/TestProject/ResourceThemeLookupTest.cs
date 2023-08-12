@@ -8,12 +8,12 @@ namespace TestProject
         [TestMethod]
         public void CheckDifferentFolderHandling()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-file-prefix-test", theme.Name);
         }
@@ -21,12 +21,12 @@ namespace TestProject
         [TestMethod]
         public void ThemeInEmbeddedResourceShouldBeFound()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-Embedded");
+            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-Embedded");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-embedded-test", theme.Name);
         }
@@ -34,12 +34,12 @@ namespace TestProject
         [TestMethod]
         public void ThemeInResourceFileShouldBeFound()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-file-test", theme.Name);
         }
@@ -47,12 +47,12 @@ namespace TestProject
         [TestMethod]
         public void CheckDifferentPrefixHandling()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                 .WithThemes()
                     .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-file-prefix-test", theme.Name);
         }

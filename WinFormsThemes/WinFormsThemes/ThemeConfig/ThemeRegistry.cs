@@ -16,7 +16,7 @@ namespace WinFormsThemes
         /// <summary>
         /// the current theme
         /// </summary>
-        private ITheme? _current = null;
+        private ITheme? _current;
 
         /// <summary>
         /// constructor
@@ -37,11 +37,11 @@ namespace WinFormsThemes
         {
             get
             {
-                if (CurrentThemeSelector == null)
+                if (CurrentThemeSelector is null)
                 {
                     throw new InvalidOperationException("CurrentThemeSelector is null");
                 }
-                var newTheme = CurrentThemeSelector(this);
+                ITheme? newTheme = CurrentThemeSelector(this);
                 if (newTheme != _current)
                 {
                     OnThemeChanged?.Invoke(this, EventArgs.Empty);
@@ -58,7 +58,7 @@ namespace WinFormsThemes
 
         public ITheme? Get()
         {
-            return Get(GetThemeCaps());
+            return Get(getThemeCaps());
         }
 
         public ITheme? Get(string name)
@@ -68,17 +68,17 @@ namespace WinFormsThemes
 
         public ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters)
         {
-            return _themes.Values.Where(t => (t.Capabilities & caps) == caps)
-                .Where(t => advancedCapabilitiesFilters.All(f => t.AdvancedCapabilities.Contains(f)))
-                .FirstOrDefault();
+            return _themes.Values
+                .Where(t => (t.Capabilities & caps) == caps)
+                .FirstOrDefault(t => advancedCapabilitiesFilters.All(f => t.AdvancedCapabilities.Contains(f)));
         }
 
-        public List<ITheme> List()
+        public IList<ITheme> List()
         {
             return _themes.Values.ToList();
         }
 
-        public List<string> ListNames()
+        public IList<string> ListNames()
         {
             return _themes.Keys.ToList();
         }
@@ -86,9 +86,7 @@ namespace WinFormsThemes
         /// <summary>
         /// return the theme capabilities
         /// </summary>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        private static ThemeCapabilities GetThemeCaps(bool dark, bool highContrast)
+        private static ThemeCapabilities getThemeCaps(bool dark, bool highContrast)
         {
             ThemeCapabilities caps = ThemeCapabilities.None;
             if (dark)
@@ -109,10 +107,9 @@ namespace WinFormsThemes
         /// <summary>
         /// return the theme capabilities as configured by the user
         /// </summary>
-        /// <returns></returns>
-        private static ThemeCapabilities GetThemeCaps()
+        private static ThemeCapabilities getThemeCaps()
         {
-            return GetThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
+            return getThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
         }
     }
 }

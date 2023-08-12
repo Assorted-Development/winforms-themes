@@ -54,12 +54,14 @@ namespace WinFormsThemes
             return this;
         }
 
-        //create a building pattern for ThemeRegistry
+        /// <summary>
+        /// create a building pattern for ThemeRegistry
+        /// </summary>
         public IThemeRegistry Build()
         {
             //build the list of themes
             Dictionary<string, ITheme> themes;
-            if (_themeListBuilder == null)
+            if (_themeListBuilder is null)
             {
                 //themes were not set explicitly so initialize with default themes
                 _logger.LogDebug("No themes were set explicitly, initializing with default themes");
@@ -71,16 +73,20 @@ namespace WinFormsThemes
             //initialize the themes if plugins were set
             if (_themePlugins.Count > 0)
             {
-                var plugins = new ReadOnlyDictionary<Type, IThemePlugin>(_themePlugins);
+                ReadOnlyDictionary<Type, IThemePlugin> plugins = new(_themePlugins);
                 themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
             }
-            var registry = new ThemeRegistry(themes, _currentThemeSelector);
+            ThemeRegistry registry = new(themes, _currentThemeSelector);
             return registry;
         }
 
         public IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory)
         {
-            if (factory == null) throw new ArgumentNullException(nameof(factory));
+            if (factory is null)
+            {
+                throw new ArgumentNullException(nameof(factory));
+            }
+
             if (_loggerFactory.GetType() != typeof(NullLoggerFactory))
             {
                 throw new InvalidOperationException("EnableLogging() can only be called once");
@@ -92,7 +98,7 @@ namespace WinFormsThemes
 
         public IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector)
         {
-            if (_currentThemeSelector != null)
+            if (_currentThemeSelector is not null)
             {
                 throw new InvalidOperationException("WithCurrentThemeSelector() can only be called once");
             }
@@ -102,7 +108,7 @@ namespace WinFormsThemes
 
         public IThemeRegistryThemeListBuilder WithThemes()
         {
-            if (_themeListBuilder != null)
+            if (_themeListBuilder is not null)
             {
                 _logger.LogError("WithThemes() can only be called once");
                 throw new InvalidOperationException("WithThemes() can only be called once");
@@ -120,12 +126,12 @@ namespace WinFormsThemes
         /// <summary>
         /// the logger to use
         /// </summary>
-        private readonly ILogger<IThemeRegistryThemeListBuilder> _logger = new Logger<IThemeRegistryThemeListBuilder>(new NullLoggerFactory());
+        private readonly ILogger<IThemeRegistryThemeListBuilder> _logger;
 
         /// <summary>
         /// the logger factory to use
         /// </summary>
-        private readonly ILoggerFactory _loggerFactory = new NullLoggerFactory();
+        private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
         /// the list of lookups to use
@@ -213,7 +219,6 @@ namespace WinFormsThemes
         /// <summary>
         /// Build the final list of themes
         /// </summary>
-        /// <returns></returns>
         internal Dictionary<string, ITheme> Build()
         {
             //sort the lookups in descending order
@@ -226,7 +231,7 @@ namespace WinFormsThemes
                 {
                     lookup.UseLogger(_loggerFactory);
                     //get the themes from the lookup
-                    List<ITheme> themes = lookup.Lookup();
+                    IList<ITheme> themes = lookup.Lookup();
                     //loop through all themes
                     foreach (ITheme theme in themes)
                     {

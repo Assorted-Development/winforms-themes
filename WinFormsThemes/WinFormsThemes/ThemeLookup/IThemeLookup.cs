@@ -15,8 +15,7 @@ namespace WinFormsThemes
         /// <summary>
         /// find all existing themes
         /// </summary>
-        /// <returns></returns>
-        List<ITheme> Lookup();
+        IList<ITheme> Lookup();
 
         /// <summary>
         /// create a logger from the given factory and use that for logging

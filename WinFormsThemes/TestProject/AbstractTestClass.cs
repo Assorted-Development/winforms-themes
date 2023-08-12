@@ -11,7 +11,7 @@ namespace TestProject
         /// <summary>
         /// the current Test context
         /// </summary>
-        public TestContext TestContext { get; set; }
+        public TestContext? TestContext { get; set; }
 
         /// <summary>
         /// Logging factory
@@ -24,7 +24,7 @@ namespace TestProject
         [TestCleanup]
         public void CleanupLogging()
         {
-            LoggerFactory.Dispose();
+            LoggerFactory?.Dispose();
         }
 
         /// <summary>

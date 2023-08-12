@@ -1,7 +1,11 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace WinFormsThemes.Native;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Security",
+    "CA5392:Use DefaultDllImportSearchPaths attribute for P/Invokes",
+    Justification = "All assemblies are commonly used system assemblies")]
 internal class NativeMethods
 {
     /// <summary>
@@ -20,7 +24,6 @@ internal class NativeMethods
     /// <param name="attr"></param>
     /// <param name="attrValue"></param>
     /// <param name="attrSize"></param>
-    /// <returns></returns>
     [DllImport("dwmapi.dll")]
     internal static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
 

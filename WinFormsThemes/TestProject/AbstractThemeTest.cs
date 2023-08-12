@@ -10,12 +10,12 @@ namespace TestProject
         [TestMethod]
         public void PluginShouldBeCalledForExactType()
         {
-            var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder()
+            ThemePlugin plugin = new();
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
-            var button = new Button();
+            using Button button = new();
             registry.Get()?.Apply(button);
             Assert.IsTrue(plugin.WasCalled);
         }
@@ -23,12 +23,12 @@ namespace TestProject
         [TestMethod]
         public void PluginShouldNotBeCalledForDifferentType()
         {
-            var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder()
+            ThemePlugin plugin = new();
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
-            var form = new Form();
+            using Form form = new();
             registry.Get()?.Apply(form);
             Assert.IsFalse(plugin.WasCalled);
         }
@@ -36,11 +36,11 @@ namespace TestProject
         [TestMethod]
         public void PluginShouldNotBeCalledForSubType()
         {
-            var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            ThemePlugin plugin = new();
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
-            var button = new MyCustomButton();
+            using MyCustomButton button = new();
             registry.Get()?.Apply(button);
             Assert.IsFalse(plugin.WasCalled);
         }

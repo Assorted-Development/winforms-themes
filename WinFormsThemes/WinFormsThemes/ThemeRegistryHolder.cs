@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-
-namespace WinFormsThemes
+﻿namespace WinFormsThemes
 {
     /// <summary>
     /// Holder of the central theme registry for applications without dependency injection and only a single theme registry

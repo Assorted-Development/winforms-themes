@@ -42,13 +42,11 @@ namespace WinFormsThemes
         /// <summary>
         /// returns all themes that are registered in this <see cref="IThemeRegistry"/> instance
         /// </summary>
-        /// <returns></returns>
-        List<ITheme> List();
+        IList<ITheme> List();
 
         /// <summary>
         /// returns a list of the names of all themes that are registered in this <see cref="IThemeRegistry"/> instance
         /// </summary>
-        /// <returns></returns>
-        List<string> ListNames();
+        IList<string> ListNames();
     }
 }
