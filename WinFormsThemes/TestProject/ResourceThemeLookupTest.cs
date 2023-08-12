@@ -32,7 +32,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void CheckDifferentFolderHandling()
+        public void CheckDifferentPrefixHandling()
         {
             var registry = ThemeRegistryHolder.GetBuilder()
                 .WithThemes()
