@@ -61,6 +61,16 @@ namespace TestProject.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+        /// </summary>
+        internal static System.Drawing.Icon close_window_24 {
+            get {
+                object obj = ResourceManager.GetObject("close-window-24", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {
         ///  &quot;name&quot;: &quot;file-error-test&quot;,
         ///  &quot;capabilities&quot;: [ &quot;DarkMode&quot;, &quot;File&quot;, &quot;Error&quot; ],
