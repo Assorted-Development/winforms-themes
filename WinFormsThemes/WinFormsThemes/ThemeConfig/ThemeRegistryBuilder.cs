@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.ObjectModel;
+using WinFormsThemes.ThemeConfig;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -14,6 +15,11 @@ namespace WinFormsThemes
         /// dictionary of all theme plugins
         /// </summary>
         private readonly Dictionary<Type, IThemePlugin> _themePlugins = new();
+
+        /// <summary>
+        /// the given selector for the current theme
+        /// </summary>
+        private CurrentThemeSelector? _currentThemeSelector;
 
         /// <summary>
         /// the logger to use
@@ -68,7 +74,7 @@ namespace WinFormsThemes
                 var plugins = new ReadOnlyDictionary<Type, IThemePlugin>(_themePlugins);
                 themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
             }
-            var registry = new ThemeRegistry(themes);
+            var registry = new ThemeRegistry(themes, _currentThemeSelector);
             return registry;
         }
 
@@ -81,6 +87,16 @@ namespace WinFormsThemes
             }
             _loggerFactory = factory;
             _logger = new Logger<IThemeRegistryBuilder>(_loggerFactory);
+            return this;
+        }
+
+        public IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector)
+        {
+            if (_currentThemeSelector != null)
+            {
+                throw new InvalidOperationException("WithCurrentThemeSelector() can only be called once");
+            }
+            _currentThemeSelector = selector;
             return this;
         }
 

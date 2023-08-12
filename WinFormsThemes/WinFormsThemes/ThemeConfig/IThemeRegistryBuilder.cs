@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
+using WinFormsThemes.ThemeConfig;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
@@ -23,6 +24,12 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="factory">the logger Factory to use</param>
         IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory);
+
+        /// <summary>
+        /// Adds a selector for the current theme so that <see cref="IThemeRegistry.Current"/> can be used
+        /// </summary>
+        /// <param name="selector">the selector to use</param>
+        IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector);
 
         /// <summary>
         /// allows specifying the list of themes. If not specified, the default list will be used
@@ -60,6 +67,7 @@ namespace WinFormsThemes
         /// </summary>
         /// <returns></returns>
         IThemeRegistryThemeListBuilder FromDefaultLookups();
+
 
         /// <summary>
         /// adds FileSystemThemeLookup to the list of lookups

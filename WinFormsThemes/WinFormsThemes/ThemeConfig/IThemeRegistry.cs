@@ -1,4 +1,6 @@
-﻿namespace WinFormsThemes
+﻿using WinFormsThemes.ThemeConfig;
+
+namespace WinFormsThemes
 {
     /// <summary>
     /// interface for interacting with the theme registry
@@ -13,7 +15,8 @@
         /// <summary>
         /// the current theme
         /// </summary>
-        ITheme? Current { get; set; }
+        /// <exception cref="InvalidOperationException">thrown when <see cref="IThemeRegistryBuilder.WithCurrentThemeSelector(CurrentThemeSelector)"/> was not called</exception>
+        ITheme? Current { get; }
 
         /// <summary>
         /// returns the theme with capabilities configured by the user

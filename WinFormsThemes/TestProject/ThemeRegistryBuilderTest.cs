@@ -26,6 +26,14 @@ namespace TestProject
         }
 
         [TestMethod]
+        public void AddingCurrentSelectorTwiceShouldThrow()
+        {
+            var registry = ThemeRegistryHolder.GetBuilder()
+                            .WithCurrentThemeSelector(registry => registry.Get());
+            Assert.ThrowsException<InvalidOperationException>(() => registry.WithCurrentThemeSelector(registry => registry.Get()));
+        }
+
+        [TestMethod]
         public void AddingThemeTwiceShouldThrow()
         {
             var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)

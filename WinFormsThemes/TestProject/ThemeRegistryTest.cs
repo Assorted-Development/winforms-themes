@@ -19,10 +19,11 @@ namespace TestProject
         public void OnThemeChangedShouldFireOnChange()
         {
             var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+                            .WithCurrentThemeSelector((r) => r.Get())
                             .Build();
             bool fired = false;
             registry.OnThemeChanged += (sender, args) => fired = true;
-            registry.Current = registry.Get();
+            var current = registry.Current;
             Assert.IsTrue(fired);
         }
 
@@ -30,12 +31,21 @@ namespace TestProject
         public void OnThemeChangedShouldNotFireOnSameTheme()
         {
             var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+                            .WithCurrentThemeSelector((r) => r.Get())
                             .Build();
-            registry.Current = registry.Get();
+            var current = registry.Current;
             bool fired = false;
             registry.OnThemeChanged += (sender, args) => fired = true;
-            registry.Current = registry.Get();
+            current = registry.Current;
             Assert.IsFalse(fired);
+        }
+
+        [TestMethod]
+        public void CurrentShouldThrowWithoutSelector()
+        {
+            var registry = ThemeRegistryHolder.GetBuilder()
+                            .Build();
+            Assert.ThrowsException<InvalidOperationException>(() => registry.Current);
         }
 
         [TestMethod]

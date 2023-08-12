@@ -1,4 +1,5 @@
-﻿using WinFormsThemes.Utilities;
+﻿using WinFormsThemes.ThemeConfig;
+using WinFormsThemes.Utilities;
 
 namespace WinFormsThemes
 {
@@ -21,9 +22,10 @@ namespace WinFormsThemes
         /// constructor
         /// </summary>
         /// <param name="themes">all available themes with their name as key and the <see cref="ITheme"/> instance as value</param>
-        public ThemeRegistry(Dictionary<string, ITheme> themes)
+        public ThemeRegistry(Dictionary<string, ITheme> themes, CurrentThemeSelector? selector)
         {
             _themes = themes;
+            CurrentThemeSelector = selector;
         }
 
         /// <summary>
@@ -35,17 +37,24 @@ namespace WinFormsThemes
         {
             get
             {
-                return _current;
-            }
-            set
-            {
-                if (_current != value)
+                if (CurrentThemeSelector == null)
                 {
-                    _current = value;
-                    OnThemeChanged?.Invoke(value, EventArgs.Empty);
+                    throw new InvalidOperationException("CurrentThemeSelector is null");
                 }
+                var newTheme = CurrentThemeSelector(this);
+                if (newTheme != _current)
+                {
+                    OnThemeChanged?.Invoke(this, EventArgs.Empty);
+                    _current = newTheme;
+                }
+                return newTheme;
             }
         }
+
+        /// <summary>
+        /// A simple way to provide a current theme through <see cref="IThemeRegistry.Current"/>.
+        /// </summary>
+        private CurrentThemeSelector? CurrentThemeSelector { get; }
 
         public ITheme? Get()
         {
