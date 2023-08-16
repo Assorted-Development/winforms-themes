@@ -1,0 +1,12 @@
+{
+  "stryker-config": {
+    "reporters": [
+      "progress",
+      "html"
+    ],
+    "solution": "WinFormsThemes/WinFormsThemes.sln",
+    "project": "WinFormsThemes/WinFormsThemes/WinFormsThemes.csproj",
+    "test-projects": [ "WinFormsThemes/TestProject/TestProject.csproj" ],
+    "test-case-filter": "TestCategory!=LONG_RUNNING"
+  }
+}

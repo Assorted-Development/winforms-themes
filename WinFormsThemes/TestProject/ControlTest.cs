@@ -4,6 +4,7 @@ using WinFormsThemes;
 
 namespace TestProject
 {
+    [TestCategory("LONG_RUNNING")]
     [TestClass]
     public class ControlTest
     {
