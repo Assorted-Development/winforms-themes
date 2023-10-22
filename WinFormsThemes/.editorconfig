@@ -16,16 +16,8 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# Not supported
+# Not supported (see https://developercommunity.visualstudio.com/t/support-max-line-length-in-editorconfig-for-visual/567214)
 max_line_length = 140
-
-# Für Cobol dürfen die allgemeinen Einstellungen wegen Compiler-Kompatibilität nicht gesetzt sein.
-[*.{cbl,cpy}]
-charset = unset
-end_of_line = unset
-indent_size = unset
-indent_style = unset
-insert_final_newline = unset
 
 ############################################################################################################################################
 # Editor Guidelines                                                                                                                        #
