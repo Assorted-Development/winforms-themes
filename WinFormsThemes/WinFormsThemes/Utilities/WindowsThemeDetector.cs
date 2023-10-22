@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 
 namespace WinFormsThemes.Utilities
 {
@@ -8,7 +8,7 @@ namespace WinFormsThemes.Utilities
     internal static class WindowsThemeDetector
     {
         /// <summary>
-        /// retruns true if the global dark mode is enabled
+        /// returns true if the global dark mode is enabled
         /// </summary>
         internal static bool GetDarkMode()
         {

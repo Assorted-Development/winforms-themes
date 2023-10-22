@@ -21,31 +21,18 @@ namespace WinFormsThemes.Themes
             {
                 throw new ArgumentException("Theme name is mandatory");
             }
+
             Name = name;
             JsonArray? caps = (JsonArray?)doc["capabilities"];
+
             //require Name to be not null
             if (caps is null || caps.Count == 0)
             {
                 throw new ArgumentException("at least one capability must be set");
             }
-            List<string> advancedCaps = new();
-            foreach (string? s in caps.Select(node => (string?)node))
-            {
-                if (s is null)
-                {
-                    continue;
-                }
 
-                if (Enum.IsDefined(typeof(ThemeCapabilities), s))
-                {
-                    Capabilities |= Enum.Parse<ThemeCapabilities>(s);
-                }
-                else
-                {
-                    advancedCaps.Add(s);
-                }
-            }
-            AdvancedCapabilities = advancedCaps.AsReadOnly();
+            Capabilities = getThemeCapabilities(caps);
+            AdvancedCapabilities = getAdvancedCapabilities(caps).AsReadOnly();
 
             //use the theme version to update the configured colors if necessary
             //e.g. when a new version adds a new color you may calculate the missing value from the existing ones
@@ -102,6 +89,44 @@ namespace WinFormsThemes.Themes
                 ControlBorderColor = ((string?)doc["colors"]?["controlBorderColor"]).ToColor();
                 ControlBorderLightColor = ((string?)doc["colors"]?["controlBorderLightColor"]).ToColor();
             }
+        }
+
+        private static List<string> getAdvancedCapabilities(JsonArray caps)
+        {
+            List<string> advancedCaps = new();
+            foreach (string? s in caps.Select(node => (string?)node))
+            {
+                if (s is null)
+                {
+                    continue;
+                }
+
+                if (!Enum.IsDefined(typeof(ThemeCapabilities), s))
+                {
+                    advancedCaps.Add(s);
+                }
+            }
+
+            return advancedCaps;
+        }
+
+        private static ThemeCapabilities getThemeCapabilities(JsonArray caps)
+        {
+            ThemeCapabilities capabilities = ThemeCapabilities.None;
+            foreach (string? s in caps.Select(node => (string?)node))
+            {
+                if (s is null)
+                {
+                    continue;
+                }
+
+                if (Enum.IsDefined(typeof(ThemeCapabilities), s))
+                {
+                    capabilities |= Enum.Parse<ThemeCapabilities>(s);
+                }
+            }
+
+            return capabilities;
         }
 
         [ExcludeFromCodeCoverage]

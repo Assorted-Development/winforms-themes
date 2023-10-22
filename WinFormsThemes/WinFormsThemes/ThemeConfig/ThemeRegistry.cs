@@ -1,4 +1,4 @@
-﻿using WinFormsThemes.ThemeConfig;
+using WinFormsThemes.ThemeConfig;
 using WinFormsThemes.Utilities;
 
 namespace WinFormsThemes

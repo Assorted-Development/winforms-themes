@@ -125,6 +125,7 @@ namespace WinFormsThemes.Themes
 
         public void Apply(Form form, ThemeOptions options)
         {
+            ArgumentNullException.ThrowIfNull(form);
             form.SuspendLayout();
 
             DarkWindowsTheme.UseImmersiveDarkMode(form.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
@@ -148,6 +149,8 @@ namespace WinFormsThemes.Themes
 
         public void Apply(Control control, ThemeOptions options)
         {
+            ArgumentNullException.ThrowIfNull(control);
+
             DarkWindowsTheme.UseDarkThemeVisualStyle(control.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
             ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
 
