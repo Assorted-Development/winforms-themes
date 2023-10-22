@@ -7,6 +7,10 @@
     "solution": "WinFormsThemes/WinFormsThemes.sln",
     "project": "WinFormsThemes/WinFormsThemes/WinFormsThemes.csproj",
     "test-projects": [ "WinFormsThemes/TestProject/TestProject.csproj" ],
-    "test-case-filter": "TestCategory!=LONG_RUNNING"
+    "test-case-filter": "TestCategory!=LONG_RUNNING",
+    "mutation-level": "Complete",
+    "coverage-analysis": "perTestInIsolation",
+    "disable-mix-mutants": true,
+    "break-on-initial-test-failure":  true
   }
 }

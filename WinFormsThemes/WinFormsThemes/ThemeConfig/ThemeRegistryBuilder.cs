@@ -49,11 +49,8 @@ namespace WinFormsThemes
             }
             themes = _themeListBuilder.Build();
             //initialize the themes if plugins were set
-            if (_themePlugins.Count > 0)
-            {
-                var plugins = new ReadOnlyDictionary<Type, IThemePlugin>(_themePlugins);
-                themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
-            }
+            var plugins = new ReadOnlyDictionary<Type, IThemePlugin>(_themePlugins);
+            themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
             var registry = new ThemeRegistry(themes, _currentThemeSelector);
             return registry;
         }
