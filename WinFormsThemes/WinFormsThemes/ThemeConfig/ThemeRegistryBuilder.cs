@@ -76,16 +76,12 @@ namespace WinFormsThemes
                 ReadOnlyDictionary<Type, IThemePlugin> plugins = new(_themePlugins);
                 themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
             }
-            ThemeRegistry registry = new(themes, _currentThemeSelector);
-            return registry;
+            return new ThemeRegistry(themes, _currentThemeSelector);
         }
 
         public IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory)
         {
-            if (factory is null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
+            ArgumentNullException.ThrowIfNull(factory);
 
             if (_loggerFactory.GetType() != typeof(NullLoggerFactory))
             {
@@ -230,10 +226,9 @@ namespace WinFormsThemes
                 try
                 {
                     lookup.UseLogger(_loggerFactory);
-                    //get the themes from the lookup
-                    IList<ITheme> themes = lookup.Lookup();
-                    //loop through all themes
-                    foreach (ITheme theme in themes)
+
+                    //get the themes from the lookup and loop through them
+                    foreach (ITheme theme in lookup.Lookup())
                     {
                         //add the theme to the list but check if it already exists first
                         if (!_themes.ContainsKey(theme.Name))
