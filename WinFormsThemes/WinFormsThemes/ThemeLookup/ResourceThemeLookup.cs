@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections;
 using System.Globalization;
@@ -61,12 +61,12 @@ namespace WinFormsThemes
                 }
                 foreach (string res in a.GetManifestResourceNames())
                 {
-                    if (res.Contains(_resThemePrefix, StringComparison.OrdinalIgnoreCase))
+                    if (res.Contains(_resThemePrefix, StringComparison.Ordinal))
                     {
                         using Stream? stream = a.GetManifestResourceStream(res);
                         handleEmbeddedResource(stream, res);
                     }
-                    else if (res.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
+                    else if (res.EndsWith(".resources", StringComparison.Ordinal))
                     {
                         handleResource(res, a);
                     }
@@ -116,7 +116,7 @@ namespace WinFormsThemes
         /// </summary>
         private void handleResource(string resourceName, Assembly assembly)
         {
-            string resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources", StringComparison.OrdinalIgnoreCase));
+            string resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources", StringComparison.Ordinal));
             ResourceManager rm = new(resBaseName, assembly);
             ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
             if (resourceSet is null)
@@ -126,7 +126,7 @@ namespace WinFormsThemes
 
             foreach (DictionaryEntry entry in resourceSet)
             {
-                if (entry.Key is string key && key.StartsWith(_resThemePrefix, StringComparison.OrdinalIgnoreCase) &&
+                if (entry.Key is string key && key.StartsWith(_resThemePrefix, StringComparison.Ordinal) &&
                     entry.Value is string value)
                 {
                     add(FileTheme.Load(value), key);
