@@ -112,6 +112,11 @@ namespace WinFormsThemes
             _themeListBuilder = new ThemeRegistryThemeListBuilder(this, _loggerFactory);
             return _themeListBuilder;
         }
+
+        public void Dispose()
+        {
+            _loggerFactory.Dispose();
+        }
     }
 
     /// <summary>

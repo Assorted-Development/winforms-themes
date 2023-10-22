@@ -4,7 +4,7 @@ using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
 {
-    public interface IThemeRegistryBuilder
+    public interface IThemeRegistryBuilder : IDisposable
     {
         /// <summary>
         /// Add a plugin to handle additional controls for Themes that support it
