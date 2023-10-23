@@ -1,4 +1,4 @@
-﻿using WinFormsThemes.ThemeConfig;
+using WinFormsThemes.ThemeConfig;
 
 namespace WinFormsThemes
 {
@@ -8,7 +8,7 @@ namespace WinFormsThemes
     public interface IThemeRegistry
     {
         /// <summary>
-        /// Event that triggers when the <see cref="Current"/> theme has changed
+        /// Event that triggers when the <see cref="CurrentTheme"/> theme has changed
         /// </summary>
         public event EventHandler? OnThemeChanged;
 
@@ -16,20 +16,20 @@ namespace WinFormsThemes
         /// the current theme
         /// </summary>
         /// <exception cref="InvalidOperationException">thrown when <see cref="IThemeRegistryBuilder.WithCurrentThemeSelector(CurrentThemeSelector)"/> was not called</exception>
-        ITheme? Current { get; }
+        ITheme? CurrentTheme { get; }
 
         /// <summary>
         /// returns the theme with capabilities configured by the user
         /// </summary>
         /// <returns></returns>
-        ITheme? Get();
+        ITheme? GetTheme();
 
         /// <summary>
         /// return the theme with a given name
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        ITheme? Get(string name);
+        ITheme? GetTheme(string name);
 
         /// <summary>
         /// returns a theme with the matching capabilities
@@ -37,12 +37,12 @@ namespace WinFormsThemes
         /// <param name="caps">Can be used to filter for light/dark/high contrast themes</param>
         /// <param name="advancedCapabilitiesFilters">Can be used to filter for custom identifiers in custom themes (e.g. file based themes)</param>
         /// <returns></returns>
-        ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters);
+        ITheme? GetTheme(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters);
 
         /// <summary>
         /// returns all themes that are registered in this <see cref="IThemeRegistry"/> instance
         /// </summary>
-        IList<ITheme> List();
+        IList<ITheme> ListThemes();
 
         /// <summary>
         /// returns a list of the names of all themes that are registered in this <see cref="IThemeRegistry"/> instance

@@ -29,11 +29,11 @@ namespace WinFormsThemes
         }
 
         /// <summary>
-        /// Event that gets triggered when the <see cref="Current"/> theme has changed
+        /// Event that gets triggered when the <see cref="CurrentTheme"/> theme has changed
         /// </summary>
         public event EventHandler? OnThemeChanged;
 
-        public ITheme? Current
+        public ITheme? CurrentTheme
         {
             get
             {
@@ -52,28 +52,28 @@ namespace WinFormsThemes
         }
 
         /// <summary>
-        /// A simple way to provide a current theme through <see cref="IThemeRegistry.Current"/>.
+        /// A simple way to provide a current theme through <see cref="IThemeRegistry.CurrentTheme"/>.
         /// </summary>
         private CurrentThemeSelector? CurrentThemeSelector { get; }
 
-        public ITheme? Get()
+        public ITheme? GetTheme()
         {
-            return Get(getThemeCaps());
+            return GetTheme(getThemeCaps());
         }
 
-        public ITheme? Get(string name)
+        public ITheme? GetTheme(string name)
         {
             return _themes.ContainsKey(name) ? _themes[name] : null;
         }
 
-        public ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters)
+        public ITheme? GetTheme(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters)
         {
             return _themes.Values
                 .Where(t => (t.Capabilities & caps) == caps)
                 .FirstOrDefault(t => advancedCapabilitiesFilters.All(f => t.AdvancedCapabilities.Contains(f)));
         }
 
-        public IList<ITheme> List()
+        public IList<ITheme> ListThemes()
         {
             return _themes.Values.ToList();
         }

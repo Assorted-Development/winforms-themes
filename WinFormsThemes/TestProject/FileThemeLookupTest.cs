@@ -21,7 +21,7 @@ namespace TestProject
                     .WithFileLookup(dir)
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "File", "OK");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "OK");
             Assert.IsNotNull(theme);
             Assert.AreEqual("file-ok-test", theme.Name);
         }
@@ -36,7 +36,7 @@ namespace TestProject
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "File", "OK");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "OK");
             Assert.IsNotNull(theme);
             Assert.AreEqual("file-ok-test", theme.Name);
         }
@@ -50,7 +50,7 @@ namespace TestProject
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "File", "Error");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "Error");
             Assert.IsNull(theme);
         }
 
@@ -65,7 +65,7 @@ namespace TestProject
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "File", "Error");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "Error");
             Assert.IsNull(theme);
         }
     }

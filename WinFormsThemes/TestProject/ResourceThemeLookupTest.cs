@@ -13,7 +13,7 @@ namespace TestProject
                     .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-file-prefix-test", theme.Name);
         }
@@ -26,7 +26,7 @@ namespace TestProject
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-Embedded");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "Resource-Embedded");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-embedded-test", theme.Name);
         }
@@ -39,7 +39,7 @@ namespace TestProject
                     .WithLookup(new ResourceThemeLookup())
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-file-test", theme.Name);
         }
@@ -52,7 +52,7 @@ namespace TestProject
                     .WithResourceLookup("CUSTOM_THEMING_PREFIX_")
                     .FinishThemeList()
                 .Build();
-            ITheme? theme = registry.Get(ThemeCapabilities.DarkMode, "Resource-File");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "Resource-File");
             Assert.IsNotNull(theme);
             Assert.AreEqual("resource-file-prefix-test", theme.Name);
         }

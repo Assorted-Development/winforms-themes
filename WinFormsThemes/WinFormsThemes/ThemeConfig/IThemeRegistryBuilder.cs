@@ -25,7 +25,7 @@ namespace WinFormsThemes
         IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory);
 
         /// <summary>
-        /// Adds a selector for the current theme so that <see cref="IThemeRegistry.Current"/> can be used
+        /// Adds a selector for the current theme so that <see cref="IThemeRegistry.CurrentTheme"/> can be used
         /// </summary>
         /// <param name="selector">the selector to use</param>
         IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector);

@@ -33,9 +33,9 @@ namespace TestProject
             using Form child = new() { MdiParent = parent };
 
             parent.Show();
-            testWithTheme(parent, registry.Get(ThemeCapabilities.LightMode));
-            testWithTheme(parent, registry.Get(ThemeCapabilities.DarkMode));
-            testWithTheme(parent, registry.Get(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast));
+            testWithTheme(parent, registry.GetTheme(ThemeCapabilities.LightMode));
+            testWithTheme(parent, registry.GetTheme(ThemeCapabilities.DarkMode));
+            testWithTheme(parent, registry.GetTheme(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast));
             parent.Close();
         }
 
@@ -153,9 +153,9 @@ namespace TestProject
             //make sure that the control is visible as some code(e.g. ToolStrip) does not apply
             // the theme until the control is visible
             form.Show();
-            testWithTheme(form, registry.Get(ThemeCapabilities.LightMode), options);
-            testWithTheme(form, registry.Get(ThemeCapabilities.DarkMode), options);
-            testWithTheme(form, registry.Get(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast), options);
+            testWithTheme(form, registry.GetTheme(ThemeCapabilities.LightMode), options);
+            testWithTheme(form, registry.GetTheme(ThemeCapabilities.DarkMode), options);
+            testWithTheme(form, registry.GetTheme(ThemeCapabilities.DarkMode | ThemeCapabilities.HighContrast), options);
             //close the form but allow the control to be reused
             form.Controls.Remove(c);
             form.Close();

@@ -13,8 +13,8 @@ namespace TestProject
             IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(new ThemePlugin())
                             .Build();
-            Assert.AreEqual(1, registry.Get()?.ThemePlugins?.Count);
-            Assert.AreEqual(typeof(ThemePlugin), registry.Get()?.ThemePlugins?[typeof(Button)]?.GetType());
+            Assert.AreEqual(1, registry.GetTheme()?.ThemePlugins?.Count);
+            Assert.AreEqual(typeof(ThemePlugin), registry.GetTheme()?.ThemePlugins?[typeof(Button)]?.GetType());
         }
 
         [TestMethod]
@@ -29,8 +29,8 @@ namespace TestProject
         public void AddingCurrentSelectorTwiceShouldThrow()
         {
             IThemeRegistryBuilder registry = ThemeRegistryHolder.GetBuilder()
-                            .WithCurrentThemeSelector(registry => registry.Get());
-            Assert.ThrowsException<InvalidOperationException>(() => registry.WithCurrentThemeSelector(registry => registry.Get()));
+                            .WithCurrentThemeSelector(registry => registry.GetTheme());
+            Assert.ThrowsException<InvalidOperationException>(() => registry.WithCurrentThemeSelector(registry => registry.GetTheme()));
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace TestProject
             Assert.IsTrue(registry.ListNames().Contains(DefaultDarkTheme.THEME_NAME));
             Assert.IsTrue(registry.ListNames().Contains(DefaultLightTheme.THEME_NAME));
             Assert.IsTrue(registry.ListNames().Contains(HighContrastDarkTheme.THEME_NAME));
-            Assert.AreEqual(0, registry.Get(DefaultDarkTheme.THEME_NAME)?.AdvancedCapabilities?.Count);
+            Assert.AreEqual(0, registry.GetTheme(DefaultDarkTheme.THEME_NAME)?.AdvancedCapabilities?.Count);
         }
 
         private class ThemePlugin : IThemePlugin

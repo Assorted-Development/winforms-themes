@@ -16,7 +16,7 @@ namespace TestProject
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             using Button button = new();
-            registry.Get()?.Apply(button);
+            registry.GetTheme()?.Apply(button);
             Assert.IsTrue(plugin.WasCalled);
         }
 
@@ -29,7 +29,7 @@ namespace TestProject
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             using Form form = new();
-            registry.Get()?.Apply(form);
+            registry.GetTheme()?.Apply(form);
             Assert.IsFalse(plugin.WasCalled);
         }
 
@@ -41,7 +41,7 @@ namespace TestProject
                             .AddThemePlugin<Button>(plugin)
                             .Build();
             using MyCustomButton button = new();
-            registry.Get()?.Apply(button);
+            registry.GetTheme()?.Apply(button);
             Assert.IsFalse(plugin.WasCalled);
         }
 
