@@ -11,3 +11,10 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "See https://github.com/Assorted-Development/winforms-themes/pull/21#discussion_r1367962245",
     Scope = "type",
     Target = "~T:WinFormsThemes.ThemeRegistryBuilder")]
+
+[assembly: SuppressMessage(
+    "Maintainability",
+    "CA1502: Avoid excessive complexity",
+    Justification = "Not possible to reduce further due to constructor initialization",
+    Scope = "member",
+    Target = "~M:WinFormsThemes.Themes.FileTheme.#ctor(System.Text.Json.Nodes.JsonNode)")]
