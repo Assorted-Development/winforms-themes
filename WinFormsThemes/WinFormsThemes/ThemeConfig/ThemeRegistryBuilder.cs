@@ -46,11 +46,13 @@ namespace WinFormsThemes
             Type t = typeof(T);
             if (_themePlugins.ContainsKey(t))
             {
-                _logger.LogError($"ThemePlugin for {t.Name} already added");
+                _logger.LogError("ThemePlugin for {ThemeName} already added", t.Name);
                 throw new InvalidOperationException($"ThemePlugin for {t.Name} already added");
             }
-            _logger.LogTrace($"Adding ThemePlugin for {t.Name}");
+
+            _logger.LogTrace("Adding ThemePlugin for {ThemeName}", t.Name);
             _themePlugins.Add(t, plugin);
+
             return this;
         }
 
@@ -169,10 +171,10 @@ namespace WinFormsThemes
         {
             if (_themes.ContainsKey(theme.Name))
             {
-                _logger.LogError($"Theme with name {theme.Name} already exists");
+                _logger.LogError("Theme with name {ThemeName} already exists", theme.Name);
                 throw new InvalidOperationException($"Theme with name {theme.Name} already exists");
             }
-            _logger.LogTrace($"Adding theme {theme.Name}");
+            _logger.LogTrace("Adding theme {ThemeName}", theme.Name);
             theme.UseLogger(_loggerFactory);
             _themes.Add(theme.Name, theme);
             return this;
@@ -193,21 +195,21 @@ namespace WinFormsThemes
 
         public IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null)
         {
-            _logger.LogTrace($"Adding file theme lookup for folder: {themeFolder?.FullName}");
+            _logger.LogTrace("Adding file theme lookup for folder: {ThemeFolder}", themeFolder?.FullName);
             _lookups.Add(new FileThemeLookup(themeFolder));
             return this;
         }
 
         public IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup)
         {
-            _logger.LogTrace($"Adding theme lookup {themeLookup.GetType().Name}");
+            _logger.LogTrace("Adding theme lookup {ThemeLookupName}", themeLookup.GetType().Name);
             _lookups.Add(themeLookup);
             return this;
         }
 
         public IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null)
         {
-            _logger.LogTrace($"Adding resource theme lookup for prefix: {resourcePrefix}");
+            _logger.LogTrace("Adding resource theme lookup for prefix: {ResourcePrefix}", resourcePrefix);
             _lookups.Add(new ResourceThemeLookup(resourcePrefix));
             return this;
         }
@@ -219,7 +221,7 @@ namespace WinFormsThemes
         {
             //sort the lookups in descending order
             _lookups.Sort((x, y) => y.Order.CompareTo(x.Order));
-            _logger.LogTrace($"Building theme list from {_lookups.Count} lookups");
+            _logger.LogTrace("Building theme list from {LookupCount} lookups", _lookups.Count);
             //loop through all lookups
             foreach (IThemeLookup lookup in _lookups)
             {
@@ -239,7 +241,7 @@ namespace WinFormsThemes
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"Error looking up themes from {lookup.GetType().Name}");
+                    _logger.LogError(ex, "Error looking up themes from {ThemeLookupName}", lookup.GetType().Name);
                 }
             }
             return _themes;

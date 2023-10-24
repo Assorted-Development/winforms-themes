@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using WinFormsThemes.Extensions;
 
 namespace WinFormsThemes.Themes
@@ -18,7 +18,9 @@ namespace WinFormsThemes.Themes
         public static readonly Color BACK_PRIMARY_VARIANT = "#3700B3".ToColor();
         public static readonly Color BACK_SECONDARY = "#38414B".ToColor();
 
-        // Usually the form
+        /// <summary>
+        /// Background color, this is usually the form background
+        /// </summary>
         public static readonly Color BACKGROUND = "#191919".ToColor();
 
         public static readonly Color FORE_ERROR = "#000000".ToColor();
@@ -26,7 +28,9 @@ namespace WinFormsThemes.Themes
         public static readonly Color FORE_PRIMARY_VARIANT = "#c8dfdf".ToColor();
         public static readonly Color FORE_SECONDARY = "#000000".ToColor();
 
-        // usually the containers on the form (grid, tab controls, ..)
+        /// <summary>
+        /// Surface color, this is usually the one for containers on the form (grid, tab controls, ..)
+        /// </summary>
         public static readonly Color SURFACE = "#191919".ToColor();
 
         public static readonly Color SURFACE_LIGHT = "#202020".ToColor();

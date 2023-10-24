@@ -116,7 +116,7 @@ namespace WinFormsThemes
         /// </summary>
         private void handleResource(string resourceName, Assembly assembly)
         {
-            string resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources", StringComparison.Ordinal));
+            string resBaseName = resourceName[..resourceName.IndexOf(".resources", StringComparison.Ordinal)];
             ResourceManager rm = new(resBaseName, assembly);
             ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
             if (resourceSet is null)
