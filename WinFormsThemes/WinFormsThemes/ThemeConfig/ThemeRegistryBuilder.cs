@@ -60,7 +60,6 @@ namespace WinFormsThemes
         public IThemeRegistry Build()
         {
             //build the list of themes
-            Dictionary<string, ITheme> themes;
             if (_themeListBuilder is null)
             {
                 //themes were not set explicitly so initialize with default themes
@@ -69,7 +68,8 @@ namespace WinFormsThemes
                 _themeListBuilder.FromDefaultLookups()
                                  .AddDefaultThemes();
             }
-            themes = _themeListBuilder.Build();
+
+            Dictionary<string, ITheme> themes = _themeListBuilder.Build();
             //initialize the themes if plugins were set
             if (_themePlugins.Count > 0)
             {
@@ -111,11 +111,6 @@ namespace WinFormsThemes
             }
             _themeListBuilder = new ThemeRegistryThemeListBuilder(this, _loggerFactory);
             return _themeListBuilder;
-        }
-
-        public void Dispose()
-        {
-            _loggerFactory.Dispose();
         }
     }
 

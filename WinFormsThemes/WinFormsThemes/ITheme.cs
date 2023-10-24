@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using WinFormsThemes.Themes;
 
@@ -26,6 +27,10 @@ namespace WinFormsThemes
         /// <summary>
         /// Gets or sets a dictionary of plugins which support styling of custom controls without reimplementing the whole theme
         /// </summary>
+        [SuppressMessage(
+            "Usage",
+            "CA2227:Collection properties should be read only",
+            Justification = "See https://github.com/Assorted-Development/winforms-themes/pull/21#issuecomment-1774188662")]
         IDictionary<Type, IThemePlugin> ThemePlugins { get; set; }
 
         /// <summary>

@@ -1,10 +1,11 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using WinFormsThemes.ThemeConfig;
 using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
 {
-    public interface IThemeRegistryBuilder : IDisposable
+    public interface IThemeRegistryBuilder
     {
         /// <summary>
         /// Add a plugin to handle additional controls for Themes that support it
@@ -61,7 +62,6 @@ namespace WinFormsThemes
         /// Adds all themes from FileSystemThemeLookup and ResourceThemeLookup
         /// </summary>
         IThemeRegistryThemeListBuilder FromDefaultLookups();
-
 
         /// <summary>
         /// adds FileSystemThemeLookup to the list of lookups
