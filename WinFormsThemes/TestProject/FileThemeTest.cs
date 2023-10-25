@@ -10,14 +10,14 @@ namespace TestProject
         [TestMethod]
         public void LoadShouldNotThrow_MissingCapabilities()
         {
-            var theme = FileTheme.Load(Resources.MISSING_CAPS);
+            FileTheme? theme = FileTheme.Load(Resources.MISSING_CAPS);
             Assert.IsNull(theme);
         }
 
         [TestMethod]
         public void LoadShouldNotThrow_MissingColors()
         {
-            var theme = FileTheme.Load(Resources.MISSING_COLORS);
+            FileTheme? theme = FileTheme.Load(Resources.MISSING_COLORS);
             Assert.IsNotNull(theme);
             Assert.AreEqual(SystemColors.Control, theme.BackgroundColor);
         }
@@ -25,14 +25,14 @@ namespace TestProject
         [TestMethod]
         public void LoadShouldNotThrow_MissingName()
         {
-            var theme = FileTheme.Load(Resources.MISSING_NAME);
+            FileTheme? theme = FileTheme.Load(Resources.MISSING_NAME);
             Assert.IsNull(theme);
         }
 
         [TestMethod]
         public void LoadShouldNotThrow_NonJson()
         {
-            var theme = FileTheme.Load("abc");
+            FileTheme? theme = FileTheme.Load("abc");
             Assert.IsNull(theme);
         }
     }

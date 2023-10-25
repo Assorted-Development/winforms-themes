@@ -13,15 +13,15 @@ namespace TestProject
             {
                 Directory.Delete("themes", true);
             }
-            var dir = Directory.CreateDirectory("themes2");
+            DirectoryInfo dir = Directory.CreateDirectory("themes2");
             File.WriteAllText("themes2\\test.theme.json", Resources.CONFIG_THEMING_THEME_FILE_TEST_theme);
 
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithFileLookup(dir)
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "OK");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "OK");
             Assert.IsNotNull(theme);
             Assert.AreEqual("file-ok-test", theme.Name);
         }
@@ -31,12 +31,12 @@ namespace TestProject
         {
             Directory.CreateDirectory("themes");
             File.WriteAllText("themes\\test.theme.json", Resources.CONFIG_THEMING_THEME_FILE_TEST_theme);
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "OK");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "OK");
             Assert.IsNotNull(theme);
             Assert.AreEqual("file-ok-test", theme.Name);
         }
@@ -45,12 +45,12 @@ namespace TestProject
         public void ShouldNotFindFilesOutsideDirectory()
         {
             File.WriteAllText("test.theme.json", Resources.CONFIG_THEMING_THEME_FILE_TEST_2_theme);
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "Error");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "Error");
             Assert.IsNull(theme);
         }
 
@@ -60,12 +60,12 @@ namespace TestProject
             Directory.CreateDirectory("themes");
             File.WriteAllText("themes\\test.theme.json.disabled", Resources.CONFIG_THEMING_THEME_FILE_TEST_2_theme);
 
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                 .WithThemes()
                     .WithLookup(new FileThemeLookup())
                     .FinishThemeList()
                 .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode, "File", "Error");
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode, "File", "Error");
             Assert.IsNull(theme);
         }
     }

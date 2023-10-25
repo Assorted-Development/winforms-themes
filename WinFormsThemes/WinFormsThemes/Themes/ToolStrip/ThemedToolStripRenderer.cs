@@ -35,18 +35,14 @@ internal class ThemedToolStripRenderer : ToolStripProfessionalRenderer
         if (e.TextDirection != ToolStripTextDirection.Horizontal && textRect is { Width: > 0, Height: > 0 })
         {
             // Perf: this is a bit heavy handed.. perhaps we can share the bitmap.
-            Size textSize = FlipSize(textRect.Size);
-            using (Bitmap textBmp = new(textSize.Width, textSize.Height, PixelFormat.Format32bppPArgb))
-            {
-                using (Graphics textGraphics = Graphics.FromImage(textBmp))
-                {
-                    // now draw the text..
-                    textGraphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-                    TextRenderer.DrawText(textGraphics, text, textFont, new Rectangle(Point.Empty, textSize), textColor, textFormat);
-                    textBmp.RotateFlip((e.TextDirection == ToolStripTextDirection.Vertical90) ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
-                    g.DrawImage(textBmp, textRect);
-                }
-            }
+            Size textSize = flipSize(textRect.Size);
+            using Bitmap textBmp = new(textSize.Width, textSize.Height, PixelFormat.Format32bppPArgb);
+            using Graphics textGraphics = Graphics.FromImage(textBmp);
+            // now draw the text..
+            textGraphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+            TextRenderer.DrawText(textGraphics, text, textFont, new Rectangle(Point.Empty, textSize), textColor, textFormat);
+            textBmp.RotateFlip((e.TextDirection == ToolStripTextDirection.Vertical90) ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
+            g.DrawImage(textBmp, textRect);
         }
         else
         {
@@ -54,7 +50,7 @@ internal class ThemedToolStripRenderer : ToolStripProfessionalRenderer
         }
     }
 
-    private static Size FlipSize(Size size)
+    private static Size flipSize(Size size)
     {
         // Size is a struct (passed by value, no need to make a copy)
         (size.Width, size.Height) = (size.Height, size.Width);

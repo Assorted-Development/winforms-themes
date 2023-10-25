@@ -1,4 +1,4 @@
-﻿using WinFormsThemes.ThemeConfig;
+using WinFormsThemes.ThemeConfig;
 using WinFormsThemes.Utilities;
 
 namespace WinFormsThemes
@@ -16,7 +16,7 @@ namespace WinFormsThemes
         /// <summary>
         /// the current theme
         /// </summary>
-        private ITheme? _current = null;
+        private ITheme? _current;
 
         /// <summary>
         /// constructor
@@ -29,19 +29,19 @@ namespace WinFormsThemes
         }
 
         /// <summary>
-        /// Event that gets triggered when the <see cref="Current"/> theme has changed
+        /// Event that gets triggered when the <see cref="CurrentTheme"/> theme has changed
         /// </summary>
         public event EventHandler? OnThemeChanged;
 
-        public ITheme? Current
+        public ITheme? CurrentTheme
         {
             get
             {
-                if (CurrentThemeSelector == null)
+                if (CurrentThemeSelector is null)
                 {
                     throw new InvalidOperationException("CurrentThemeSelector is null");
                 }
-                var newTheme = CurrentThemeSelector(this);
+                ITheme? newTheme = CurrentThemeSelector(this);
                 if (newTheme != _current)
                 {
                     OnThemeChanged?.Invoke(this, EventArgs.Empty);
@@ -52,33 +52,33 @@ namespace WinFormsThemes
         }
 
         /// <summary>
-        /// A simple way to provide a current theme through <see cref="IThemeRegistry.Current"/>.
+        /// A simple way to provide a current theme through <see cref="IThemeRegistry.CurrentTheme"/>.
         /// </summary>
         private CurrentThemeSelector? CurrentThemeSelector { get; }
 
-        public ITheme? Get()
+        public ITheme? GetTheme()
         {
-            return Get(GetThemeCaps());
+            return GetTheme(getThemeCaps());
         }
 
-        public ITheme? Get(string name)
+        public ITheme? GetTheme(string name)
         {
             return _themes.ContainsKey(name) ? _themes[name] : null;
         }
 
-        public ITheme? Get(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters)
+        public ITheme? GetTheme(ThemeCapabilities caps, params string[] advancedCapabilitiesFilters)
         {
-            return _themes.Values.Where(t => (t.Capabilities & caps) == caps)
-                .Where(t => advancedCapabilitiesFilters.All(f => t.AdvancedCapabilities.Contains(f)))
-                .FirstOrDefault();
+            return _themes.Values
+                .Where(t => (t.Capabilities & caps) == caps)
+                .FirstOrDefault(t => advancedCapabilitiesFilters.All(f => t.AdvancedCapabilities.Contains(f)));
         }
 
-        public List<ITheme> List()
+        public IList<ITheme> ListThemes()
         {
             return _themes.Values.ToList();
         }
 
-        public List<string> ListNames()
+        public IList<string> ListNames()
         {
             return _themes.Keys.ToList();
         }
@@ -86,9 +86,7 @@ namespace WinFormsThemes
         /// <summary>
         /// return the theme capabilities
         /// </summary>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        private static ThemeCapabilities GetThemeCaps(bool dark, bool highContrast)
+        private static ThemeCapabilities getThemeCaps(bool dark, bool highContrast)
         {
             ThemeCapabilities caps = ThemeCapabilities.None;
             if (dark)
@@ -109,10 +107,9 @@ namespace WinFormsThemes
         /// <summary>
         /// return the theme capabilities as configured by the user
         /// </summary>
-        /// <returns></returns>
-        private static ThemeCapabilities GetThemeCaps()
+        private static ThemeCapabilities getThemeCaps()
         {
-            return GetThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
+            return getThemeCaps(WindowsThemeDetector.GetDarkMode(), WindowsThemeDetector.GetHighContrast());
         }
     }
 }
