@@ -1,4 +1,6 @@
-﻿using System.Collections;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
@@ -17,10 +19,16 @@ namespace WinFormsThemes
         private const string RES_THEME_PREFIX = "CONFIG_THEMING_THEME_";
 
         private readonly string _resThemePrefix;
+
         /// <summary>
         /// the result list of themes
         /// </summary>
         private readonly List<ITheme> _themes = new();
+
+        /// <summary>
+        /// the logger to use
+        /// </summary>
+        private ILogger<IThemeLookup> _logger = new Logger<IThemeLookup>(new NullLoggerFactory());
 
         /// <summary>
         /// constructor
@@ -28,84 +36,100 @@ namespace WinFormsThemes
         /// <param name="prefix">the prefix to detect the themes in the resources</param>
         public ResourceThemeLookup(string? prefix = null)
         {
-            if (prefix == null)
-            {
-                prefix = RES_THEME_PREFIX;
-            }
-            _resThemePrefix = prefix;
+            _resThemePrefix = prefix ?? RES_THEME_PREFIX;
         }
 
-        public int Order => Int32.MinValue;
+        public int Order => int.MinValue;
 
-        public List<ITheme> Lookup()
+        public IList<ITheme> Lookup()
         {
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
-                string name = a.FullName ?? "";
+                string name = a.FullName ?? string.Empty;
                 if (a.IsDynamic)
                 {
                     //Dynamic libraries (e.g. Expression.Compile) do not support reading resources
                     //and would throw an exception
+                    _logger.LogTrace("Skipping dynamic assembly {name}", name);
                     continue;
                 }
                 AssemblyCompanyAttribute? comp = a.GetCustomAttribute<AssemblyCompanyAttribute>();
-                if (comp != null && comp.Company == "Microsoft Corporation")
+                if (comp?.Company == "Microsoft Corporation")
                 {
+                    _logger.LogTrace("Skipping Microsoft assembly {name}", name);
                     continue;
                 }
                 foreach (string res in a.GetManifestResourceNames())
                 {
-                    if (res.Contains(_resThemePrefix))
+                    if (res.Contains(_resThemePrefix, StringComparison.Ordinal))
                     {
-                        using (Stream? stream = a.GetManifestResourceStream(res))
-                            HandleEmbeddedResource(stream);
+                        using Stream? stream = a.GetManifestResourceStream(res);
+                        handleEmbeddedResource(stream, res);
                     }
-                    else if (res.EndsWith(".resources"))
+                    else if (res.EndsWith(".resources", StringComparison.Ordinal))
                     {
-                        HandleResource(res, a);
+                        handleResource(res, a);
                     }
                 }
             }
             return _themes;
         }
 
-        /// <summary>
-        /// Handle Resources embedded directly into the dll
-        /// </summary>
-        /// <param name="stream"></param>
-        private void HandleEmbeddedResource(Stream? stream)
+        public void UseLogger(ILoggerFactory loggerFactory)
         {
-            if (stream != null)
-            {
-                using StreamReader reader = new(stream);
-                Add(FileTheme.Load(reader.ReadToEnd()));
-            }
+            _logger = new Logger<IThemeLookup>(loggerFactory);
         }
+
         /// <summary>
         /// Add a theme to the resultlist
         /// </summary>
         /// <param name="theme"></param>
-        private void Add(ITheme? theme)
+        /// <param name="resName"></param>
+        private void add(ITheme? theme, string resName)
         {
-            if (theme != null)
+            if (theme is not null)
+            {
                 _themes.Add(theme);
+            }
+            else
+            {
+                _logger.LogDebug("Skipping invalid theme {key} in resource", resName);
+            }
         }
+
+        /// <summary>
+        /// Handle Resources embedded directly into the dll
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="resName"></param>
+        private void handleEmbeddedResource(Stream? stream, string resName)
+        {
+            if (stream is not null)
+            {
+                using StreamReader reader = new(stream);
+                add(FileTheme.Load(reader.ReadToEnd()), resName);
+            }
+        }
+
         /// <summary>
         /// handle Resources added to a resource file
         /// </summary>
-        /// <param name="stream"></param>
-        private void HandleResource(string resourceName, Assembly assembly)
+        private void handleResource(string resourceName, Assembly assembly)
         {
-            var resBaseName = resourceName.Substring(0, resourceName.IndexOf(".resources"));
-            var rm = new ResourceManager(resBaseName, assembly);
+            string resBaseName = resourceName[..resourceName.IndexOf(".resources", StringComparison.Ordinal)];
+            ResourceManager rm = new(resBaseName, assembly);
             ResourceSet? resourceSet = rm.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
-            if(resourceSet == null) return;
+            if (resourceSet is null)
+            {
+                return;
+            }
+
             foreach (DictionaryEntry entry in resourceSet)
             {
-                if (entry.Key is string key && key.StartsWith(_resThemePrefix) &&
+                if (entry.Key is string key && key.StartsWith(_resThemePrefix, StringComparison.Ordinal) &&
                     entry.Value is string value)
                 {
-                    Add(FileTheme.Load(value));
+                    add(FileTheme.Load(value), key);
                 }
             }
         }

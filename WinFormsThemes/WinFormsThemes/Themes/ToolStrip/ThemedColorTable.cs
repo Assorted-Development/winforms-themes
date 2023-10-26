@@ -4,6 +4,10 @@ namespace WinFormsThemes.Themes.ToolStrip;
 
 internal class ThemedColorTable : ProfessionalColorTable
 {
+    [SuppressMessage(
+        "Roslynator",
+        "RCS1162: Avoid chain of assignments.",
+        Justification = "It would make it more dangerous to change property by property if we want to change colors in the future.")]
     public ThemedColorTable(Color toolStripBorderColor, Color separatorColor, Color menuItemHoverColor,
         Color menuItemPressedColor, Color controlBackColor)
     {

@@ -53,7 +53,7 @@ To use this project, you need to add a reference to our nuget package (`dotnet a
 Next, you need to configure the themes:
 ```csharp
 var registry = ThemeRegistryHolder.GetBuilder().Build();
-var theme = registry.ThemeRegistry.Get();
+var theme = registry.ThemeRegistry.GetTheme();
 ```
 This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes, return the registry and use its standard theme.
 
@@ -66,6 +66,15 @@ This will apply this theme on the given Form and all children.
 
 ## Extended Usage
 Of course, you can extend this library and customize the handling to fit your needs. Here are a few examples:
+
+### Logging
+If you want to debug an issue with this library, you can enable logging in the `IThemeRegistryBuilder`:
+```csharp
+ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory).Build();
+```
+This will log all actions of the library to the given `ILoggerFactory`.
+
+**Note: Any calls before calling `SetLoggerFactory` will not be affected so we advise to call `SetLoggerFactory` as early as possible.**
 
 ### Making IThemeRegistry and ITheme globally available
 When you do not have a dependency injection available in your project, we provide utilities to make both `IThemeRegistry` and `ITheme` globally available:
@@ -98,9 +107,9 @@ ThemeRegistryHolder.ThemeRegistry.OnThemeChanged += (sender, args) =>
 
 ### Customize theme selection
 By default, our library will honor the settings of the operating system in regard to dark mode and high contrast. If you want to add additional selection criteria or you want to give the user an option to override this selection you can do that easily.
-Instead of relying on the default settings in `IThemeRegistry.Get()` you can set `IThemeRegistry.Current` to any theme you want:
+Instead of relying on the default settings in `IThemeRegistry.GetTheme()` you can set `IThemeRegistry.Current` to any theme you want:
 ```csharp
-List<ITheme> allThemes = ThemeRegistryHolder.ThemeRegistry.List();
+List<ITheme> allThemes = ThemeRegistryHolder.ThemeRegistry.ListThemes();
 ITheme selectedTheme = null;
 //logic to select theme here
 ThemeRegistryHolder.ThemeRegistry.Current = selectedTheme;

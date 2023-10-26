@@ -10,10 +10,9 @@ namespace WinFormsThemes.Extensions
         /// return the Color from the hex color value
         /// </summary>
         /// <param name="hexColor"></param>
-        /// <returns></returns>
         public static Color ToColor(this string? hexColor)
         {
-            if (hexColor == null)
+            if (hexColor is null)
             {
                 return SystemColors.Control;
             }

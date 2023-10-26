@@ -21,6 +21,6 @@
         /// <summary>
         /// this theme has a high contrast
         /// </summary>
-        HighContrast = 3
+        HighContrast = 4
     }
 }

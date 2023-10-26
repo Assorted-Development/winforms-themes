@@ -1,4 +1,6 @@
-﻿using WinFormsThemes.Themes;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
 {
@@ -9,33 +11,45 @@ namespace WinFormsThemes
     {
         private readonly DirectoryInfo _folder;
 
+        /// <summary>
+        /// the logger to use
+        /// </summary>
+        private ILogger<IThemeLookup> _logger = new Logger<IThemeLookup>(new NullLoggerFactory());
+
         public FileThemeLookup(DirectoryInfo? folder = null)
         {
-            if (folder == null)
-            {
-                folder = new DirectoryInfo("themes");
-            }
+            folder ??= new DirectoryInfo("themes");
             _folder = folder;
         }
 
-        public int Order => Int32.MinValue;
+        public int Order => int.MinValue;
 
-        public List<ITheme> Lookup()
+        public IList<ITheme> Lookup()
         {
             List<ITheme> results = new();
             if (_folder.Exists)
             {
                 IEnumerable<FileInfo> files = _folder.EnumerateFiles("*.theme.json");
+                _logger.LogDebug("found {count} theme files in {folder}", files.Count(), _folder.FullName);
                 foreach (FileInfo file in files)
                 {
                     ITheme? theme = FileTheme.Load(File.ReadAllText(file.FullName));
-                    if (theme != null)
+                    if (theme is not null)
                     {
                         results.Add(theme);
                     }
                 }
             }
+            else
+            {
+                _logger.LogDebug("theme folder {folder} does not exist", _folder.FullName);
+            }
             return results;
+        }
+
+        public void UseLogger(ILoggerFactory loggerFactory)
+        {
+            _logger = new Logger<IThemeLookup>(loggerFactory);
         }
     }
 }

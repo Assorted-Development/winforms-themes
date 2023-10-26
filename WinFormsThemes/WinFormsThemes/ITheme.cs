@@ -1,4 +1,6 @@
-﻿using WinFormsThemes.Themes;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Logging;
+using WinFormsThemes.Themes;
 
 namespace WinFormsThemes
 {
@@ -10,7 +12,7 @@ namespace WinFormsThemes
         /// <summary>
         /// This allows custom themes to add additional tags and capabilities to support more specific theme filtering
         /// </summary>
-        IList<String> AdvancedCapabilities { get; }
+        IList<string> AdvancedCapabilities { get; }
 
         /// <summary>
         /// the capabilities of this theme
@@ -25,6 +27,10 @@ namespace WinFormsThemes
         /// <summary>
         /// Gets or sets a dictionary of plugins which support styling of custom controls without reimplementing the whole theme
         /// </summary>
+        [SuppressMessage(
+            "Usage",
+            "CA2227:Collection properties should be read only",
+            Justification = "See https://github.com/Assorted-Development/winforms-themes/pull/21#issuecomment-1774188662")]
         IDictionary<Type, IThemePlugin> ThemePlugins { get; set; }
 
         /// <summary>
@@ -36,8 +42,7 @@ namespace WinFormsThemes
         /// <summary>
         /// apply this theme to the given form
         /// </summary>
-        /// <param name="form"></param>
-        void Apply(Form control, ThemeOptions options);
+        void Apply(Form form, ThemeOptions options);
 
         /// <summary>
         /// apply this theme to the given control
@@ -50,5 +55,11 @@ namespace WinFormsThemes
         /// </summary>
         /// <param name="control"></param>
         void Apply(Control control, ThemeOptions options);
+
+        /// <summary>
+        /// create a logger from the given factory and use that for logging
+        /// </summary>
+        /// <param name="loggerFactory">the logging factory to use</param>
+        void UseLogger(ILoggerFactory loggerFactory) { }
     }
 }
