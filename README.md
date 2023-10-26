@@ -117,38 +117,21 @@ Out of the box, there are 2 ways you can add custom themes:
 Both ways use the same JSON format for the theme definition(the version defines the format of the file):
 ```json
 {
-	"name": "theme-name",
-	"capabilities": ["DarkMode", "LightMode", "HighContrast"],
-	"version": 2,
-	"colors": {
-		"backColor": "#082a56",
-		"foreColor": "#082a56",
-		"buttonBackColor": "#082a56",
-		"buttonForeColor": "#082a56",
-		"buttonHoverColor": "#082a56",
-		"comboBoxItemBackColor": "#082a56",
-		"comboBoxItemHoverColor": "#082a56",
-		"controlBackColor": "#082a56",
-		"controlForeColor": "#082a56",
-		"controlHighlightColor": "#082a56",
-		"controlHighlightLightColor": "#082a56",
-		"controlHighlightDarkColor": "#082a56",
-		"controlBorderColor": "#082a56",
-		"controlBorderLightColor": "#082a56",
-		"listViewHeaderGroupColor": "#082a56",
-		"tableBackColor": "#082a56",
-		"tableHeaderBackColor": "#082a56",
-		"tableHeaderForeColor": "#082a56",
-		"tableSelectionBackColor": "#082a56",
-		"tableCellBackColor": "#082a56",
-		"tableCellForeColor": "#082a56",
-		"successBackColor": "#082a56",
-		"successForeColor": "#082a56",
-		"warningBackColor": "#082a56",
-		"warningForeColor": "#082a56",
-		"errorBackColor": "#082a56",
-		"errorForeColor": "#082a56"
-	}
+    "name": "theme-name",
+    "capabilities": ["DarkMode", "HighContrast"],
+    "version": 3,
+    "variables": {
+        "backColor": "#082a56",
+        "foreColor": "#082a57"
+    },
+    "colors": {
+        "backColor": "backColor",
+        "foreColor": "foreColor",
+        "controls": {
+            "backColor": "backColor",
+            "foreColor": "foreColor"
+        }
+    }
 }
 ```
 
