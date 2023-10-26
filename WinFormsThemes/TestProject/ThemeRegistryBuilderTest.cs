@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 using WinFormsThemes;
 using WinFormsThemes.Themes;
 
@@ -11,7 +11,7 @@ namespace TestProject
         public void AddingThemePluginsShouldWork()
         {
             IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
-                            .AddThemePlugin<Button>(new ThemePlugin())
+                            .AddThemePlugin(new ThemePlugin())
                             .Build();
             Assert.AreEqual(1, registry.GetTheme()?.ThemePlugins?.Count);
             Assert.AreEqual(typeof(ThemePlugin), registry.GetTheme()?.ThemePlugins?[typeof(Button)]?.GetType());
@@ -21,8 +21,8 @@ namespace TestProject
         public void AddingThemePluginTwiceShouldThrow()
         {
             IThemeRegistryBuilder registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
-                            .AddThemePlugin<Button>(new ThemePlugin());
-            Assert.ThrowsException<InvalidOperationException>(() => registry.AddThemePlugin<Button>(new ThemePlugin()));
+                            .AddThemePlugin(new ThemePlugin());
+            Assert.ThrowsException<InvalidOperationException>(() => registry.AddThemePlugin(new ThemePlugin()));
         }
 
         [TestMethod]
@@ -63,9 +63,9 @@ namespace TestProject
             Assert.AreEqual(0, registry.GetTheme(DefaultDarkTheme.THEME_NAME)?.AdvancedCapabilities?.Count);
         }
 
-        private class ThemePlugin : IThemePlugin
+        private class ThemePlugin : AbstractThemePlugin<Button>
         {
-            public void Apply(Control control, AbstractTheme theme)
+            protected override void ApplyPlugin(Button button, AbstractTheme theme)
             { }
         }
     }

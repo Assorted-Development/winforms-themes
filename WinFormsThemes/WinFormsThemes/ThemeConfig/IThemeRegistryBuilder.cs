@@ -10,9 +10,8 @@ namespace WinFormsThemes
         /// <summary>
         /// Add a plugin to handle additional controls for Themes that support it
         /// </summary>
-        /// <typeparam name="T">the Control to handle</typeparam>
         /// <param name="plugin">the plugin handling the theming</param>
-        IThemeRegistryBuilder AddThemePlugin<T>(IThemePlugin plugin) where T : Control;
+        IThemeRegistryBuilder AddThemePlugin(IThemePlugin plugin);
 
         /// <summary>
         /// return the final IThemeRegistry

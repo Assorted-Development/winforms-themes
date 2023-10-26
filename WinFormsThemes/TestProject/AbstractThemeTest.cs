@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 using WinFormsThemes;
 using WinFormsThemes.Themes;
 
@@ -13,7 +13,7 @@ namespace TestProject
             ThemePlugin plugin = new();
             IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
-                            .AddThemePlugin<Button>(plugin)
+                            .AddThemePlugin(plugin)
                             .Build();
             using Button button = new();
             registry.GetTheme()?.Apply(button);
@@ -26,7 +26,7 @@ namespace TestProject
             ThemePlugin plugin = new();
             IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
-                            .AddThemePlugin<Button>(plugin)
+                            .AddThemePlugin(plugin)
                             .Build();
             using Form form = new();
             registry.GetTheme()?.Apply(form);
@@ -38,7 +38,7 @@ namespace TestProject
         {
             ThemePlugin plugin = new();
             IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
-                            .AddThemePlugin<Button>(plugin)
+                            .AddThemePlugin(plugin)
                             .Build();
             using MyCustomButton button = new();
             registry.GetTheme()?.Apply(button);
@@ -48,11 +48,11 @@ namespace TestProject
         private class MyCustomButton : Button
         { }
 
-        private class ThemePlugin : IThemePlugin
+        private class ThemePlugin : AbstractThemePlugin<Button>
         {
             public bool WasCalled { get; private set; }
 
-            public void Apply(Control control, AbstractTheme theme)
+            protected override void ApplyPlugin(Button button, AbstractTheme theme)
             {
                 WasCalled = true;
             }
