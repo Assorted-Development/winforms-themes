@@ -205,12 +205,8 @@ namespace WinFormsThemes.Themes
         /// </summary>
         private static JsonSchema? getSchema()
         {
-            using Stream? str = Assembly.GetExecutingAssembly().GetManifestResourceStream("WinFormsThemes.themes.schema.json");
-            if (str is not null)
-            {
-                return JsonSchema.FromStream(str).AsTask().Result;
-            }
-            return null;
+            using Stream str = Assembly.GetExecutingAssembly().GetManifestResourceStream("WinFormsThemes.themes.schema.json")!;
+            return JsonSchema.FromStream(str).AsTask().Result;
         }
         /// <summary>
         /// load all color variables
@@ -237,22 +233,22 @@ namespace WinFormsThemes.Themes
         /// <exception cref="ArgumentException">the color could not be parsed</exception>
         private static Color parseColor(JsonNode? value, Color defaultColor, Dictionary<string, Color> vars)
         {
-            string? hexColor = (string?)value;
-            if (hexColor is null)
+            string? hexColorOrVariable = (string?)value;
+            if (hexColorOrVariable is null)
             {
                 return defaultColor;
             }
-            if (vars.ContainsKey(hexColor))
+            if (vars.ContainsKey(hexColorOrVariable))
             {
-                return vars[hexColor];
+                return vars[hexColorOrVariable];
             }
-            if (HEX_COLOR_VALUE.IsMatch(hexColor))
+            if (HEX_COLOR_VALUE.IsMatch(hexColorOrVariable))
             {
-                return hexColor.ToColor();
+                return hexColorOrVariable.ToColor();
             }
             else
             {
-                throw new ArgumentException($"Invalid color '{hexColor}' - color is not a valid hex value and was not defined as a variable!");
+                throw new ArgumentException($"Invalid color '{hexColorOrVariable}' - color is not a valid hex value and was not defined as a variable!");
             }
         }
         /// <summary>
@@ -315,13 +311,7 @@ namespace WinFormsThemes.Themes
         {
             try
             {
-                JsonNode? json = JsonNode.Parse(jsonContent);
-                if (json is null)
-                {
-                    return null;
-                }
-
-                return new FileTheme(json);
+                return new FileTheme(JsonNode.Parse(jsonContent)!);
             }
             catch (Exception ex)
             {
@@ -335,7 +325,7 @@ namespace WinFormsThemes.Themes
             List<string> advancedCaps = new();
             foreach (string? s in caps.Select(node => (string?)node))
             {
-                if (s is null)
+                if (string.IsNullOrEmpty(s))
                 {
                     continue;
                 }
@@ -354,7 +344,7 @@ namespace WinFormsThemes.Themes
             ThemeCapabilities capabilities = ThemeCapabilities.None;
             foreach (string? s in caps.Select(node => (string?)node))
             {
-                if (s is null)
+                if (string.IsNullOrEmpty(s))
                 {
                     continue;
                 }

@@ -127,7 +127,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void LoadV2InvalidColor()
+        public void LoadV2InvalidColorOrVariable()
         {
             FileTheme? theme = FileTheme.Load(@"
                 {
@@ -138,7 +138,7 @@ namespace TestProject
       
                     },
 	                'colors': {
-		                'backColor': '#082a5656',
+		                'backColor': 'unknown',
 		                'foreColor': '#082a56',
                         'controls': {
 			                'backColor': '#082a56',
@@ -147,6 +147,30 @@ namespace TestProject
 	                }
                 }".Replace("'", "\"", StringComparison.CurrentCulture), getLogger());
             Assert.IsNull(theme);
+        }
+
+        [TestMethod]
+        public void LoadV2SkipEmptyCapabilities()
+        {
+            FileTheme? theme = FileTheme.Load(@"
+                {
+	                'name': 'theme-name',
+	                'capabilities': ['DarkMode', 'HighContrast', ''],
+	                'version': 3,
+                    'variables': {
+      
+                    },
+	                'colors': {
+		                'backColor': '#082a56',
+		                'foreColor': '#082a56',
+                        'controls': {
+			                'backColor': '#082a56',
+			                'foreColor': '#082a56'
+                        }
+	                }
+                }".Replace("'", "\"", StringComparison.Ordinal), getLogger());
+            Assert.IsNotNull(theme);
+            Assert.AreEqual(0, theme.AdvancedCapabilities.Count);
         }
 
         private ILogger getLogger()
