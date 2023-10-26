@@ -45,6 +45,8 @@ dotnet tool restore
 dotnet stryker
 ```
 
+**Important: Do not start stryker in the project directory - you need to start it in the solution dir, otherwise the config will not be found!**
+
 ## Usage
 To use this project, you need to add a reference to our nuget package (`dotnet add package AssortedDevelopment.WinFormsThemes`) first.
 
