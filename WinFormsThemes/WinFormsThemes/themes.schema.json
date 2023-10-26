@@ -203,7 +203,8 @@
                 },
                 {
                     "description": "the variable name from the list of variables above",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^[^#]*$"
                 }
             ]
         },

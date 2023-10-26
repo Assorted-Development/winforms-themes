@@ -114,7 +114,8 @@ Out of the box, there are 2 ways you can add custom themes:
 - Files with the file ending `.theme.json` stored in a `themes` directory of the working dir.
 - Assembly resources in any assembly where the name starts with `CONFIG_THEMING_THEME_`
 
-Both ways use the same JSON format for the theme definition(the version defines the format of the file):
+Both ways use the same JSON format for the theme definition(the version defines the format of the file).
+A simple example of this could be:  
 ```json
 {
     "name": "theme-name",
@@ -134,6 +135,7 @@ Both ways use the same JSON format for the theme definition(the version defines 
     }
 }
 ```
+For the complete list of available settings please check our JSON schema.
 
 If those 2 ways are not flexible enough, you can implement a theme by yourself and register it using a custom theme source (see below):
 The prefered way is to subclass `AbstractTheme` as you just need to implement the base colors and optionally override the extended colors - styling the controls is done by the base class.
