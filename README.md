@@ -38,6 +38,14 @@ reportgenerator -reports:WinFormsThemes\TestProject\TestResults\*\coverage.cober
 start "" WinFormsThemes\TestProject\TestResults\html\index.html
 ```
 
+### Mutation testing
+We use [Stryker.NET](https://stryker-mutator.io/) for mutation testing. To run the mutation tests, use:
+```
+dotnet tool restore
+dotnet stryker
+```
+
+**Important: Do not start stryker in the project directory - you need to start it in the solution dir, otherwise the config will not be found!**
 
 ## Usage
 To use this project, you need to add a reference to our nuget package (`dotnet add package AssortedDevelopment.WinFormsThemes`) first.
@@ -47,7 +55,7 @@ To use this project, you need to add a reference to our nuget package (`dotnet a
 Next, you need to configure the themes:
 ```csharp
 var registry = ThemeRegistryHolder.GetBuilder().Build();
-var theme = registry.ThemeRegistry.Get();
+var theme = registry.ThemeRegistry.GetTheme();
 ```
 This can, for example, be placed in the `Program.cs` of your application and uses the default settings to lookup the themes, return the registry and use its standard theme.
 
@@ -100,13 +108,13 @@ ThemeRegistryHolder.ThemeRegistry.OnThemeChanged += (sender, args) =>
 ```
 
 ### Customize theme selection
-By default, our library will honor the settings of the operating system in regard to dark mode and high contrast. If you want to add additional selection criteria or you want to give the user an option to override this selection you can do that easily.
-Instead of relying on the default settings in `IThemeRegistry.Get()` you can set `IThemeRegistry.Current` to any theme you want:
+By default, our library will honor the settings of the operating system in regard to dark mode and high contrast when calling `GetTheme`. If you want to add additional selection criteria or you want to give the user an option to override this selection you can do that easily.
+Instead of relying on the default settings in `IThemeRegistry.GetTheme()` you can set `IThemeRegistry.Current` to any theme you want by providing a `CurrentThemeSelector`:
 ```csharp
-List<ITheme> allThemes = ThemeRegistryHolder.ThemeRegistry.List();
-ITheme selectedTheme = null;
-//logic to select theme here
-ThemeRegistryHolder.ThemeRegistry.Current = selectedTheme;
+IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
+                .WithCurrentThemeSelector(registry => registry.GetTheme())
+				.Build();
+var selectedTheme = registry.CurrentTheme;
 ```
 
 ### Add custom themes

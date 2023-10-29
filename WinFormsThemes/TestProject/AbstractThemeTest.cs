@@ -10,38 +10,38 @@ namespace TestProject
         [TestMethod]
         public void PluginShouldBeCalledForExactType()
         {
-            var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder()
+            ThemePlugin plugin = new();
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
-            var button = new Button();
-            registry.Get()?.Apply(button);
+            using Button button = new();
+            registry.GetTheme()?.Apply(button);
             Assert.IsTrue(plugin.WasCalled);
         }
 
         [TestMethod]
         public void PluginShouldNotBeCalledForDifferentType()
         {
-            var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder()
+            ThemePlugin plugin = new();
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
-            var form = new Form();
-            registry.Get()?.Apply(form);
+            using Form form = new();
+            registry.GetTheme()?.Apply(form);
             Assert.IsFalse(plugin.WasCalled);
         }
 
         [TestMethod]
         public void PluginShouldNotBeCalledForSubType()
         {
-            var plugin = new ThemePlugin();
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            ThemePlugin plugin = new();
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .AddThemePlugin<Button>(plugin)
                             .Build();
-            var button = new MyCustomButton();
-            registry.Get()?.Apply(button);
+            using MyCustomButton button = new();
+            registry.GetTheme()?.Apply(button);
             Assert.IsFalse(plugin.WasCalled);
         }
 

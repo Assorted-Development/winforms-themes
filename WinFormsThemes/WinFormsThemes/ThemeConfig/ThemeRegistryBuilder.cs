@@ -46,20 +46,23 @@ namespace WinFormsThemes
             Type t = typeof(T);
             if (_themePlugins.ContainsKey(t))
             {
-                _logger.LogError($"ThemePlugin for {t.Name} already added");
+                _logger.LogError("ThemePlugin for {ThemeName} already added", t.Name);
                 throw new InvalidOperationException($"ThemePlugin for {t.Name} already added");
             }
-            _logger.LogTrace($"Adding ThemePlugin for {t.Name}");
+
+            _logger.LogTrace("Adding ThemePlugin for {ThemeName}", t.Name);
             _themePlugins.Add(t, plugin);
+
             return this;
         }
 
-        //create a building pattern for ThemeRegistry
+        /// <summary>
+        /// create a building pattern for ThemeRegistry
+        /// </summary>
         public IThemeRegistry Build()
         {
             //build the list of themes
-            Dictionary<string, ITheme> themes;
-            if (_themeListBuilder == null)
+            if (_themeListBuilder is null)
             {
                 //themes were not set explicitly so initialize with default themes
                 _logger.LogDebug("No themes were set explicitly, initializing with default themes");
@@ -67,20 +70,21 @@ namespace WinFormsThemes
                 _themeListBuilder.FromDefaultLookups()
                                  .AddDefaultThemes();
             }
-            themes = _themeListBuilder.Build();
+
+            Dictionary<string, ITheme> themes = _themeListBuilder.Build();
             //initialize the themes if plugins were set
             if (_themePlugins.Count > 0)
             {
-                var plugins = new ReadOnlyDictionary<Type, IThemePlugin>(_themePlugins);
+                ReadOnlyDictionary<Type, IThemePlugin> plugins = new(_themePlugins);
                 themes.Values.ToList().ForEach(theme => theme.ThemePlugins = plugins);
             }
-            var registry = new ThemeRegistry(themes, _currentThemeSelector);
-            return registry;
+            return new ThemeRegistry(themes, _currentThemeSelector);
         }
 
         public IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory)
         {
-            if (factory == null) throw new ArgumentNullException(nameof(factory));
+            ArgumentNullException.ThrowIfNull(factory);
+
             if (_loggerFactory.GetType() != typeof(NullLoggerFactory))
             {
                 throw new InvalidOperationException("EnableLogging() can only be called once");
@@ -92,7 +96,7 @@ namespace WinFormsThemes
 
         public IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector)
         {
-            if (_currentThemeSelector != null)
+            if (_currentThemeSelector is not null)
             {
                 throw new InvalidOperationException("WithCurrentThemeSelector() can only be called once");
             }
@@ -102,7 +106,7 @@ namespace WinFormsThemes
 
         public IThemeRegistryThemeListBuilder WithThemes()
         {
-            if (_themeListBuilder != null)
+            if (_themeListBuilder is not null)
             {
                 _logger.LogError("WithThemes() can only be called once");
                 throw new InvalidOperationException("WithThemes() can only be called once");
@@ -120,12 +124,12 @@ namespace WinFormsThemes
         /// <summary>
         /// the logger to use
         /// </summary>
-        private readonly ILogger<IThemeRegistryThemeListBuilder> _logger = new Logger<IThemeRegistryThemeListBuilder>(new NullLoggerFactory());
+        private readonly ILogger<IThemeRegistryThemeListBuilder> _logger;
 
         /// <summary>
         /// the logger factory to use
         /// </summary>
-        private readonly ILoggerFactory _loggerFactory = new NullLoggerFactory();
+        private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
         /// the list of lookups to use
@@ -167,10 +171,10 @@ namespace WinFormsThemes
         {
             if (_themes.ContainsKey(theme.Name))
             {
-                _logger.LogError($"Theme with name {theme.Name} already exists");
+                _logger.LogError("Theme with name {ThemeName} already exists", theme.Name);
                 throw new InvalidOperationException($"Theme with name {theme.Name} already exists");
             }
-            _logger.LogTrace($"Adding theme {theme.Name}");
+            _logger.LogTrace("Adding theme {ThemeName}", theme.Name);
             theme.UseLogger(_loggerFactory);
             _themes.Add(theme.Name, theme);
             return this;
@@ -191,21 +195,21 @@ namespace WinFormsThemes
 
         public IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null)
         {
-            _logger.LogTrace($"Adding file theme lookup for folder: {themeFolder?.FullName}");
+            _logger.LogTrace("Adding file theme lookup for folder: {ThemeFolder}", themeFolder?.FullName);
             _lookups.Add(new FileThemeLookup(themeFolder));
             return this;
         }
 
         public IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup)
         {
-            _logger.LogTrace($"Adding theme lookup {themeLookup.GetType().Name}");
+            _logger.LogTrace("Adding theme lookup {ThemeLookupName}", themeLookup.GetType().Name);
             _lookups.Add(themeLookup);
             return this;
         }
 
         public IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null)
         {
-            _logger.LogTrace($"Adding resource theme lookup for prefix: {resourcePrefix}");
+            _logger.LogTrace("Adding resource theme lookup for prefix: {ResourcePrefix}", resourcePrefix);
             _lookups.Add(new ResourceThemeLookup(resourcePrefix));
             return this;
         }
@@ -213,22 +217,20 @@ namespace WinFormsThemes
         /// <summary>
         /// Build the final list of themes
         /// </summary>
-        /// <returns></returns>
         internal Dictionary<string, ITheme> Build()
         {
             //sort the lookups in descending order
             _lookups.Sort((x, y) => y.Order.CompareTo(x.Order));
-            _logger.LogTrace($"Building theme list from {_lookups.Count} lookups");
+            _logger.LogTrace("Building theme list from {LookupCount} lookups", _lookups.Count);
             //loop through all lookups
             foreach (IThemeLookup lookup in _lookups)
             {
                 try
                 {
                     lookup.UseLogger(_loggerFactory);
-                    //get the themes from the lookup
-                    List<ITheme> themes = lookup.Lookup();
-                    //loop through all themes
-                    foreach (ITheme theme in themes)
+
+                    //get the themes from the lookup and loop through them
+                    foreach (ITheme theme in lookup.Lookup())
                     {
                         //add the theme to the list but check if it already exists first
                         if (!_themes.ContainsKey(theme.Name))
@@ -239,7 +241,7 @@ namespace WinFormsThemes
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"Error looking up themes from {lookup.GetType().Name}");
+                    _logger.LogError(ex, "Error looking up themes from {ThemeLookupName}", lookup.GetType().Name);
                 }
             }
             return _themes;

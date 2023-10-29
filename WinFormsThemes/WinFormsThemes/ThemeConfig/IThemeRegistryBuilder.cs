@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using WinFormsThemes.ThemeConfig;
 using WinFormsThemes.Themes;
 
@@ -16,7 +17,6 @@ namespace WinFormsThemes
         /// <summary>
         /// return the final IThemeRegistry
         /// </summary>
-        /// <returns></returns>
         IThemeRegistry Build();
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace WinFormsThemes
         IThemeRegistryBuilder SetLoggerFactory(ILoggerFactory factory);
 
         /// <summary>
-        /// Adds a selector for the current theme so that <see cref="IThemeRegistry.Current"/> can be used
+        /// Adds a selector for the current theme so that <see cref="IThemeRegistry.CurrentTheme"/> can be used
         /// </summary>
         /// <param name="selector">the selector to use</param>
         IThemeRegistryBuilder WithCurrentThemeSelector(CurrentThemeSelector selector);
@@ -34,7 +34,6 @@ namespace WinFormsThemes
         /// <summary>
         /// allows specifying the list of themes. If not specified, the default list will be used
         /// </summary>
-        /// <returns></returns>
         IThemeRegistryThemeListBuilder WithThemes();
     }
 
@@ -46,48 +45,40 @@ namespace WinFormsThemes
         /// <summary>
         /// Adds DefaultLightTheme, DefaultDarkTheme, DefaultHighContrastTheme
         /// </summary>
-        /// <returns></returns>
         IThemeRegistryThemeListBuilder AddDefaultThemes();
 
         /// <summary>
         /// Adds a custom theme
         /// </summary>
         /// <param name="theme"></param>
-        /// <returns></returns>
         IThemeRegistryThemeListBuilder AddTheme(ITheme theme);
 
         /// <summary>
         /// this completes the theme list
         /// </summary>
-        /// <returns></returns>
         IThemeRegistryBuilder FinishThemeList();
 
         /// <summary>
         /// Adds all themes from FileSystemThemeLookup and ResourceThemeLookup
         /// </summary>
-        /// <returns></returns>
         IThemeRegistryThemeListBuilder FromDefaultLookups();
-
 
         /// <summary>
         /// adds FileSystemThemeLookup to the list of lookups
         /// </summary>
         /// <param name="themeFolder">the folder to search for the themes. If not set, the default will be used</param>
-        /// <returns></returns>
         IThemeRegistryThemeListBuilder WithFileLookup(DirectoryInfo? themeFolder = null);
 
         /// <summary>
         /// Adds custom themes from the given source
         /// </summary>
         /// <param name="themeLookup"></param>
-        /// <returns></returns>
         IThemeRegistryThemeListBuilder WithLookup(IThemeLookup themeLookup);
 
         /// <summary>
         /// adds ResourceThemeLookup to the list of lookups
         /// </summary>
         /// <param name="resourcePrefix">the prefix to detect the themes in the resources. If not set, the default will be used</param>
-        /// <returns></returns>
         IThemeRegistryThemeListBuilder WithResourceLookup(string? resourcePrefix = null);
     }
 }

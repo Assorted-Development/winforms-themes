@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WinFormsThemes
 {
@@ -11,6 +10,7 @@ namespace WinFormsThemes
         /// <summary>
         /// returns a builder to create a new IThemeRegistry
         /// </summary>
+        [SuppressMessage("Design", "CA1024:Use properties where appropriate")]
         public static IThemeRegistryBuilder GetBuilder() => new ThemeRegistryBuilder();
 
         /// <summary>

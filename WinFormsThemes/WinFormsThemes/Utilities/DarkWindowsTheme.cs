@@ -11,7 +11,6 @@ namespace WinFormsThemes.Utilities
         /// returns true if we are running on Windows 10 or later
         /// </summary>
         /// <param name="build"></param>
-        /// <returns></returns>
         internal static bool IsWindows10OrGreater(int build = -1)
         {
             return Environment.OSVersion.Version.Major >= 10 &&
@@ -38,7 +37,6 @@ namespace WinFormsThemes.Utilities
         /// </summary>
         /// <param name="handle">the Form handle</param>
         /// <param name="enabled"></param>
-        /// <returns></returns>
         internal static bool UseImmersiveDarkMode(IntPtr handle, bool enabled)
         {
             if (IsWindows10OrGreater(17763))

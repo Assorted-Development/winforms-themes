@@ -8,9 +8,9 @@ namespace TestProject
         [TestMethod]
         public void GetShouldReturnCorrectTheme()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .Build();
-            var theme = registry.Get(ThemeCapabilities.DarkMode);
+            ITheme? theme = registry.GetTheme(ThemeCapabilities.DarkMode);
             Assert.IsNotNull(theme);
             Assert.AreEqual(ThemeCapabilities.DarkMode, theme.Capabilities & ThemeCapabilities.DarkMode);
         }
@@ -18,42 +18,42 @@ namespace TestProject
         [TestMethod]
         public void OnThemeChangedShouldFireOnChange()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
-                            .WithCurrentThemeSelector((r) => r.Get())
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+                            .WithCurrentThemeSelector((r) => r.GetTheme())
                             .Build();
             bool fired = false;
             registry.OnThemeChanged += (sender, args) => fired = true;
-            var current = registry.Current;
+            ITheme? current = registry.CurrentTheme;
             Assert.IsTrue(fired);
         }
 
         [TestMethod]
         public void OnThemeChangedShouldNotFireOnSameTheme()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
-                            .WithCurrentThemeSelector((r) => r.Get())
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+                            .WithCurrentThemeSelector((r) => r.GetTheme())
                             .Build();
-            var current = registry.Current;
+            ITheme? current = registry.CurrentTheme;
             bool fired = false;
             registry.OnThemeChanged += (sender, args) => fired = true;
-            current = registry.Current;
+            current = registry.CurrentTheme;
             Assert.IsFalse(fired);
         }
 
         [TestMethod]
         public void CurrentShouldThrowWithoutSelector()
         {
-            var registry = ThemeRegistryHolder.GetBuilder()
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder()
                             .Build();
-            Assert.ThrowsException<InvalidOperationException>(() => registry.Current);
+            Assert.ThrowsException<InvalidOperationException>(() => registry.CurrentTheme);
         }
 
         [TestMethod]
         public void TestGetThemeByName()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .Build();
-            var theme = registry.Get("DARK_HIGH_CONTRAST");
+            ITheme? theme = registry.GetTheme("DARK_HIGH_CONTRAST");
             Assert.IsNotNull(theme);
             Assert.AreEqual(ThemeCapabilities.DarkMode, theme.Capabilities & ThemeCapabilities.DarkMode);
             Assert.AreEqual(ThemeCapabilities.HighContrast, theme.Capabilities & ThemeCapabilities.HighContrast);
@@ -62,9 +62,9 @@ namespace TestProject
         [TestMethod]
         public void TestListThemes()
         {
-            var registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
+            IThemeRegistry registry = ThemeRegistryHolder.GetBuilder().SetLoggerFactory(LoggerFactory)
                             .Build();
-            var themes = registry.List();
+            IList<ITheme> themes = registry.ListThemes();
             Assert.IsTrue(themes.Count > 0);
         }
     }

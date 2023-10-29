@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System.Text;
 
 namespace TestProject.Logging
@@ -49,7 +49,7 @@ namespace TestProject.Logging
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
             string message = formatter(state, exception);
-            StringBuilder scopeBuilder = new StringBuilder("=> ");
+            StringBuilder scopeBuilder = new("=> ");
             _scopeProvider.ForEachScope((scope, state) =>
             {
                 scopeBuilder.Append(scope);
