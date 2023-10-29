@@ -38,6 +38,14 @@ reportgenerator -reports:WinFormsThemes\TestProject\TestResults\*\coverage.cober
 start "" WinFormsThemes\TestProject\TestResults\html\index.html
 ```
 
+### Mutation testing
+We use [Stryker.NET](https://stryker-mutator.io/) for mutation testing. To run the mutation tests, use:
+```
+dotnet tool restore
+dotnet stryker
+```
+
+**Important: Do not start stryker in the project directory - you need to start it in the solution dir, otherwise the config will not be found!**
 
 ## Usage
 To use this project, you need to add a reference to our nuget package (`dotnet add package AssortedDevelopment.WinFormsThemes`) first.
