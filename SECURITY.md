@@ -10,7 +10,7 @@
 ## Reporting a Vulnerability
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-If you find a vulnerability, please report it to security@nockiro.de . We will get in contact with you about the details and inform you as soon as the issue is fixed.
+If you find a vulnerability, please report it to security@nockiro.de. We will get in contact with you about the details and inform you as soon as the issue is fixed.
 
 Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
 
