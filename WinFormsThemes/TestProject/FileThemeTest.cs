@@ -39,7 +39,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void LoadV2Simple()
+        public void LoadVersionedSimple()
         {
             FileTheme? theme = FileTheme.Load(@"
                 {
@@ -62,7 +62,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void LoadV2WithVariable()
+        public void LoadVersionedWithVariable()
         {
             FileTheme? theme = FileTheme.Load(@"
                 {
@@ -88,7 +88,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void LoadV2InvalidSchema()
+        public void LoadVersionedInvalidSchema()
         {
             FileTheme? theme = FileTheme.Load(@"
                 {
@@ -103,7 +103,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void LoadV2DefaultValue()
+        public void LoadVersionedDefaultValue()
         {
             FileTheme? theme = FileTheme.Load(@"
                 {
@@ -127,7 +127,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void LoadV2InvalidColorOrVariable()
+        public void LoadVersionedInvalidColorOrVariable()
         {
             FileTheme? theme = FileTheme.Load(@"
                 {
@@ -150,7 +150,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void LoadV2SkipEmptyCapabilities()
+        public void LoadVersionedSkipEmptyCapabilities()
         {
             FileTheme? theme = FileTheme.Load(@"
                 {

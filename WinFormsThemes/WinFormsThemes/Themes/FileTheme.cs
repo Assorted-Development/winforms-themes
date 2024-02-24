@@ -173,7 +173,7 @@ namespace WinFormsThemes.Themes
                 _controlErrorBackColor = ((string?)doc["colors"]?["errorBackColor"]).ToColor();
                 _controlErrorForeColor = ((string?)doc["colors"]?["errorForeColor"]).ToColor();
 
-                //backwards compatibility for themes V2
+                //backwards compatibility for themes with themeVersion < 2
                 _tableBackColor = ControlBackColor;
                 _tableHeaderBackColor = TableBackColor;
                 _tableHeaderForeColor = ControlForeColor;
