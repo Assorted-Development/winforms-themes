@@ -47,10 +47,6 @@ namespace WinFormsThemes.Themes
         public virtual Color ControlBorderColor => ControlHighlightColor;
 
         [ExcludeFromCodeCoverage]
-        [Obsolete(message: "use ControlBorderColor instead")]
-        public virtual Color ControlBorderLightColor => ControlBorderColor;
-
-        [ExcludeFromCodeCoverage]
         public abstract Color ControlErrorBackColor { get; }
 
         [ExcludeFromCodeCoverage]
@@ -61,14 +57,6 @@ namespace WinFormsThemes.Themes
 
         [ExcludeFromCodeCoverage]
         public abstract Color ControlHighlightColor { get; }
-
-        [ExcludeFromCodeCoverage]
-        [Obsolete(message: "use ControlHighlightColor instead")]
-        public virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
-
-        [ExcludeFromCodeCoverage]
-        [Obsolete(message: "use ControlHighlightColor instead")]
-        public virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
 
         [ExcludeFromCodeCoverage]
         public abstract Color ControlSuccessBackColor { get; }
