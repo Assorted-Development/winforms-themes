@@ -143,7 +143,7 @@ A simple example of this could be:
     }
 }
 ```
-For the complete list of available settings please check our JSON schema.
+For the complete list of available settings please check our JSON schema [here](https://github.com/Assorted-Development/winforms-themes/blob/main/WinFormsThemes/WinFormsThemes/themes.schema.json).
 
 If those 2 ways are not flexible enough, you can implement a theme by yourself and register it using a custom theme source (see below):
 The prefered way is to subclass `AbstractTheme` as you just need to implement the base colors and optionally override the extended colors - styling the controls is done by the base class.
