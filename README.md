@@ -190,11 +190,10 @@ After this, you need to register this class in the builder:
 As we do not want to force you to use a specific WinForms control library, we currently only support styling of standard controls and controls from our [winforms-stylable-controls](https://github.com/Assorted-Development/winforms-stylable-controls) project.
 As we understand you may want to also style other controls, we support adding specialised plugins to handle styling of a specific type of control. To do this, you need to implement ``:
 ```csharp
-    internal class MyCustomControlThemePlugin : IThemePlugin
+    internal class MyCustomControlThemePlugin : AbstractThemePlugin<MyCustomControl>
     {
-        public void Apply(Control control, AbstractTheme theme)
+        protected override void ApplyPlugin(MyCustomControl mcc, AbstractTheme theme)
         {
-            MyCustomControl mcc = (MyCustomControl)control;
             //style control based on the colors available in the Theme
         }
     }
@@ -202,7 +201,7 @@ As we understand you may want to also style other controls, we support adding sp
 At last, you just need to register it for the correct type:
 ```csharp
  ThemeRegistryHolder.GetBuilder()
-     .AddThemePlugin<MyCustomControl>(new MyCustomControlThemePlugin())
+     .AddThemePlugin(new MyCustomControlThemePlugin())
      .Build();
 ```
 

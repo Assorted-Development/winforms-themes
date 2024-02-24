@@ -1,4 +1,4 @@
-﻿namespace WinFormsThemes.Themes
+namespace WinFormsThemes.Themes
 {
     /// <summary>
     /// Interface for all Theme Plugins
@@ -11,5 +11,9 @@
         /// <param name="control"></param>
         /// <param name="theme"></param>
         void Apply(Control control, AbstractTheme theme);
+        /// <summary>
+        /// Returns the Control type that this plugin supports
+        /// </summary>
+        Type GetSupportedType();
     }
 }

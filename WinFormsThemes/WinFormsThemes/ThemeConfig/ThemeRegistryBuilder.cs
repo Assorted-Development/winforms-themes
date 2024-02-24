@@ -41,9 +41,9 @@ namespace WinFormsThemes
             _logger = new Logger<IThemeRegistryBuilder>(_loggerFactory);
         }
 
-        public IThemeRegistryBuilder AddThemePlugin<T>(IThemePlugin plugin) where T : Control
+        public IThemeRegistryBuilder AddThemePlugin(IThemePlugin plugin)
         {
-            Type t = typeof(T);
+            Type t = plugin.GetSupportedType();
             if (_themePlugins.ContainsKey(t))
             {
                 _logger.LogError("ThemePlugin for {ThemeName} already added", t.Name);
