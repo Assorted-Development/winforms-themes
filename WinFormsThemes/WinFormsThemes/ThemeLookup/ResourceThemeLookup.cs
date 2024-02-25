@@ -107,7 +107,7 @@ namespace WinFormsThemes
             if (stream is not null)
             {
                 using StreamReader reader = new(stream);
-                add(FileTheme.Load(reader.ReadToEnd()), resName);
+                add(FileTheme.Load(reader.ReadToEnd(), _logger), resName);
             }
         }
 
@@ -129,7 +129,7 @@ namespace WinFormsThemes
                 if (entry.Key is string key && key.StartsWith(_resThemePrefix, StringComparison.Ordinal) &&
                     entry.Value is string value)
                 {
-                    add(FileTheme.Load(value), key);
+                    add(FileTheme.Load(value, _logger), key);
                 }
             }
         }

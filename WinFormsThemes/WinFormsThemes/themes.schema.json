@@ -1,0 +1,217 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Filebased theme definition",
+    "description": "A filebased theme definition for https://github.com/Assorted-Development/winforms-themes",
+    "type": "object",
+
+    "properties": {
+
+        "name": {
+            "description": "The theme name",
+            "type": "string"
+        },
+
+        "capabilities": {
+            "description": "Either one of 'DarkMode', 'LightMode', 'HighContrast' or any string as custom capability",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+
+        "version": {
+            "description": "The schema version. required backwards compatibility. should be set to 3 for now.",
+            "type": "integer",
+            "minimum": 3
+        },
+
+        "variables": {
+            "description": "Can be used to reuse color definitions. The variable names can be used instead of a color below",
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/$defs/color_type"
+            }
+        },
+        "colors": {
+            "description": "The theme definition",
+            "type": "object",
+            "properties": {
+                "backColor": {
+                    "description": "the form background color",
+                    "$ref": "#/$defs/color_or_var_type"
+                },
+                "foreColor": {
+                    "description": "the form foreground color",
+                    "$ref": "#/$defs/color_or_var_type"
+                },
+                "status": {
+                    "description": "The definition for all status colors",
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "description": "The definition for all success status controls",
+                            "type": "object",
+                            "properties": {
+                                "backColor": {
+                                    "description": "the success background color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "foreColor": {
+                                    "description": "the success foreground color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                }
+                            }
+                        },
+                        "warning": {
+                            "description": "The definition for all warning status controls",
+                            "type": "object",
+                            "properties": {
+                                "backColor": {
+                                    "description": "the warning background color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "foreColor": {
+                                    "description": "the warning foreground color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                }
+                            }
+                        },
+                        "error": {
+                            "description": "The definition for all error status controls",
+                            "type": "object",
+                            "properties": {
+                                "backColor": {
+                                    "description": "the error background color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "foreColor": {
+                                    "description": "the error foreground color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                }
+                            }
+                        }
+                    }
+                },
+                "controls": {
+                    "description": "The definition for all UI controls",
+                    "type": "object",
+                    "properties": {
+                        "backColor": {
+                            "description": "the general control background color",
+                            "$ref": "#/$defs/color_or_var_type"
+                        },
+                        "foreColor": {
+                            "description": "the general control foreground color",
+                            "$ref": "#/$defs/color_or_var_type"
+                        },
+                        "highlightColor": {
+                            "description": "the general control background color when a control should be highlighted",
+                            "$ref": "#/$defs/color_or_var_type"
+                        },
+                        "borderColor": {
+                            "description": "the general control border color",
+                            "$ref": "#/$defs/color_or_var_type"
+                        },
+                        "button": {
+                            "description": "The definition for all Buttons",
+                            "type": "object",
+                            "properties": {
+                                "backColor": {
+                                    "description": "the button background color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "foreColor": {
+                                    "description": "the button foreground color",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "hoverColor": {
+                                    "description": "the button background color when hovering over it",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                }
+                            }
+                        },
+                        "comboBox": {
+                            "description": "The definition for all ComboBoxes",
+                            "type": "object",
+                            "properties": {
+                                "itemBackColor": {
+                                    "description": "the comboBox background color for items",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "itemHoverColor": {
+                                    "description": "the comboBox background color for items when hovering over them",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                }
+                            }
+                        },
+                        "listView": {
+                            "description": "The definition for all ListViews",
+                            "type": "object",
+                            "properties": {
+                                "headerGroupColor": {
+                                    "description": "the background color for the ListViews Header Group",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                }
+                            }
+                        },
+                        "dataGridView": {
+                            "description": "The definition for all DataGridViews",
+                            "type": "object",
+                            "properties": {
+                                "backColor": {
+                                    "description": "the background color for the DataGridView",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "headerBackColor": {
+                                    "description": "the background color for the DataGridView header",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "headerForeColor": {
+                                    "description": "the foreground color for the DataGridView header",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "selectionBackColor": {
+                                    "description": "the background color for the DataGridViews selected rows",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "cellBackColor": {
+                                    "description": "the background color for the DataGridView cells",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                },
+                                "cellForeColor": {
+                                    "description": "the foreground color for the DataGridView cells",
+                                    "$ref": "#/$defs/color_or_var_type"
+                                }
+                            }
+                        }
+                    },
+                    "required": [ "backColor", "foreColor" ]
+                }
+            },
+            "required": [ "backColor", "foreColor", "controls" ]
+        }
+    },
+
+    "required": [ "name", "capabilities", "version", "colors" ],
+
+    "$defs": {
+        "color_or_var_type": {
+            "description": "the color value or a variable name",
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/color_type"
+                },
+                {
+                    "description": "the variable name from the list of variables above",
+                    "type": "string",
+                    "pattern": "^[^#]*$"
+                }
+            ]
+        },
+        "color_type": {
+            "description": "the color value",
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+    }
+}
