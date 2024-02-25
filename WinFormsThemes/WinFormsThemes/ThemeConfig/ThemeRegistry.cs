@@ -44,8 +44,8 @@ namespace WinFormsThemes
                 ITheme? newTheme = CurrentThemeSelector(this);
                 if (newTheme != _current)
                 {
-                    OnThemeChanged?.Invoke(this, EventArgs.Empty);
                     _current = newTheme;
+                    OnThemeChanged?.Invoke(this, EventArgs.Empty);
                 }
                 return newTheme;
             }
