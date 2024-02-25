@@ -2,6 +2,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using StylableWinFormsControls;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using System.ComponentModel;
 using WinFormsThemes.Themes.ToolStrip;
 using WinFormsThemes.Utilities;
 
@@ -145,11 +147,15 @@ namespace WinFormsThemes.Themes
             DarkWindowsTheme.UseDarkThemeVisualStyle(control.Handle, Capabilities.HasFlag(ThemeCapabilities.DarkMode));
             ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
 
-            control.BackColor = getBackgroundColorForStyle(options);
+            // some specific controls provide more specific setters (like StylableTextBox with HintForeColor and TextForeColor).
+            // to not override the color everytime, we ignore marked properties
+            setIfPublicUsage(control, "BackColor", () => control.BackColor = getBackgroundColorForStyle(options));
 
             // always assume disabled==false here since most controls don't support ForeColor on disabled states
-            // and have to be set separately
-            control.ForeColor = getForegroundColorForStyle(options, false);
+            // and have to be set separately.
+            // some specific controls provide more specific setters (like StylableTextBox with HintForeColor and TextForeColor).
+            // to not override the color everytime, we ignore marked setters
+            setIfPublicUsage(control, "ForeColor", () => control.ForeColor = getForegroundColorForStyle(options, false));
 
             Type t = control.GetType();
             ThemePlugins.TryGetValue(t, out IThemePlugin? plugin);
@@ -209,14 +215,8 @@ namespace WinFormsThemes.Themes
 
             if (control is StylableTextBox stb)
             {
-                //it is okay to run this line multiple times as the eventhandler will detect this and ignore
-                //subsequent calls
-                stb.HintActiveChanged += (sender, e) => { if (sender is not null) { Apply((Control)sender); } };
-                if (stb.IsHintActive && options != ThemeOptions.Hint)
-                {
-                    Apply(stb, ThemeOptions.Hint);
-                    return;
-                }
+                stb.HintForeColor = getForegroundColorForStyle(ThemeOptions.Hint, stb.Enabled);
+                stb.TextForeColor = getForegroundColorForStyle(options, false);
                 stb.BorderColor = ControlBorderColor;
             }
 
@@ -230,6 +230,13 @@ namespace WinFormsThemes.Themes
             if (control is StylableLabel stl)
             {
                 stl.DisabledForeColor = getForegroundColorForStyle(options, true);
+            }
+
+            if (control is StylableGroupBox sgb)
+            {
+                sgb.BorderColor = ControlBorderColor;
+                sgb.EnabledForeColor = getForegroundColorForStyle(options, false);
+                sgb.DisabledForeColor = getForegroundColorForStyle(options, true);
             }
 
             if (control is StylableListView slv)
@@ -366,6 +373,21 @@ namespace WinFormsThemes.Themes
                 return GetSoftenedColor(baseColor);
             }
             return Color.FromArgb((int)(255 * 0.6), baseColor);
+        }
+        /// <summary>
+        /// some specific controls provide more specific setters (like StylableTextBox with HintForeColor and TextForeColor).
+        /// to not override the color everytime,this method is used to only set the color if the property is not marked as InternalUseOnly
+        /// </summary>
+        /// <param name="control">the control to set the color on</param>
+        /// <param name="propName">the name of the property</param>
+        /// <param name="setter">the setter to be executed if the property is browsable</param>
+        private static void setIfPublicUsage(Control control, string propName, Action setter)
+        {
+            InternalUseOnlyAttribute? attr = control.GetType().GetProperty(propName)!.GetCustomAttribute<InternalUseOnlyAttribute>();
+            if (attr is null)
+            {
+                setter();
+            }
         }
     }
 }
