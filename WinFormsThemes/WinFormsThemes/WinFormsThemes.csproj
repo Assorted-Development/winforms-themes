@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AssortedDevelopment.StylableWinFormsControls" Version="0.1.0" />
+    <PackageReference Include="AssortedDevelopment.StylableWinFormsControls" Version="0.2.0-beta.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.4.0">
       <PrivateAssets>all</PrivateAssets>
