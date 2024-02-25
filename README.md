@@ -122,43 +122,28 @@ Out of the box, there are 2 ways you can add custom themes:
 - Files with the file ending `.theme.json` stored in a `themes` directory of the working dir.
 - Assembly resources in any assembly where the name starts with `CONFIG_THEMING_THEME_`
 
-Both ways use the same JSON format for the theme definition(the version defines the format of the file):
+Both ways use the same JSON format for the theme definition(the version defines the format of the file).
+A simple example of this could be:  
 ```json
 {
-	"name": "theme-name",
-	"capabilities": ["DarkMode", "LightMode", "HighContrast"],
-	"version": 2,
-	"colors": {
-		"backColor": "#082a56",
-		"foreColor": "#082a56",
-		"buttonBackColor": "#082a56",
-		"buttonForeColor": "#082a56",
-		"buttonHoverColor": "#082a56",
-		"comboBoxItemBackColor": "#082a56",
-		"comboBoxItemHoverColor": "#082a56",
-		"controlBackColor": "#082a56",
-		"controlForeColor": "#082a56",
-		"controlHighlightColor": "#082a56",
-		"controlHighlightLightColor": "#082a56",
-		"controlHighlightDarkColor": "#082a56",
-		"controlBorderColor": "#082a56",
-		"controlBorderLightColor": "#082a56",
-		"listViewHeaderGroupColor": "#082a56",
-		"tableBackColor": "#082a56",
-		"tableHeaderBackColor": "#082a56",
-		"tableHeaderForeColor": "#082a56",
-		"tableSelectionBackColor": "#082a56",
-		"tableCellBackColor": "#082a56",
-		"tableCellForeColor": "#082a56",
-		"successBackColor": "#082a56",
-		"successForeColor": "#082a56",
-		"warningBackColor": "#082a56",
-		"warningForeColor": "#082a56",
-		"errorBackColor": "#082a56",
-		"errorForeColor": "#082a56"
-	}
+    "name": "theme-name",
+    "capabilities": ["DarkMode", "HighContrast"],
+    "version": 3,
+    "variables": {
+        "backColor": "#082a56",
+        "foreColor": "#082a57"
+    },
+    "colors": {
+        "backColor": "backColor",
+        "foreColor": "foreColor",
+        "controls": {
+            "backColor": "backColor",
+            "foreColor": "foreColor"
+        }
+    }
 }
 ```
+For the complete list of available settings please check our JSON schema [here](https://github.com/Assorted-Development/winforms-themes/blob/main/WinFormsThemes/WinFormsThemes/themes.schema.json).
 
 If those 2 ways are not flexible enough, you can implement a theme by yourself and register it using a custom theme source (see below):
 The prefered way is to subclass `AbstractTheme` as you just need to implement the base colors and optionally override the extended colors - styling the controls is done by the base class.

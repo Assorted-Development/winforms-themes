@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using WinFormsThemes.Themes;
 
@@ -33,7 +33,7 @@ namespace WinFormsThemes
                 _logger.LogDebug("found {count} theme files in {folder}", files.Count(), _folder.FullName);
                 foreach (FileInfo file in files)
                 {
-                    ITheme? theme = FileTheme.Load(File.ReadAllText(file.FullName));
+                    ITheme? theme = FileTheme.Load(File.ReadAllText(file.FullName), _logger);
                     if (theme is not null)
                     {
                         results.Add(theme);

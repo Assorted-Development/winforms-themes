@@ -21,6 +21,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="themes.schema.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="themes.schema.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -29,8 +37,9 @@
 
   <ItemGroup>
     <PackageReference Include="AssortedDevelopment.StylableWinFormsControls" Version="0.2.0-beta.3" />
+    <PackageReference Include="JsonSchema.Net" Version="5.2.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.4.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.6.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

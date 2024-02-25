@@ -50,9 +50,6 @@ namespace WinFormsThemes.Themes
         public virtual Color ControlBorderColor => ControlHighlightColor;
 
         [ExcludeFromCodeCoverage]
-        public virtual Color ControlBorderLightColor => ControlBorderColor;
-
-        [ExcludeFromCodeCoverage]
         public abstract Color ControlErrorBackColor { get; }
 
         [ExcludeFromCodeCoverage]
@@ -63,12 +60,6 @@ namespace WinFormsThemes.Themes
 
         [ExcludeFromCodeCoverage]
         public abstract Color ControlHighlightColor { get; }
-
-        [ExcludeFromCodeCoverage]
-        public virtual Color ControlHighlightDarkColor => GetSoftenedColor(ControlBorderColor);
-
-        [ExcludeFromCodeCoverage]
-        public virtual Color ControlHighlightLightColor => GetSoftenedColor(ControlBorderColor, true);
 
         [ExcludeFromCodeCoverage]
         public abstract Color ControlSuccessBackColor { get; }
@@ -215,7 +206,7 @@ namespace WinFormsThemes.Themes
             {
                 ts.Renderer = new ThemedToolStripRenderer(
                     new ThemedColorTable(
-                        Color.Transparent, ControlBorderLightColor, ButtonHoverColor, ControlHighlightColor, ControlBackColor),
+                        Color.Transparent, ControlBorderColor, ButtonHoverColor, ControlHighlightColor, ControlBackColor),
                     ButtonForeColor,
                     getForegroundColorForStyle(options, true))
                 {
