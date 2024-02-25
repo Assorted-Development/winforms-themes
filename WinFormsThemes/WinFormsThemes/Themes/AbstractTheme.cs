@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using StylableWinFormsControls;
-using StylableWinFormsControls.Controls;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.ComponentModel;
@@ -149,14 +148,14 @@ namespace WinFormsThemes.Themes
             ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
 
             // some specific controls provide more specific setters (like StylableTextBox with HintForeColor and TextForeColor).
-            // to not override the color everytime, we ignore non-browsable setters
-            setIfBrowsable(control, "BackColor", () => control.BackColor = getBackgroundColorForStyle(options));
+            // to not override the color everytime, we ignore marked properties
+            setIfPublicUsage(control, "BackColor", () => control.BackColor = getBackgroundColorForStyle(options));
 
             // always assume disabled==false here since most controls don't support ForeColor on disabled states
             // and have to be set separately.
             // some specific controls provide more specific setters (like StylableTextBox with HintForeColor and TextForeColor).
-            // to not override the color everytime, we ignore non-browsable setters
-            setIfBrowsable(control, "ForeColor", () => control.ForeColor = getForegroundColorForStyle(options, false));
+            // to not override the color everytime, we ignore marked setters
+            setIfPublicUsage(control, "ForeColor", () => control.ForeColor = getForegroundColorForStyle(options, false));
 
             Type t = control.GetType();
             ThemePlugins.TryGetValue(t, out IThemePlugin? plugin);
@@ -377,15 +376,15 @@ namespace WinFormsThemes.Themes
         }
         /// <summary>
         /// some specific controls provide more specific setters (like StylableTextBox with HintForeColor and TextForeColor).
-        /// to not override the color everytime,this method is used to only set the color if the property is browsable (aka not hidden)
+        /// to not override the color everytime,this method is used to only set the color if the property is not marked as InternalUseOnly
         /// </summary>
         /// <param name="control">the control to set the color on</param>
         /// <param name="propName">the name of the property</param>
         /// <param name="setter">the setter to be executed if the property is browsable</param>
-        private static void setIfBrowsable(Control control, string propName, Action setter)
+        private static void setIfPublicUsage(Control control, string propName, Action setter)
         {
-            BrowsableAttribute? attr = control.GetType().GetProperty(propName)!.GetCustomAttribute<BrowsableAttribute>();
-            if (attr?.Browsable != false)
+            InternalUseOnlyAttribute? attr = control.GetType().GetProperty(propName)!.GetCustomAttribute<InternalUseOnlyAttribute>();
+            if (attr is null)
             {
                 setter();
             }
