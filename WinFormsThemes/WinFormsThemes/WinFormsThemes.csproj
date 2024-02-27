@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AssortedDevelopment.StylableWinFormsControls" Version="0.2.0-beta.4" />
+    <PackageReference Include="AssortedDevelopment.StylableWinFormsControls" Version="0.2.0-beta.5" />
     <PackageReference Include="JsonSchema.Net" Version="5.2.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.6.1">

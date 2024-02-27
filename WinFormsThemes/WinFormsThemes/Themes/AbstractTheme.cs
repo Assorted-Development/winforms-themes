@@ -215,8 +215,8 @@ namespace WinFormsThemes.Themes
 
             if (control is StylableTextBox stb)
             {
-                stb.HintForeColor = getForegroundColorForStyle(ThemeOptions.Hint, stb.Enabled);
-                stb.TextForeColor = getForegroundColorForStyle(options, false);
+                stb.PlaceholderForeColor = getForegroundColorForStyle(ThemeOptions.Hint, stb.Enabled);
+                stb.ForeColor = getForegroundColorForStyle(options, false);
                 stb.BorderColor = ControlBorderColor;
             }
 
