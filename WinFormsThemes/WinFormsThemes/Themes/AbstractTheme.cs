@@ -280,8 +280,12 @@ namespace WinFormsThemes.Themes
         /// <remarks>
         /// This should primarily thought of as helper function to use the same colors and modify them
         /// dependent on dark/light theme.
+        /// Although this could be done as a static method, I find it more easily understandable for a user to have
+        /// it as an instance method
         /// </remarks>
-        protected static Color GetSoftenedColor(Color baseColor, bool switchDarkAndLight = false)
+#pragma warning disable CA1822 // Member als statisch markieren
+        public Color GetSoftenedColor(Color baseColor, bool switchDarkAndLight = false)
+#pragma warning restore CA1822 // Member als statisch markieren
         {
             // HSL lightness value 0 = black, 1 = white
             if (baseColor.GetBrightness() < 0.5 || switchDarkAndLight)
