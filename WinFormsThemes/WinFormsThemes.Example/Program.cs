@@ -13,8 +13,8 @@ namespace WinFormsThemes.Example
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-
-            ThemeRegistryHolder.ThemeRegistry = ThemeRegistryHolder.GetBuilder().WithCurrentThemeSelector((selector) => ThemeRegistryHolder.ThemeRegistry.Get()).Build();
+            StylableWinFormsControls.StylableWinFormsControlsSettings.DEFAULT.ErrorHandling = StylableWinFormsControls.ErrorHandling.Continue;
+            ThemeRegistryHolder.ThemeRegistry = ThemeRegistryHolder.GetBuilder().WithCurrentThemeSelector((selector) => ThemeRegistryHolder.ThemeRegistry!.GetTheme()).Build();
 
             Application.Run(new FrmDefault());
         }
